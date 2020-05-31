@@ -1,7 +1,8 @@
 import React from 'react';
 import { AppProvider } from '@shopify/polaris';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Dashboard from './components/Dashboard';
+import AppRoutes from './routes';
 
 export default function App() {
   const theme = {
@@ -26,7 +27,9 @@ export default function App() {
       theme={theme}
       i18n={{}}
     >
-      <Dashboard />
+      <Router>
+        <Route path="/" component={AppRoutes} />
+      </Router>
     </AppProvider>
 
   );
