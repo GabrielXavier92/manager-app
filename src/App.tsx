@@ -1,8 +1,10 @@
 import React from 'react';
 import { AppProvider } from '@shopify/polaris';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import AppRoutes from './routes';
+import Client from './config/apollo';
 
 export default function App() {
   const theme = {
@@ -23,14 +25,15 @@ export default function App() {
   };
 
   return (
-    <AppProvider
-      theme={theme}
-      i18n={{}}
-    >
-      <Router>
-        <Route path="/" component={AppRoutes} />
-      </Router>
-    </AppProvider>
-
+    <ApolloProvider client={Client}>
+      <AppProvider
+        theme={theme}
+        i18n={{}}
+      >
+        <Router>
+          <Route path="/" component={AppRoutes} />
+        </Router>
+      </AppProvider>
+    </ApolloProvider>
   );
 }
