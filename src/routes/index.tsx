@@ -2,12 +2,12 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import DashBoard from '../components/Dashboard';
-import SignInForm from '../components/SignInForm';
+import Signin from '../pages/Signin';
 
 export const AppRoutes = () => (
   <Switch>
     <Route path="/dashboard" component={DashBoard} />
-    <Route path="/signin" component={SignInForm} />
+    <Route path="/signin" component={Signin} />
     <Redirect to="/dashboard" />
   </Switch>
 );

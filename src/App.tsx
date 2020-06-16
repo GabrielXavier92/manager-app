@@ -2,9 +2,12 @@ import React from 'react';
 import { AppProvider } from '@shopify/polaris';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { SnackbarProvider } from 'notistack';
+import { SnackbarUtilsConfigurator } from './utils/snack';
 
 import AppRoutes from './routes';
-import Client from './config/apollo';
+
+import client from './config/apollo';
 
 export default function App() {
   const theme = {
@@ -25,14 +28,18 @@ export default function App() {
   };
 
   return (
-    <ApolloProvider client={Client}>
+    <ApolloProvider client={client}>
       <AppProvider
         theme={theme}
         i18n={{}}
       >
-        <Router>
-          <Route path="/" component={AppRoutes} />
-        </Router>
+        <SnackbarProvider maxSnack={8} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+          <SnackbarUtilsConfigurator />
+          <Router>
+            <Route path="/" component={AppRoutes} />
+          </Router>
+        </SnackbarProvider>
+
       </AppProvider>
     </ApolloProvider>
   );
