@@ -19,7 +19,11 @@ mutation SignIn($input: LoginUserInput!){
 const SignInForm: React.FC = () => {
   const { control, handleSubmit, errors } = useForm();
 
-  const [signIn] = useMutation(SIGN_IN);
+  const [signIn] = useMutation(SIGN_IN, {
+    onCompleted: (data) => {
+      console.log(data?.signIn);
+    },
+  });
 
   const onSubmit = (input: any) => {
     signIn({
