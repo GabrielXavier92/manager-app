@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AuthRoute from './AuthRoute';
 
-import DashBoard from '../components/Dashboard';
+import DashBoard from '../pages/Dashboard';
 import Signin from '../pages/Signin';
 
 export const AppRoutes = () => (
