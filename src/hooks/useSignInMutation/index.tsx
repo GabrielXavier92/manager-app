@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+
 import history from '../../utils/history';
 
 import useAuthToken from '../useAuthToken';
@@ -13,6 +14,17 @@ export const SIGN_IN = gql`
   mutation SignIn($input: LoginUserInput!){
     signIn(input: $input) {
       token
+      user {
+        id
+        status
+        email
+        name
+        gender
+        roles {
+          id
+          role
+        }
+      }
     }
   }
 `;
