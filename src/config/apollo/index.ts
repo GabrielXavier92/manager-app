@@ -47,10 +47,10 @@ const cache = new InMemoryCache();
 
 const useApolloClient = () => {
   const { token } = useAuthToken();
-
   return new ApolloClient({
     link: errorLink.concat(authMiddleware(token).concat(httpLink)),
     cache,
+    connectToDevTools: process.env.NODE_ENV === 'development',
     defaultOptions: {
       mutate: {
         errorPolicy: 'all',
