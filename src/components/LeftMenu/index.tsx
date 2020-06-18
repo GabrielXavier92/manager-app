@@ -13,12 +13,12 @@ const LeftMenu = () => {
         separator
         items={[
           {
-            label: 'Dashboard',
+            label: 'Home',
             icon: HomeMajorMonotone,
             onClick: toggleIsLoading,
           },
           {
-            label: 'Jaded Pixel Orders',
+            label: 'Profissionais',
             icon: OrdersMajorTwotone,
             onClick: toggleIsLoading,
           },
