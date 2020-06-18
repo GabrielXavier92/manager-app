@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { TopBar } from '@shopify/polaris';
+import { TopBar, IconableAction } from '@shopify/polaris';
 
-const userMenuActions = [
-  {
-    items: [{ content: 'Community forums' }],
-  },
-];
+import useLogout from '../../hooks/useLogout';
 
 
 const UserMenu: React.FC = () => {
+  const { logout } = useLogout();
+
+
+  const items: IconableAction[] = [
+    { content: 'Sair da conta', onAction: () => logout() },
+  ];
+
+  const actions = [
+    {
+      items,
+    },
+  ];
+
   const [userMenu, setUserMenu] = useState(false);
 
   const handleUserMenu = () => {
@@ -17,7 +26,7 @@ const UserMenu: React.FC = () => {
 
   return (
     <TopBar.UserMenu
-      actions={userMenuActions}
+      actions={actions}
       name="Dharma"
       detail="My Store"
       initials="D"

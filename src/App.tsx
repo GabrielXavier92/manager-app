@@ -1,15 +1,20 @@
 import React from 'react';
 import { AppProvider } from '@shopify/polaris';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { CookiesProvider } from 'react-cookie';
 import { SnackbarProvider } from 'notistack';
+
 import { SnackbarUtilsConfigurator } from './utils/snack';
+import history from './utils/history';
 
 import AppRoutes from './routes';
 
-import client from './config/apollo';
+import useApolloClient from './config/apollo';
 
 export default function App() {
+  const apolloClient = useApolloClient();
+
   const theme = {
     colors: {
       topBar: {
@@ -28,19 +33,20 @@ export default function App() {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <AppProvider
-        theme={theme}
-        i18n={{}}
-      >
-        <SnackbarProvider maxSnack={8} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-          <SnackbarUtilsConfigurator />
-          <Router>
-            <Route path="/" component={AppRoutes} />
-          </Router>
-        </SnackbarProvider>
-
-      </AppProvider>
+    <ApolloProvider client={apolloClient}>
+      <CookiesProvider>
+        <AppProvider
+          theme={theme}
+          i18n={{}}
+        >
+          <SnackbarProvider maxSnack={8} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+            <SnackbarUtilsConfigurator />
+            <Router history={history}>
+              <Route path="/" component={AppRoutes} />
+            </Router>
+          </SnackbarProvider>
+        </AppProvider>
+      </CookiesProvider>
     </ApolloProvider>
   );
 }

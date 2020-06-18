@@ -1,36 +1,18 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-
 import {
   FormLayout, TextField, Button, ButtonGroup, Form,
 } from '@shopify/polaris';
-
-const SIGN_IN = gql`
-mutation SignIn($input: LoginUserInput!){
-  signIn(input: $input) {
-    token
-  }
-}
-`;
+import { useSignInMutation } from '../../hooks/useSignInMutation';
 
 
 const SignInForm: React.FC = () => {
   const { control, handleSubmit, errors } = useForm();
-
-  const [signIn] = useMutation(SIGN_IN, {
-    onCompleted: (data) => {
-      console.log(data?.signIn);
-    },
-  });
+  const { signIn } = useSignInMutation();
 
   const onSubmit = (input: any) => {
-    signIn({
-      variables: {
-        input,
-      },
-    });
+    const { email, password } = input;
+    signIn(email, password);
   };
 
   return (
