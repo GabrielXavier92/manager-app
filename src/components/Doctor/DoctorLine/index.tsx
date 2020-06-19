@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, ResourceList, TextStyle } from '@shopify/polaris';
 
-import { Doctor } from '../../../types/types.d';
+import { Doctor } from '../../../types/types';
 
 const DoctorLine: React.FC<Doctor> = ({
   id, name, gender, register,

@@ -1,17 +1,23 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Card, Filters, ResourceList } from '@shopify/polaris';
 
 import DoctorLine from '../DoctorLine';
+
+import { useGetDoctors } from '../../../hooks';
+
 import { Doctor } from '../../../types/types.d';
 
 const DoctorList: React.FC = () => {
   const [queryValue, setQueryValue] = useState('');
+  const { getDoctors, queryResults } = useGetDoctors();
+
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
-
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
-
   const handleFiltersClearAll = () => handleQueryValueRemove();
+
+  useEffect(getDoctors, []);
+  const { data } = queryResults;
 
   return (
     <div>
@@ -27,21 +33,8 @@ const DoctorList: React.FC = () => {
               onClearAll={handleFiltersClearAll}
             />
           )}
-          items={[
-            {
-              id: 341,
-              url: 'customers/341',
-              name: 'Mae Jemison',
-              location: 'Decatur, USA',
-            },
-            {
-              id: 256,
-              url: 'customers/256',
-              name: 'Ellen Ochoa',
-              location: 'Los Angeles, USA',
-            },
-          ]}
-          renderItem={(item: Doctor) => (<DoctorLine {...item} />)}
+          items={data?.getDoctors ? data.getDoctors : []}
+          renderItem={(doctor: Doctor) => (<DoctorLine id={doctor.id} name={doctor.name} register={doctor.register} gender={doctor.gender} />)}
         />
       </Card>
     </div>
