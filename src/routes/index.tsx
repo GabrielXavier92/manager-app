@@ -7,7 +7,8 @@ import AuthRoute from './AuthRoute';
 import DashBoard from '../pages/Dashboard';
 import Signin from '../pages/Signin';
 
-import { DoctorList } from '../components/DoctorList';
+import { DoctorList } from '../components/Doctor';
+import Home from '../components/Home';
 
 export const AppRoutes = () => (
   <Switch>
@@ -19,7 +20,8 @@ export const AppRoutes = () => (
 
 export const AuthRoutes = () => (
   <>
-    <AuthRoute path="/dashboard" component={DoctorList} exact />
+    <AuthRoute path="/dashboard/doctorlist" component={DoctorList} exact />
+    <AuthRoute path="/dashboard" component={Home} exact />
     <Redirect to="/dashboard" />
   </>
 );
