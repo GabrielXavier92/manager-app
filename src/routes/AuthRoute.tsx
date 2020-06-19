@@ -5,8 +5,9 @@ import useAuthToken from '../hooks/useAuthToken';
 interface IGuardeRoute {
   component: any;
   path: string;
+  exact: boolean;
 }
-const AuthRoute: React.FC<IGuardeRoute> = ({ component, path }) => {
+const AuthRoute: React.FC<IGuardeRoute> = ({ component, path, exact }) => {
   const history = useHistory();
   const { token } = useAuthToken();
 
@@ -15,7 +16,7 @@ const AuthRoute: React.FC<IGuardeRoute> = ({ component, path }) => {
     return null;
   }
 
-  return <Route path={path} component={component} />;
+  return <Route exact={exact} path={path} component={component} />;
 };
 
 export default AuthRoute;

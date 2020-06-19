@@ -8,7 +8,7 @@ import { SnackbarProvider } from 'notistack';
 import { SnackbarUtilsConfigurator } from './utils/snack';
 import history from './utils/history';
 
-import AppRoutes from './routes';
+import { AppRoutes } from './routes';
 
 import useApolloClient from './config/apollo';
 

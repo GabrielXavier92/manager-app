@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 
 import { useGetUser } from '../../hooks/useGetUser';
 
+import { AuthRoutes } from '../../routes';
 
 const DashBoard: React.FC = () => {
   const [menu, setMenu] = useState(false);
@@ -23,7 +24,7 @@ const DashBoard: React.FC = () => {
       showMobileNavigation={menu}
       onNavigationDismiss={handleOpenMenu}
     >
-      <div>Pages</div>
+      <AuthRoutes />
     </Frame>
   );
 };
