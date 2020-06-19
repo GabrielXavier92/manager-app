@@ -1,26 +1,27 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
 import { HomeMajorMonotone, OrdersMajorTwotone } from '@shopify/polaris-icons';
+import history from '../../utils/history';
 
 const LeftMenu = () => {
-  const toggleIsLoading = () => {
-    console.log('click');
+  const handleChangePage = (route: string) => {
+    history.push(route);
   };
 
   return (
-    <Navigation location="/">
+    <Navigation location="/dashboard">
       <Navigation.Section
         separator
         items={[
           {
             label: 'Home',
             icon: HomeMajorMonotone,
-            onClick: toggleIsLoading,
+            onClick: () => handleChangePage('/dashboard'),
           },
           {
             label: 'Profissionais',
             icon: OrdersMajorTwotone,
-            onClick: toggleIsLoading,
+            onClick: () => handleChangePage('/dashboard/doctorlist'),
           },
         ]}
       />
