@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import {
   FormLayout, TextField, Button, ButtonGroup, Form,
 } from '@shopify/polaris';
-import { useSignInMutation } from '../../hooks/useSignInMutation';
+import { useSignInMutation } from '../../hooks';
 
 
 const SignInForm: React.FC = () => {

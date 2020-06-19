@@ -24,13 +24,12 @@ export const GET_USER = gql`
 `;
 
 export const useGetUser = (): IUseGetUser => {
-  const [query, queryResults] = useLazyQuery(GET_USER, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-  });
+  const [query, queryResults] = useLazyQuery(GET_USER);
 
   const getUser = () => (query());
 
   return { getUser, queryResults };
 };
+
+
+export default useGetUser;

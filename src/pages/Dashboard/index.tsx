@@ -4,7 +4,7 @@ import { Frame } from '@shopify/polaris';
 import LeftMenu from '../../components/LeftMenu';
 import Header from '../../components/Header';
 
-import { useGetUser } from '../../hooks/useGetUser';
+import { useGetUser } from '../../hooks';
 
 import { AuthRoutes } from '../../routes';
 
