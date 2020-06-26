@@ -1,11 +1,17 @@
 import gql from 'graphql-tag';
+import { QueryResult } from '@apollo/react-common';
 import { useLazyQuery } from '@apollo/react-hooks';
 
+import { User } from '../../types/types.d';
 
 interface IUseGetUser {
   getUser(): void;
-  queryResults: any;
+  queryResults?: QueryResult<getUser, Record<string, any>>;
 }
+
+type getUser = {
+  getUser: User,
+};
 
 export const GET_USER = gql`
   query GetUser{
@@ -24,7 +30,7 @@ export const GET_USER = gql`
 `;
 
 export const useGetUser = (): IUseGetUser => {
-  const [query, queryResults] = useLazyQuery(GET_USER);
+  const [query, queryResults] = useLazyQuery<getUser>(GET_USER);
 
   const getUser = () => (query());
 
