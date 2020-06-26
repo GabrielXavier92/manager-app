@@ -16,7 +16,7 @@ const DashBoard: React.FC = () => {
     setMenu(!menu);
   };
 
-  useEffect(getUser, []);
+  useEffect(() => { getUser(); }, []);
   return (
     <Frame
       topBar={<Header onNavigationToggle={handleOpenMenu} />}
