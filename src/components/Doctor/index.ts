@@ -1,4 +1,5 @@
+import DoctorForm from './DoctorForm';
 import DoctorList from './DoctorList';
 import DoctorLine from './DoctorLine';
 
-export { DoctorList, DoctorLine };
+export { DoctorForm, DoctorList, DoctorLine };
