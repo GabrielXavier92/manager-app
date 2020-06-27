@@ -4,7 +4,7 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 
-import useAuthToken from '../../hooks/useAuthToken';
+import { useAuthToken, useLogout } from '../../hooks';
 
 import Snack from '../../utils/snack';
 
@@ -24,11 +24,13 @@ const authMiddleware = (authToken: string) => new ApolloLink((operation, forward
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
+  const { logout } = useLogout();
+
   if (graphQLErrors) {
-    graphQLErrors.forEach((err) => {
+    graphQLErrors.forEach(async (err) => {
       switch (err.extensions!.code) {
         case 'UNAUTHENTICATED':
-          localStorage.removeItem('token');
+          logout();
           history.replace('/signin');
           break;
         case 'BAD_USER_INPUT':
