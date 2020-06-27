@@ -5,6 +5,8 @@ import {
 
 import DoctorLine from '../DoctorLine';
 
+import history from '../../../utils/history';
+
 import { useGetDoctors } from '../../../hooks';
 
 import { Doctor } from '../../../types/types.d';
@@ -13,12 +15,18 @@ const DoctorList: React.FC = () => {
   const [queryValue, setQueryValue] = useState('');
   const { getDoctors, queryResults } = useGetDoctors();
 
+  const user = {
+    age: 21,
+  };
+
+  user.age = 25;
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
   const handleFiltersClearAll = () => handleQueryValueRemove();
 
-  useEffect(getDoctors, []);
+  useEffect(() => { getDoctors(); }, []);
+
   const { data } = queryResults;
 
   return (
@@ -29,6 +37,7 @@ const DoctorList: React.FC = () => {
       // ]}
       primaryAction={{
         content: 'Novo profissional',
+        onAction: () => { history.push('/dashboard/doctor'); },
       }}
     >
       <Layout>
@@ -44,7 +53,7 @@ const DoctorList: React.FC = () => {
                   onQueryClear={handleQueryValueRemove}
                   onClearAll={handleFiltersClearAll}
                 />
-          )}
+              )}
               items={data?.getDoctors ? data.getDoctors : []}
               renderItem={(doctor: Doctor) => (<DoctorLine id={doctor.id} name={doctor.name} register={doctor.register} gender={doctor.gender} />)}
             />
