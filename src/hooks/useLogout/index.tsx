@@ -12,8 +12,8 @@ const useLogout = (): IUseLogoun => {
 
   const apolloClient = useApolloClient();
 
-  const logout = async () => {
-    await apolloClient.clearStore();
+  const logout = () => {
+    apolloClient.clearStore();
     removeAuthToken();
     history.replace('/signin');
   };
