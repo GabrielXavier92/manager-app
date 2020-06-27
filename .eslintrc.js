@@ -8,6 +8,7 @@ module.exports = {
     'airbnb-typescript',
   ],
   rules: {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "import/no-named-as-default": 0
   }
 };
