@@ -7,7 +7,6 @@ import { SnackbarProvider } from 'notistack';
 
 import ptBr from '@shopify/polaris/locales/pt-BR.json';
 
-
 import { SnackbarUtilsConfigurator } from './utils/snack';
 import history from './utils/history';
 
