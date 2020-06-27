@@ -13,6 +13,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me: Account;
+  getUser: User;
   getDoctor: Doctor;
   getDoctors?: Maybe<Array<Doctor>>;
   getGuide: Guide;
@@ -134,9 +135,15 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   gender?: Maybe<Gender>;
-  roles?: Maybe<Array<Scalars['String']>>;
+  roles?: Maybe<Array<Role>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Role = {
+  __typename?: 'Role';
+  id: Scalars['ID'];
+  role: Scalars['String'];
 };
 
 export type DoctorInput = {
@@ -144,6 +151,14 @@ export type DoctorInput = {
   gender?: Maybe<Gender>;
   birth?: Maybe<Scalars['DateTime']>;
   register?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  cep?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
 };
 
 export type Doctor = {
@@ -153,6 +168,14 @@ export type Doctor = {
   gender?: Maybe<Gender>;
   birth?: Maybe<Scalars['DateTime']>;
   register?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  cep?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   guides?: Maybe<Array<Maybe<Guide>>>;
