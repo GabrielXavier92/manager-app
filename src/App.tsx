@@ -5,6 +5,9 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { CookiesProvider } from 'react-cookie';
 import { SnackbarProvider } from 'notistack';
 
+import ptBr from '@shopify/polaris/locales/pt-BR.json';
+
+
 import { SnackbarUtilsConfigurator } from './utils/snack';
 import history from './utils/history';
 
@@ -37,7 +40,7 @@ export default function App() {
       <CookiesProvider>
         <AppProvider
           theme={theme}
-          i18n={{}}
+          i18n={ptBr}
         >
           <SnackbarProvider maxSnack={8} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
             <SnackbarUtilsConfigurator />
