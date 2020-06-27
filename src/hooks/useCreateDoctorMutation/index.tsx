@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
 import { DoctorInput } from '../../types/types.d';
-import { GET_DOCTORS } from '../useGetDoctors';
+import { GET_DOCTORS, GET_DOCTORS_FRAGMENT } from '../useGetDoctors';
 
 import history from '../../utils/history';
 
@@ -14,32 +14,18 @@ interface IUseCreateDoctorMutation {
 export const CREATE_DOCTOR = gql`
   mutation createDoctor($input: DoctorInput!){
     createDoctor(input: $input) {
-      id
-      name
-      gender
-      register
-      createdAt
+      ...GetDoctorsFragment
     }
   }
+  ${GET_DOCTORS_FRAGMENT}
 `;
 
 export const useCreateDoctorMutation = (): IUseCreateDoctorMutation => {
-  const updateCache = (cache: any, { data }: any) => {
-    const getDoctors = cache.readQuery({
-      query: GET_DOCTORS,
-    });
-
-    cache.writeQuery({
-      query: GET_DOCTORS,
-      data: { getDoctors: [data.createDoctor, ...getDoctors] },
-    });
-  };
-
   const [mutation, mutationResults] = useMutation(CREATE_DOCTOR, {
     onCompleted: (data) => {
       if (data) history.push('/dashboard/doctorlist');
     },
-    update: updateCache,
+    refetchQueries: [{ query: GET_DOCTORS }],
   });
 
 

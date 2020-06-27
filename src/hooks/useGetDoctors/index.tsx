@@ -13,22 +13,29 @@ type getDoctors = {
   getDoctors: [Doctor]
 };
 
-export const GET_DOCTORS = gql`
-  query GetDoctors {
-  getDoctors {
+export const GET_DOCTORS_FRAGMENT = gql`
+  fragment GetDoctorsFragment on Doctor {
     id
     name
     gender
     register
     createdAt
+  } 
+`;
+
+export const GET_DOCTORS = gql`
+  query GetDoctors {
+    getDoctors {
+      ...GetDoctorsFragment
+    }
   }
-}
+  ${GET_DOCTORS_FRAGMENT}
 `;
 
 export const useGetDoctors = (): IUseGetDoctors => {
   const [query, queryResults] = useLazyQuery<getDoctors>(GET_DOCTORS);
 
-  const getDoctors = () => (query());
+  const getDoctors = () => query();
 
   return { getDoctors, queryResults };
 };
