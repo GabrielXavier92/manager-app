@@ -44,7 +44,6 @@ const DatePicker: React.FC<IDatePicker> = ({
       )}
         control={control}
         name={name}
-        defaultValue={selectedDates.start}
       />
     </div>
   );
