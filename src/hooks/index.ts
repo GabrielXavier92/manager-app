@@ -1,3 +1,4 @@
+import useCreateDoctorMutation from './useCreateDoctorMutation';
 import useAuthToken from './useAuthToken';
 import useGetDoctors from './useGetDoctors';
 import useGetUser from './useGetUser';
@@ -11,4 +12,5 @@ export {
   useGetUser,
   useLogout,
   useSignInMutation,
+  useCreateDoctorMutation,
 };
