@@ -4,7 +4,7 @@ import {
 } from '@shopify/polaris';
 
 import { Controller } from 'react-hook-form';
-import { formatDate } from '../../utils/formatDate';
+import { formatBirthDate } from '../../utils/formatDate';
 
 interface IDatePicker {
   control: any;
@@ -60,7 +60,7 @@ const DatePicker: React.FC<IDatePicker> = ({
         year={year}
         onChange={(dates) => {
           const { start, end } = dates;
-          setValue(name, formatDate(start));
+          setValue(name, formatBirthDate(start));
           setSelectedDates({ start, end });
         }}
         onMonthChange={handleMonthChange}
