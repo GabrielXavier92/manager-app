@@ -15,8 +15,7 @@ const DoctorList: React.FC = () => {
   const history = useHistory();
 
   const [queryValue, setQueryValue] = useState('');
-  const { useGetDoctors } = useDoctor();
-  const { getDoctors, queryResults } = useGetDoctors();
+  const { getDoctors, queryResults } = useDoctor().useGetDoctors();
 
   const user = {
     age: 21,
