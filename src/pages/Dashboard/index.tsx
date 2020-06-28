@@ -4,13 +4,13 @@ import { Frame } from '@shopify/polaris';
 import LeftMenu from '../../components/LeftMenu';
 import Header from '../../components/Header';
 
-import { useGetUser } from '../../hooks';
+import { useUser } from '../../hooks';
 
 import { AuthRoutes } from '../../routes';
 
 const DashBoard: React.FC = () => {
   const [menu, setMenu] = useState(false);
-  const { getUser } = useGetUser();
+  const { getUser } = useUser().useGetUser();
 
   const handleOpenMenu = () => {
     setMenu(!menu);

@@ -1,36 +1,12 @@
-import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-
 import { useHistory } from 'react-router-dom';
 
 import useAuthToken from '../useAuthToken';
 
-interface IUseSignInMutation {
-  signIn(email: string, password: string): void;
-  mutationResults: any;
-}
+import { UseSignInUser } from './types';
+import { SIGN_IN } from './gql';
 
-export const SIGN_IN = gql`
-  mutation SignIn($input: LoginUserInput!){
-    signIn(input: $input) {
-      token
-      user {
-        id
-        accountId
-        status
-        email
-        name
-        gender
-        roles {
-          id
-          role
-        }
-      }
-    }
-  }
-`;
-
-export const useSignInMutation = (): IUseSignInMutation => {
+export const useSignInUser = (): UseSignInUser => {
   const history = useHistory();
   const { setAuthToken } = useAuthToken();
 
@@ -53,4 +29,4 @@ export const useSignInMutation = (): IUseSignInMutation => {
 };
 
 
-export default useSignInMutation;
+export default useSignInUser;

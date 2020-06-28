@@ -4,13 +4,13 @@ import {
   FormLayout, TextField, Button, ButtonGroup, Form,
 } from '@shopify/polaris';
 
-import { useSignInMutation } from '../../hooks';
+import { useUser } from '../../hooks';
 import { LoginUserInput } from '../../types/types.d';
 
 
 const SignInForm: React.FC = () => {
   const { control, handleSubmit, errors } = useForm<LoginUserInput>();
-  const { signIn } = useSignInMutation();
+  const { signIn } = useUser().useSignInUser();
 
   const onSubmit = (input: LoginUserInput) => {
     const { email, password } = input;

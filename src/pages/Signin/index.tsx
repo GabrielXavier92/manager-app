@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Card, Page } from '@shopify/polaris';
 
-import { useLogout } from '../../hooks';
+import { useUser } from '../../hooks';
 
 import SignInForm from '../../components/SignInForm';
 
 const Signin: React.FC = () => {
-  const { logout } = useLogout();
+  const { logout } = useUser().useLogoutUser();
 
   useEffect(() => logout(), []);
 

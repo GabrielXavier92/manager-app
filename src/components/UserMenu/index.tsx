@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { TopBar, IconableAction } from '@shopify/polaris';
 
-import { useLogout, useGetUser } from '../../hooks';
+import { useUser } from '../../hooks';
 
 
 const UserMenu: React.FC = () => {
-  const { logout } = useLogout();
+  const { useLogoutUser, useGetUser } = useUser();
+  const { logout } = useLogoutUser();
   const { getUser, queryResults } = useGetUser();
 
 
