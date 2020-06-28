@@ -3,15 +3,17 @@ import {
   Card, Filters, ResourceList, Page, Layout,
 } from '@shopify/polaris';
 
-import DoctorLine from '../DoctorLine';
+import { useHistory } from 'react-router-dom';
 
-import history from '../../../utils/history';
+import DoctorLine from '../DoctorLine';
 
 import { useGetDoctors } from '../../../hooks';
 
 import { Doctor } from '../../../types/types.d';
 
 const DoctorList: React.FC = () => {
+  const history = useHistory();
+
   const [queryValue, setQueryValue] = useState('');
   const { getDoctors, queryResults } = useGetDoctors();
 

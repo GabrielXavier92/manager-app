@@ -1,9 +1,12 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
 import { HomeMajorMonotone, OrdersMajorTwotone } from '@shopify/polaris-icons';
-import history from '../../utils/history';
+import { useHistory } from 'react-router-dom';
+
 
 const LeftMenu = () => {
+  const history = useHistory();
+
   const handleChangePage = (route: string) => {
     history.push(route);
   };

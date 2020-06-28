@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/react-hooks';
+import { useHistory } from 'react-router-dom';
 import useAuthToken from '../useAuthToken';
-import history from '../../utils/history';
+
 
 interface IUseLogoun {
   logout(): void;
@@ -8,6 +9,7 @@ interface IUseLogoun {
 
 
 const useLogout = (): IUseLogoun => {
+  const history = useHistory();
   const { removeAuthToken } = useAuthToken();
 
   const apolloClient = useApolloClient();

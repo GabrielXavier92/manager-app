@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
-import history from '../../utils/history';
+import { useHistory } from 'react-router-dom';
 
 import useAuthToken from '../useAuthToken';
 
@@ -31,6 +31,7 @@ export const SIGN_IN = gql`
 `;
 
 export const useSignInMutation = (): IUseSignInMutation => {
+  const history = useHistory();
   const { setAuthToken } = useAuthToken();
 
   const [mutation, mutationResults] = useMutation(SIGN_IN, {
