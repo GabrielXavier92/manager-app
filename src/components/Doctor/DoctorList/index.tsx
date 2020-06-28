@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 import DoctorLine from '../DoctorLine';
 
-import { useGetDoctors } from '../../../hooks';
+import { useDoctor } from '../../../hooks';
 
 import { Doctor } from '../../../types/types.d';
 
@@ -15,6 +15,7 @@ const DoctorList: React.FC = () => {
   const history = useHistory();
 
   const [queryValue, setQueryValue] = useState('');
+  const { useGetDoctors } = useDoctor();
   const { getDoctors, queryResults } = useGetDoctors();
 
   const user = {

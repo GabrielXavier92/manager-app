@@ -1,30 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Button, Card, Layout, Page, Form, FormLayout, TextField, Select, Stack,
 } from '@shopify/polaris';
 
-import history from '../../../utils/history';
+import { useDoctor } from '../../../hooks';
 
-import { useCreateDoctorMutation } from '../../../hooks';
 
-import DatePicker from '../../DatePicker';
+import { transformTimeStampInTodayDate } from '../../../utils/formatDate';
 
 import { DoctorInput } from '../../../types/types.d';
 
-const DoctorForm: React.FC = () => {
-  const {
-    control, errors, handleSubmit, setValue,
-  } = useForm<DoctorInput>();
+interface RouteParams {
+  id: string
+}
 
-  const { createDoctor } = useCreateDoctorMutation();
+const DoctorForm: React.FC = () => {
+  const history = useHistory();
+  const params = useParams<RouteParams>();
+
+  const [title, setTitle] = useState('Editar Dados');
+
+  const {
+    control, errors, handleSubmit, reset,
+  } = useForm <DoctorInput>();
+  const { useCreateDoctor, useUpdateDoctor, useGetDoctor } = useDoctor();
+
+  const { createDoctor } = useCreateDoctor();
+  const { updateDoctor } = useUpdateDoctor();
+  const { getDoctor, queryResults } = useGetDoctor();
+
+  const handleGetDoctor = () => {
+    if (params.id) {
+      getDoctor(params.id);
+    } else {
+      setTitle('Novo Profissional');
+    }
+  };
+
+  useEffect(() => { handleGetDoctor(); }, [params.id]);
+
+  const handleSetFormValues = () => {
+    if (queryResults.data?.getDoctor) {
+      console.log(queryResults.data.getDoctor.birth!);
+      console.log(transformTimeStampInTodayDate(queryResults.data.getDoctor.birth!));
+      reset({
+        ...queryResults.data.getDoctor,
+        birth: transformTimeStampInTodayDate(queryResults.data.getDoctor.birth!),
+      });
+    }
+  };
+
+  useEffect(handleSetFormValues, [queryResults.data]);
 
   const onSubmit = (doctor: DoctorInput) => {
-    createDoctor(doctor);
+    console.log(doctor.birth);
+    if (params.id) {
+      updateDoctor(params.id, doctor);
+    } else {
+      createDoctor(doctor);
+    }
   };
 
   return (
-    <Page title="Novo profissional">
+    <Page title={title}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Layout>
           <Layout.AnnotatedSection
@@ -54,7 +94,14 @@ const DoctorForm: React.FC = () => {
                   name="gender"
                   defaultValue="MASCULINO"
                 />
-                <DatePicker control={control} setValue={setValue} name="birth" label="Data de Aniversario" />
+
+                <Controller
+                  as={(
+                    <TextField type="date" placeholder="Selecione uma data" label="Data de aniversario" onChange={() => { }} />
+                  )}
+                  control={control}
+                  name="birth"
+                />
 
                 <Controller
                   as={<TextField type="text" label="Email" onChange={() => { }} />}

@@ -1,8 +1,11 @@
 import moment from 'moment';
-import 'moment/locale/pt-br';
 
-export const formatBirthDate = (date: Date) => moment(date).locale('pt-br').format('L');
+export const transformStringDayInTimestamp = (date: string): string => moment(date).valueOf().toString();
 
-export const transformStringInDateTime = (date: any) => new Date(date);
+export const transformTimeStampInTodayDate = (date: string): string => moment(date, 'x').format('YYYY-MM-DD');
+
+export const defaultTodayDate = () => moment().format('YYYY-MM-DD');
+
+export const defaultTodayDateTime = () => moment().format('YYYY-MM-DDThh:mm');
 
 export const a = () => 'a';

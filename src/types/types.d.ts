@@ -149,7 +149,7 @@ export type Role = {
 export type DoctorInput = {
   name: Scalars['String'];
   gender?: Maybe<Gender>;
-  birth?: Maybe<Scalars['DateTime']>;
+  birth?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
@@ -166,7 +166,7 @@ export type Doctor = {
   id: Scalars['ID'];
   name: Scalars['String'];
   gender?: Maybe<Gender>;
-  birth?: Maybe<Scalars['DateTime']>;
+  birth?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
@@ -203,14 +203,14 @@ export type Patient = {
   id: Scalars['ID'];
   name: Scalars['String'];
   gender?: Maybe<Gender>;
-  birth?: Maybe<Scalars['DateTime']>;
+  birth?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PatientInput = {
   name: Scalars['String'];
-  birth?: Maybe<Scalars['DateTime']>;
+  birth?: Maybe<Scalars['String']>;
   gender?: Maybe<Gender>;
 };
 

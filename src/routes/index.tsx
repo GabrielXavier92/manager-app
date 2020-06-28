@@ -24,6 +24,6 @@ export const AuthRoutes = () => (
     <AuthRoute path="/dashboard/doctor" component={DoctorForm} exact />
     <AuthRoute path="/dashboard/doctor/:id" component={DoctorForm} exact />
     <AuthRoute path="/dashboard" component={Home} exact />
-    <Redirect to="/dashboard/doctor" />
+    <Redirect to="/dashboard/doctorlist" />
   </>
 );
