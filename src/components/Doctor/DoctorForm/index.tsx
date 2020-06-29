@@ -43,8 +43,6 @@ const DoctorForm: React.FC = () => {
 
   const handleSetFormValues = () => {
     if (queryResults.data?.getDoctor) {
-      console.log(queryResults.data.getDoctor.birth!);
-      console.log(transformTimeStampInTodayDate(queryResults.data.getDoctor.birth!));
       reset({
         ...queryResults.data.getDoctor,
         birth: transformTimeStampInTodayDate(queryResults.data.getDoctor.birth!),
@@ -55,7 +53,6 @@ const DoctorForm: React.FC = () => {
   useEffect(handleSetFormValues, [queryResults.data]);
 
   const onSubmit = (doctor: DoctorInput) => {
-    console.log(doctor.birth);
     if (params.id) {
       updateDoctor(params.id, doctor);
     } else {

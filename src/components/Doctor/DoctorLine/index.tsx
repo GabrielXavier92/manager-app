@@ -3,7 +3,6 @@ import { Avatar, ResourceList, TextStyle } from '@shopify/polaris';
 
 import { useHistory } from 'react-router-dom';
 
-
 import { Doctor } from '../../../types/types.d';
 
 const DoctorLine: React.FC<Doctor> = ({

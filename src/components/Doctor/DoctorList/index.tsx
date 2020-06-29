@@ -17,12 +17,6 @@ const DoctorList: React.FC = () => {
   const [queryValue, setQueryValue] = useState('');
   const { getDoctors, queryResults } = useDoctor().useGetDoctors();
 
-  const user = {
-    age: 21,
-  };
-
-  user.age = 25;
-
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
   const handleFiltersClearAll = () => handleQueryValueRemove();
@@ -46,7 +40,7 @@ const DoctorList: React.FC = () => {
         <Layout.Section>
           <Card>
             <ResourceList
-              resourceName={{ singular: 'doctor', plural: 'doctors' }}
+              resourceName={{ singular: 'Profissonal', plural: 'Profissionais' }}
               filterControl={(
                 <Filters
                   queryValue={queryValue}

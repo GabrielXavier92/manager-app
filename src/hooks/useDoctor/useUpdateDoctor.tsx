@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import { DoctorInput } from '../../types/types.d';
-import { UseUpdateDoctorMutation } from './types';
+import { UseUpdateDoctor } from './types';
 import { UPDATE_DOCTOR, GET_DOCTOR } from './gql';
 import { transformStringDayInTimestamp } from '../../utils/formatDate';
 
-const useUpdateDoctor = (): UseUpdateDoctorMutation => {
+const useUpdateDoctor = (): UseUpdateDoctor => {
   const history = useHistory();
 
   const [mutation, mutationResults] = useMutation<DoctorInput>(UPDATE_DOCTOR, {

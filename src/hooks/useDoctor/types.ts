@@ -6,7 +6,7 @@ export type UseDoctor = {
   useGetDoctor: () => UseGetDoctor;
   useGetDoctors: () => UseGetDoctors;
   useCreateDoctor: () => UseCreateDoctor;
-  useUpdateDoctor: () => UseUpdateDoctorMutation;
+  useUpdateDoctor: () => UseUpdateDoctor;
 };
 
 export type UseGetDoctor = {
@@ -25,7 +25,7 @@ export type UseCreateDoctor = {
   mutationResults: MutationResult<DoctorInput>;
 };
 
-export type UseUpdateDoctorMutation = {
+export type UseUpdateDoctor = {
   updateDoctor(id: string, doctor: DoctorInput): void;
   mutationResults: MutationResult<DoctorInput>;
 };
