@@ -20,6 +20,8 @@ export type Query = {
   getGuides?: Maybe<Array<Guide>>;
   getPatient: Patient;
   getPatients?: Maybe<Array<Patient>>;
+  getSpecialty: Specialty;
+  getSpecialties?: Maybe<Array<Specialty>>;
 };
 
 
@@ -37,6 +39,11 @@ export type QueryGetPatientArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryGetSpecialtyArgs = {
+  id: Scalars['ID'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAccount: Account;
@@ -47,6 +54,8 @@ export type Mutation = {
   updateGuides: Guide;
   createPatient: Patient;
   updatePatient: Patient;
+  createSpecialty: Specialty;
+  updateSpecialty: Specialty;
 };
 
 
@@ -90,6 +99,17 @@ export type MutationCreatePatientArgs = {
 export type MutationUpdatePatientArgs = {
   id: Scalars['ID'];
   input: PatientInput;
+};
+
+
+export type MutationCreateSpecialtyArgs = {
+  input: SpecialtyInput;
+};
+
+
+export type MutationUpdateSpecialtyArgs = {
+  id: Scalars['ID'];
+  input: SpecialtyInput;
 };
 
 export type Gender = 
@@ -212,5 +232,37 @@ export type PatientInput = {
   name: Scalars['String'];
   birth?: Maybe<Scalars['String']>;
   gender?: Maybe<Gender>;
+};
+
+export type SpecialtyInput = {
+  name: Scalars['String'];
+  procedures?: Maybe<Array<Maybe<ProcedureInput>>>;
+};
+
+export type ProcedureInput = {
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type Specialty = {
+  __typename?: 'Specialty';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  procedures?: Maybe<Array<Maybe<Procedure>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Procedure = {
+  __typename?: 'Procedure';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  code?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+  specialty?: Maybe<Specialty>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
