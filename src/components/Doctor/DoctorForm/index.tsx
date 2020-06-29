@@ -181,7 +181,7 @@ const DoctorForm: React.FC = () => {
 
           <Layout.Section>
             <Stack distribution="equalSpacing">
-              <Button destructive onClick={() => { history.push('/dashboard/doctorlist'); }}>Cancelar</Button>
+              <Button destructive onClick={() => { history.push('/doctorlist'); }}>Cancelar</Button>
               <Button submit primary>Salvar</Button>
             </Stack>
           </Layout.Section>

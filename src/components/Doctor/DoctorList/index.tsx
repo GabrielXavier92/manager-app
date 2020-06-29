@@ -33,7 +33,7 @@ const DoctorList: React.FC = () => {
       // ]}
       primaryAction={{
         content: 'Novo profissional',
-        onAction: () => { history.push('/dashboard/doctor'); },
+        onAction: () => { history.push('/doctor'); },
       }}
     >
       <Layout>

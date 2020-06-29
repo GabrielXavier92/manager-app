@@ -9,7 +9,7 @@ const useCreateSpecialty = (): UseCreateSpecialty => {
 
   const [mutation, mutationResults] = useMutation<SpecialtyInput>(CREATE_SPECIALTY, {
     onCompleted: (data) => {
-      if (data) history.push('/dashboard/specialtyList');
+      if (data) history.push('/specialtyList');
     },
     refetchQueries: [{ query: GET_SPECIALTIES }],
   });

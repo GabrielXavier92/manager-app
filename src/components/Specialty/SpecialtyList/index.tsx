@@ -23,7 +23,7 @@ const SpecialtyList: React.FC = () => {
       title="Especialidades"
       primaryAction={{
         content: 'Nova especialidade',
-        onAction: () => { history.push('/dashboard/doctor'); },
+        onAction: () => { history.push('/specialty'); },
       }}
     >
       <Layout>

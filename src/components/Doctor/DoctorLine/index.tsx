@@ -19,7 +19,7 @@ const DoctorLine: React.FC<Doctor> = ({
       media={media}
       accessibilityLabel={`View details for ${name}`}
       onClick={() => {
-        history.push(`/dashboard/doctor/${id}`);
+        history.push(`/doctor/${id}`);
       }}
     >
       <h3>

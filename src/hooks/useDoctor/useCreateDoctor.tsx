@@ -10,7 +10,7 @@ const useCreateDoctor = (): UseCreateDoctor => {
 
   const [mutation, mutationResults] = useMutation<DoctorInput>(CREATE_DOCTOR, {
     onCompleted: (data) => {
-      if (data) history.push('/dashboard/doctorlist');
+      if (data) history.push('/doctorlist');
     },
     refetchQueries: [{ query: GET_DOCTORS }],
   });

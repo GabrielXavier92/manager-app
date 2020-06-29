@@ -10,7 +10,7 @@ const useUpdateDoctor = (): UseUpdateDoctor => {
 
   const [mutation, mutationResults] = useMutation<DoctorInput>(UPDATE_DOCTOR, {
     onCompleted: (data) => {
-      if (data) history.push('/dashboard/doctorlist');
+      if (data) history.push('/doctorlist');
     },
   });
 

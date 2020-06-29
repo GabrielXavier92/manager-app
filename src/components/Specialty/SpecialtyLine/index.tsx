@@ -16,7 +16,7 @@ const SpecialtyLine: React.FC<Specialty> = ({
       name={name}
       accessibilityLabel={`View details for ${name}`}
       onClick={() => {
-        history.push(`/dashboard/specialty/${id}`);
+        history.push(`/specialty/${id}`);
       }}
     >
       <h3>
