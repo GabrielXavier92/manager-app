@@ -8,6 +8,8 @@ import DashBoard from '../pages/Dashboard';
 import Signin from '../pages/Signin';
 
 import { DoctorForm, DoctorList } from '../components/Doctor';
+import { SpecialtyList } from '../components/Specialty';
+
 import Home from '../components/Home';
 
 export const AppRoutes = () => (
@@ -23,7 +25,8 @@ export const AuthRoutes = () => (
     <AuthRoute path="/dashboard/doctorlist" component={DoctorList} exact />
     <AuthRoute path="/dashboard/doctor" component={DoctorForm} exact />
     <AuthRoute path="/dashboard/doctor/:id" component={DoctorForm} exact />
+    <AuthRoute path="/dashboard/specialtylist" component={SpecialtyList} exact />
     <AuthRoute path="/dashboard" component={Home} exact />
-    <Redirect to="/dashboard/doctorlist" />
+    <Redirect to="/dashboard/specialtylist" />
   </>
 );

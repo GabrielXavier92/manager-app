@@ -26,6 +26,11 @@ const LeftMenu = () => {
             icon: OrdersMajorTwotone,
             onClick: () => handleChangePage('/dashboard/doctorlist'),
           },
+          {
+            label: 'Especialidades',
+            icon: OrdersMajorTwotone,
+            onClick: () => handleChangePage('/dashboard/specialtylist'),
+          },
         ]}
       />
     </Navigation>
