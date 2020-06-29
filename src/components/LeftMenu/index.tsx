@@ -12,24 +12,24 @@ const LeftMenu = () => {
   };
 
   return (
-    <Navigation location="/dashboard">
+    <Navigation location="/">
       <Navigation.Section
         separator
         items={[
           {
             label: 'Home',
             icon: HomeMajorMonotone,
-            onClick: () => handleChangePage('/dashboard'),
+            onClick: () => handleChangePage('/'),
           },
           {
             label: 'Profissionais',
             icon: OrdersMajorTwotone,
-            onClick: () => handleChangePage('/dashboard/doctorlist'),
+            onClick: () => handleChangePage('/doctorlist'),
           },
           {
             label: 'Especialidades',
             icon: OrdersMajorTwotone,
-            onClick: () => handleChangePage('/dashboard/specialtylist'),
+            onClick: () => handleChangePage('/specialtylist'),
           },
         ]}
       />
