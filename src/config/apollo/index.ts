@@ -4,7 +4,8 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 
-import { useAuthToken } from '../../hooks';
+import { Cookies } from 'react-cookie';
+import { TOKEN_NAME } from '../../hooks/useAuthToken';
 
 import Snack from '../../utils/snack';
 
@@ -12,7 +13,9 @@ import history from '../../utils/history';
 
 const httpLink = new HttpLink({ uri: process.env.REACT_APP_APOLLO_URI });
 
-const authMiddleware = (authToken: string) => new ApolloLink((operation, forward) => {
+const authMiddleware = () => new ApolloLink((operation, forward) => {
+  const cookies = new Cookies();
+  const authToken = cookies.get(TOKEN_NAME);
   if (authToken) {
     operation.setContext({
       headers: {
@@ -45,19 +48,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const cache = new InMemoryCache();
 
-const useApolloClient = () => {
-  const { token } = useAuthToken();
-  return new ApolloClient({
-    link: errorLink.concat(authMiddleware(token).concat(httpLink)),
-    cache,
-    connectToDevTools: process.env.NODE_ENV === 'development',
-    defaultOptions: {
-      mutate: {
-        errorPolicy: 'all',
-      },
+const useApolloClient = () => new ApolloClient({
+  link: errorLink.concat(authMiddleware().concat(httpLink)),
+  cache,
+  connectToDevTools: process.env.NODE_ENV === 'development',
+  defaultOptions: {
+    mutate: {
+      errorPolicy: 'all',
     },
-  });
-};
-
+  },
+});
 
 export default useApolloClient;

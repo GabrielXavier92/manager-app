@@ -11,10 +11,10 @@ export const useSignInUser = (): UseSignInUser => {
   const { setAuthToken } = useAuthToken();
 
   const [mutation, mutationResults] = useMutation(SIGN_IN, {
-    onCompleted: (data) => {
+    onCompleted: async (data) => {
       if (data?.signIn?.token) {
         setAuthToken(data.signIn.token);
-        history.push('/dashboard');
+        history.push('/');
       }
     },
   });
