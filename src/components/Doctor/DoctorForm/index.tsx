@@ -39,7 +39,7 @@ const DoctorForm: React.FC = () => {
     }
   };
 
-  useEffect(() => { handleGetDoctor(); }, [params.id]);
+  useEffect(handleGetDoctor, [params.id]);
 
   const handleSetFormValues = () => {
     if (queryResults.data?.getDoctor) {

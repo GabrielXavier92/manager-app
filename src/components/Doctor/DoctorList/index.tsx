@@ -21,7 +21,11 @@ const DoctorList: React.FC = () => {
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
   const handleFiltersClearAll = () => handleQueryValueRemove();
 
-  useEffect(() => { getDoctors(); }, []);
+  const handleGetDoctors = () => {
+    getDoctors();
+  };
+
+  useEffect(handleGetDoctors, []);
 
   const { data } = queryResults;
 

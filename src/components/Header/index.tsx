@@ -4,7 +4,7 @@ import { TopBar } from '@shopify/polaris';
 import UserMenu from '../UserMenu';
 
 interface IHeader {
-  onNavigationToggle?: any
+  onNavigationToggle: () => void
 }
 
 const Header: React.FC<IHeader> = ({ onNavigationToggle }) => (
