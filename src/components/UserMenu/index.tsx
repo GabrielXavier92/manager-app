@@ -26,7 +26,10 @@ const UserMenu: React.FC = () => {
     setUserMenu(!userMenu);
   };
 
-  useEffect(() => { getUser(); }, []);
+  const handleGetUser = () => {
+    getUser();
+  };
+  useEffect(handleGetUser, []);
 
   return (
     <TopBar.UserMenu
