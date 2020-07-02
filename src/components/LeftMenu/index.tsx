@@ -1,13 +1,17 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
-import { HomeMajorMonotone, OrdersMajorTwotone } from '@shopify/polaris-icons';
+import { HomeMajorMonotone, CustomersMajorMonotone, CollectionsMajorMonotone } from '@shopify/polaris-icons';
 import { useHistory } from 'react-router-dom';
 
+interface ILeftMenu {
+  onNavigationToggle: () => void
+}
 
-const LeftMenu = () => {
+const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
   const history = useHistory();
 
   const handleChangePage = (route: string) => {
+    onNavigationToggle();
     history.push(route);
   };
 
@@ -23,12 +27,12 @@ const LeftMenu = () => {
           },
           {
             label: 'Profissionais',
-            icon: OrdersMajorTwotone,
+            icon: CustomersMajorMonotone,
             onClick: () => handleChangePage('/doctorlist'),
           },
           {
             label: 'Especialidades',
-            icon: OrdersMajorTwotone,
+            icon: CollectionsMajorMonotone,
             onClick: () => handleChangePage('/specialtylist'),
           },
         ]}
