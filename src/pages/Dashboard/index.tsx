@@ -16,11 +16,15 @@ const DashBoard: React.FC = () => {
     setMenu(!menu);
   };
 
-  useEffect(() => { getUser(); }, []);
+  const handleGetUser = () => {
+    getUser();
+  };
+
+  useEffect(handleGetUser, []);
   return (
     <Frame
       topBar={<Header onNavigationToggle={handleOpenMenu} />}
-      navigation={<LeftMenu />}
+      navigation={<LeftMenu onNavigationToggle={handleOpenMenu} />}
       showMobileNavigation={menu}
       onNavigationDismiss={handleOpenMenu}
     >
