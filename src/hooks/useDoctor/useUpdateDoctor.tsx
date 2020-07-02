@@ -19,7 +19,7 @@ const useUpdateDoctor = (): UseUpdateDoctor => {
       id,
       input: {
         ...doctor,
-        birth: transformStringDayInTimestamp(doctor.birth!),
+        birth: doctor.birth ? transformStringDayInTimestamp(doctor.birth!) : doctor.birth,
       },
     },
     refetchQueries: [{ query: GET_DOCTOR, variables: { id } }],

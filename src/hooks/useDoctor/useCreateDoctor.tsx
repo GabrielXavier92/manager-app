@@ -20,7 +20,7 @@ const useCreateDoctor = (): UseCreateDoctor => {
     variables: {
       input: {
         ...doctor,
-        birth: transformStringDayInTimestamp(doctor.birth!),
+        birth: doctor.birth ? transformStringDayInTimestamp(doctor.birth!) : doctor.birth,
       },
     },
   }));
