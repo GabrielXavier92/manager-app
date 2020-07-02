@@ -8,7 +8,11 @@ import SignInForm from '../../components/SignInForm';
 const Signin: React.FC = () => {
   const { logout } = useUser().useLogoutUser();
 
-  useEffect(() => logout(), []);
+  const handleLogout = () => {
+    logout();
+  };
+
+  useEffect(handleLogout, []);
 
   return (
     <Page singleColumn title="Entrar">
