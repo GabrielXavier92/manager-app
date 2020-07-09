@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import { SpecialtyInput } from '../../types/types';
 import { UseUpdateSpecialty } from './types';
-import { GET_SPECIALTY, UPDATE_SPECIALTY } from './gql';
+import { GET_SPECIALTY, UPDATE_SPECIALTY, GET_SPECIALTIES } from './gql';
 
 const useUpdateSpecialty = (): UseUpdateSpecialty => {
   const history = useHistory();
@@ -11,7 +11,6 @@ const useUpdateSpecialty = (): UseUpdateSpecialty => {
     onCompleted: (data) => {
       if (data) history.push('/specialtyList');
     },
-    refetchQueries: [{ query: GET_SPECIALTY }],
   });
 
 
@@ -20,6 +19,7 @@ const useUpdateSpecialty = (): UseUpdateSpecialty => {
       id,
       input: specialty,
     },
+    refetchQueries: [{ query: GET_SPECIALTY, variables: { id } }, { query: GET_SPECIALTIES }],
   }));
 
   return { updateSpecialty, mutationResults };

@@ -1,62 +1,28 @@
 import gql from 'graphql-tag';
 
-export const GET_SPECIALTIES_FRAGMENT = gql`
-  fragment GetSpecialtiesFragment on Specialty {
+export const GET_SPECIALTY_FRAGMENT = gql`
+  fragment GetSpecialtyFragment on Specialty {
     id
     name
-    procedures {
-      id
-      name
-    }
-    createdAt
-    updatedAt
   }
 `;
 
 export const GET_SPECIALTIES = gql`
   query GetSpecialties {
     getSpecialties {
-      ...GetSpecialtiesFragment
+      ...GetSpecialtyFragment
     }
   }
-  ${GET_SPECIALTIES_FRAGMENT}
+  ${GET_SPECIALTY_FRAGMENT}
 `;
-
 
 export const GET_SPECIALTY = gql`
   query GetSpecialty($id: ID!) {
     getSpecialty(id: $id) {
-      id
-      name
-      procedures { 
-        id
-        name
-        code
-        value
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
+      ...GetSpecialtyFragment
     }
   }
-`;
-
-export const GET_SPECIALTY_FRAGMENT = gql`
-  fragment GetSpecialtyFragment on Specialty {
-    id
-    name
-    procedures {
-      id
-      name
-      code
-      value
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
+  ${GET_SPECIALTY_FRAGMENT}
 `;
 
 export const CREATE_SPECIALTY = gql`
