@@ -28,7 +28,17 @@ const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
           {
             label: 'Profissionais',
             icon: CustomersMajorMonotone,
-            onClick: () => handleChangePage('/doctorlist'),
+            onClick: () => handleChangePage('/doctorList'),
+          },
+        ]}
+      />
+      <Navigation.Section
+        title="Configurações"
+        items={[
+          {
+            label: 'Tabelas de Procedimentos',
+            icon: CollectionsMajorMonotone,
+            onClick: () => handleChangePage('/procedureTableList'),
           },
           {
             label: 'Especialidades',
