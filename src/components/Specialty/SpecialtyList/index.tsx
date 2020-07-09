@@ -14,7 +14,11 @@ const SpecialtyList: React.FC = () => {
   const history = useHistory();
   const { getSpecialties, queryResults } = useSpecialty().useGetSpecialties();
 
-  useEffect(() => { getSpecialties(); }, []);
+  const handleGetSpecialties = () => {
+    getSpecialties();
+  };
+
+  useEffect(handleGetSpecialties, []);
 
   const { data } = queryResults;
 

@@ -6,14 +6,14 @@ import { useHistory } from 'react-router-dom';
 import { Specialty } from '../../../types/types.d';
 
 const SpecialtyLine: React.FC<Specialty> = ({
-  id, name, procedures,
+  id, name,
 }) => {
   const history = useHistory();
 
   return (
     <ResourceList.Item
       id={id}
-      name={name}
+      name={name || undefined}
       accessibilityLabel={`View details for ${name}`}
       onClick={() => {
         history.push(`/specialty/${id}`);
@@ -22,9 +22,6 @@ const SpecialtyLine: React.FC<Specialty> = ({
       <h3>
         <TextStyle variation="strong">{name}</TextStyle>
       </h3>
-      <div>
-        {procedures!.map((procedure) => `${procedure!.name}, `.toLocaleLowerCase())}
-      </div>
     </ResourceList.Item>
   );
 };

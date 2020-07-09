@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
-  Button, Card, Layout, Page, Form, FormLayout, TextField, Select, Stack,
+  Button, Card, Layout, Page, Form, FormLayout, TextField, Stack,
 } from '@shopify/polaris';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useSpecialty } from '../../../hooks';
-
 
 import { SpecialtyInput } from '../../../types/types.d';
 
@@ -38,7 +37,7 @@ const SpecialtyForm: React.FC = () => {
     }
   };
 
-  useEffect(() => { handleGetSpecialty(); }, [params.id]);
+  useEffect(handleGetSpecialty, [params.id]);
 
   const handleSetFormValues = () => {
     if (queryResults.data?.getSpecialty) {
@@ -47,7 +46,6 @@ const SpecialtyForm: React.FC = () => {
   };
 
   useEffect(handleSetFormValues, [queryResults.data]);
-
 
   const onSubmit = (specialty: SpecialtyInput) => {
     if (params.id) {
@@ -61,9 +59,33 @@ const SpecialtyForm: React.FC = () => {
     <Page title={title}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Layout>
-          <Card>
-            Form
-          </Card>
+          <Layout.Section>
+            <Card sectioned>
+              <FormLayout>
+                <Controller
+                  as={(
+                    <TextField
+                      type="text"
+                      label="Nome da Especialidade"
+                      error={`${errors.name ? 'Nome obrigatorio' : ''}`}
+                      onChange={() => { }}
+                    />
+                  )}
+                  control={control}
+                  name="name"
+                  rules={{ required: true }}
+                />
+              </FormLayout>
+            </Card>
+          </Layout.Section>
+
+          <Layout.Section>
+            <Stack distribution="equalSpacing">
+              <Button destructive onClick={() => { history.push('/specialtylist'); }}>Cancelar</Button>
+              <Button submit primary>Salvar</Button>
+            </Stack>
+          </Layout.Section>
+
         </Layout>
       </Form>
     </Page>
