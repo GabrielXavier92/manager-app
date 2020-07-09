@@ -1,9 +1,15 @@
-import { UseProcedureTable } from './types';
+import { UseProcedure } from './types';
 
-import useCreateProcedureTable from './useCreateProcedureTable';
+import useCreateProcedure from './useCreateProcedure';
+import useGetProcedure from './useGetProcedure';
+import useGetProcedures from './useGetProcedures';
+import useUpdateProcedure from './useUpdateProcedure';
 
-const useSpecialty = (): UseProcedureTable => ({
-  useCreateProcedureTable,
+const useSpecialty = (): UseProcedure => ({
+  useGetProcedure,
+  useGetProcedures,
+  useCreateProcedure,
+  useUpdateProcedure,
 });
 
 
