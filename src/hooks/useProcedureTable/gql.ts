@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const PROCEDURE_TABLE_FRAGMENT = gql`
-  fragment ProcedureTable on Specialty {
+  fragment ProcedureTable on ProcedureTable {
     id
     name
     createdAt
