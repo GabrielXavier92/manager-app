@@ -9,6 +9,7 @@ import Signin from '../pages/Signin';
 
 import { DoctorForm, DoctorList } from '../components/Doctor';
 import { SpecialtyList, SpecialtyForm } from '../components/Specialty';
+import { ProcedureTableList, ProcedureTableForm } from '../components/ProcedureTable';
 
 import Home from '../components/Home';
 
@@ -22,16 +23,20 @@ export const AppRoutes = () => (
 
 export const AuthRoutes = () => (
   <>
-    <AuthRoute path="/doctorlist" component={DoctorList} exact />
+    <AuthRoute path="/doctorList" component={DoctorList} exact />
     <AuthRoute path="/doctor" component={DoctorForm} exact />
     <AuthRoute path="/doctor/:id" component={DoctorForm} exact />
 
-    <AuthRoute path="/specialtylist" component={SpecialtyList} exact />
+    <AuthRoute path="/specialtyList" component={SpecialtyList} exact />
     <AuthRoute path="/specialty" component={SpecialtyForm} exact />
     <AuthRoute path="/specialty/:id" component={SpecialtyForm} exact />
 
+    <AuthRoute path="/procedureTableList" component={ProcedureTableList} exact />
+    <AuthRoute path="/procedureTable" component={ProcedureTableForm} exact />
+    <AuthRoute path="/procedureTable/:id" component={ProcedureTableForm} exact />
+
     <AuthRoute path="/" component={Home} exact />
 
-    <Redirect to="/" />
+    <Redirect to="/procedureTableList" />
   </>
 );
