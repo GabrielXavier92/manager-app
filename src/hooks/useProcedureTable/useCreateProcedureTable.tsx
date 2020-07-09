@@ -9,7 +9,7 @@ const useCreteProcedureTable = (): UseCreteProcedureTable => {
 
   const [mutation, mutationResults] = useMutation<ProcedureTableInput>(CREATE_PROCEDURE_TABLE, {
     onCompleted: (data) => {
-      if (data) history.push('/specialtyList');
+      if (data) history.push('/procedureTableList');
     },
     refetchQueries: [{ query: GET_PROCEDURE_TABLES }],
   });

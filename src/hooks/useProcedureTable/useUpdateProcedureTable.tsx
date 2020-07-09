@@ -9,7 +9,7 @@ const useUpdateProcedureTable = (): UseUpdateProcedureTable => {
 
   const [mutation, mutationResults] = useMutation<SpecialtyInput>(UPDATE_PROCEDURE_TABLE, {
     onCompleted: (data) => {
-      if (data) history.push('/specialtyList');
+      if (data) history.push('/procedureTableList');
     },
   });
 
