@@ -36,7 +36,7 @@ const SpecialtyList: React.FC = () => {
             <ResourceList
               resourceName={{ singular: 'Especialidade', plural: 'Especialidades' }}
               items={data?.getSpecialties ? data.getSpecialties : []}
-              renderItem={(specialty: Specialty) => (<SpecialtyLine id={specialty.id} name={specialty.name} procedures={specialty.procedures} />)}
+              renderItem={(specialty: Specialty) => (<SpecialtyLine id={specialty.id} name={specialty.name} />)}
             />
           </Card>
         </Layout.Section>
