@@ -284,7 +284,6 @@ export type PatientInput = {
 
 export type ProcedureTableInput = {
   name: Scalars['String'];
-  procedures?: Maybe<Array<Maybe<ProcedureInput>>>;
 };
 
 export type ProcedureInput = {
@@ -329,6 +328,6 @@ export type GetProcedures = {
 export type Specialty = {
   __typename?: 'Specialty';
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
