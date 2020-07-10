@@ -14,7 +14,7 @@ const DoctorList: React.FC = () => {
   const history = useHistory();
 
   const [queryValue, setQueryValue] = useState('');
-  const { data } = useGetDoctorsQuery();
+  const { data, loading } = useGetDoctorsQuery();
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
@@ -46,6 +46,7 @@ const DoctorList: React.FC = () => {
                   onClearAll={handleFiltersClearAll}
                 />
               )}
+              loading={loading}
               items={data?.getDoctors ? data.getDoctors : []}
               renderItem={(doctor: Doctor) => (<DoctorLine id={doctor.id} name={doctor.name} register={doctor.register} gender={doctor.gender} />)}
             />

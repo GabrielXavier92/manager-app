@@ -26,14 +26,14 @@ const DoctorForm: React.FC = () => {
   const [title, setTitle] = useState('Editar Dados');
 
   const [getDoctor, { data }] = useGetDoctorLazyQuery();
-  const [createDoctor] = useCreateDoctorMutation({
+  const [createDoctor, { loading: createLoading }] = useCreateDoctorMutation({
     onCompleted: (newDoctor) => {
       if (newDoctor) history.push('/doctorList');
     },
     refetchQueries: [{ query: GET_DOCTORS }],
   });
 
-  const [updateDoctor] = useUptadateDoctorMutation({
+  const [updateDoctor, { loading: updateLoading }] = useUptadateDoctorMutation({
     onCompleted: (newDoctor) => {
       if (newDoctor) history.push('/doctorList');
     },
@@ -199,8 +199,8 @@ const DoctorForm: React.FC = () => {
 
           <Layout.Section>
             <Stack distribution="equalSpacing">
-              <Button onClick={() => { history.push('/doctorList'); }}>Cancelar</Button>
-              <Button submit primary>Salvar</Button>
+              <Button loading={createLoading || updateLoading} onClick={() => { history.push('/doctorList'); }}>Cancelar</Button>
+              <Button submit primary loading={createLoading || updateLoading}>Salvar</Button>
             </Stack>
           </Layout.Section>
 
