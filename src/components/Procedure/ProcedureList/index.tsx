@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
-  Card, ResourceList, Filters, Pagination, Stack, Button,
+  Card, ResourceList, Filters, Stack, Button,
 } from '@shopify/polaris';
 import { useHistory } from 'react-router-dom';
 import ProcedureLine from '../ProcedureLine';
@@ -14,27 +14,27 @@ interface IProcedureList {
 
 interface GetProcedureVars {
   procedureTableId: string,
-  // take: number,
+  take?: number,
   cursor?: string,
   filter?: string
 }
 
-interface GetProcedureData {
+interface QueryGetProcedure {
   getProcedures: GetProcedures
 }
 
 const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const history = useHistory();
   const [queryValue, setQueryValue] = useState('');
-  // const [elements, setElements] = useState(2);
 
-  const { data, fetchMore } = useQuery(GET_PROCEDURES, {
+  const { data, fetchMore } = useQuery<QueryGetProcedure, GetProcedureVars>(GET_PROCEDURES, {
     variables: {
       procedureTableId,
-      // take: 2,
+      take: 10,
       cursor: '',
+      filter: queryValue,
     },
-    // fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-and-network',
   });
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
@@ -42,24 +42,26 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const handleFiltersClearAll = () => handleQueryValueRemove();
 
   const handleGetNextProcedures = () => {
+    const cursor = data?.getProcedures?.procedures![data?.getProcedures?.procedures!.length - 1]!.id;
     fetchMore({
       variables: {
         procedureTableId,
-        // take: 2,
-        cursor: data?.getProcedures?.cursor,
+        take: 10,
+        cursor,
+        filter: queryValue,
       },
-      updateQuery: (prev, { fetchMoreResult }: { fetchMoreResult?: GetProcedureData }) => {
-        if (!fetchMoreResult) return prev;
-        const newData = {
-          getProcedures: {
-            ammount: fetchMoreResult.getProcedures.ammount,
-            cursor: fetchMoreResult.getProcedures.cursor,
-            procedures: [...prev.getProcedures.procedures!, ...fetchMoreResult.getProcedures?.procedures!],
-          },
-        };
-        console.log(newData);
+      updateQuery: (prev, { fetchMoreResult }) => {
+        const queryInfo = fetchMoreResult?.getProcedures?.queryInfo;
+        const newProcedures = fetchMoreResult?.getProcedures?.procedures;
+
+        if (!newProcedures!.length) return prev;
         return {
-          ...newData,
+          getProcedures: {
+            // eslint-disable-next-line no-underscore-dangle
+            __typename: prev.getProcedures.__typename,
+            procedures: [...prev.getProcedures.procedures!, ...newProcedures!],
+            queryInfo,
+          },
         };
       },
     });
