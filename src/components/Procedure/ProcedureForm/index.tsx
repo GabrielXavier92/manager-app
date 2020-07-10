@@ -9,7 +9,6 @@ import { ProcedureInput, Specialty } from '../../../types/types.d';
 import {
   useGetProcedureLazyQuery, useCreateProcedureMutation, useUpdateProcedureMutation, useGetSpecialtiesQuery,
 } from '../../../generated/graphql';
-import { GET_PROCEDURES, GET_PROCEDURE } from '../gql';
 
 interface RouteParams {
   id: string;
