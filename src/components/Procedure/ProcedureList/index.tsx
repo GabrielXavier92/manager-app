@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import {
   Card, ResourceList, Filters, Stack, Button,
 } from '@shopify/polaris';
 import { useHistory } from 'react-router-dom';
 import ProcedureLine from '../ProcedureLine';
-import { Procedure, GetProcedures } from '../../../types/types';
-import { GET_PROCEDURES } from '../gql';
+import { Procedure } from '../../../types/types.d';
+import { useGetProceduresQuery } from '../../../generated/graphql';
 
 interface IProcedureList {
   procedureTableId: string;
@@ -19,18 +18,16 @@ interface GetProcedureVars {
   filter?: string
 }
 
-interface QueryGetProcedure {
-  getProcedures: GetProcedures
-}
-
 const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const history = useHistory();
   const [queryValue, setQueryValue] = useState('');
+  const [taked, setTaked] = useState(10);
+  const take = 10;
 
-  const { data, fetchMore } = useQuery<QueryGetProcedure, GetProcedureVars>(GET_PROCEDURES, {
+  const { data, fetchMore } = useGetProceduresQuery({
     variables: {
       procedureTableId,
-      take: 10,
+      take,
       cursor: '',
       filter: queryValue,
     },
@@ -46,20 +43,20 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
     fetchMore({
       variables: {
         procedureTableId,
-        take: 10,
+        take,
         cursor,
         filter: queryValue,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         const queryInfo = fetchMoreResult?.getProcedures?.queryInfo;
         const newProcedures = fetchMoreResult?.getProcedures?.procedures;
-
+        setTaked(newProcedures!.length);
         if (!newProcedures!.length) return prev;
         return {
           getProcedures: {
             // eslint-disable-next-line no-underscore-dangle
-            __typename: prev.getProcedures.__typename,
-            procedures: [...prev.getProcedures.procedures!, ...newProcedures!],
+            __typename: prev.getProcedures!.__typename,
+            procedures: [...prev.getProcedures!.procedures!, ...newProcedures!],
             queryInfo,
           },
         };
@@ -69,7 +66,16 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
 
   return (
     <>
-      <Card sectioned title="Procedimentos" actions={[{ content: 'Novo procedimento', onAction: () => { history.push('/procedure'); } }]}>
+      <Card
+        sectioned
+        title="Procedimentos"
+        actions={[{
+          content: 'Novo procedimento',
+          onAction: () => {
+            history.push(`/procedureTable/${procedureTableId}/procedure`);
+          },
+        }]}
+      >
         <Card>
           <ResourceList
             resourceName={{ singular: 'Procedimento', plural: 'Procedimentos' }}
@@ -82,7 +88,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
                 onClearAll={handleFiltersClearAll}
               />
             )}
-            items={data?.getProcedures.procedures ? data?.getProcedures.procedures : []}
+            items={data?.getProcedures?.procedures ? data?.getProcedures?.procedures : []}
             renderItem={(procedure: Procedure) => (
               <ProcedureLine
                 id={procedure.id}
@@ -90,14 +96,18 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
                 code={procedure.code}
                 value={procedure.value}
                 specialty={procedure.specialty}
+                procedureTable={procedure.procedureTable}
               />
             )}
           />
         </Card>
         <br />
-        <Stack distribution="center">
-          <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
-        </Stack>
+        {take <= taked && take <= data?.getProcedures?.queryInfo?.ammount! && (
+          <Stack distribution="center">
+            <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
+          </Stack>
+
+        )}
       </Card>
     </>
   );
