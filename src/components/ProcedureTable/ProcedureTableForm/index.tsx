@@ -9,6 +9,8 @@ import { useProcedureTable } from '../../../hooks';
 
 import { ProcedureTableInput } from '../../../types/types.d';
 import { ProcedureList } from '../../Procedure';
+import { useGetProcedureTableLazyQuery, useCreateProcedureTableMutation, useUpdateProcedureTableMutation } from '../../../generated/graphql';
+import { GET_PROCEDURE_TABLES, GET_PROCEDURE_TABLE } from '../gql';
 
 interface RouteParams {
   id: string
@@ -18,21 +20,27 @@ const ProcedureTableForm: React.FC = () => {
   const history = useHistory();
   const params = useParams<RouteParams>();
 
-  const [title, setTitle] = useState('Editar Dados');
-
   const {
     control, errors, handleSubmit, reset,
   } = useForm<ProcedureTableInput>();
 
-  const { useGetProcedureTable, useCreateProcedureTable, useUpdateProcedureTable } = useProcedureTable();
-  const { createProcedureTable } = useCreateProcedureTable();
-  const { updateProcedureTable } = useUpdateProcedureTable();
-  const { getProcedureTable, queryResults } = useGetProcedureTable();
+  const [title, setTitle] = useState('Editar Dados');
+
+  const [getProcedureTable, { data }] = useGetProcedureTableLazyQuery();
+  const [createProcedureTable, { loading: createLoading }] = useCreateProcedureTableMutation({
+    onCompleted: (newProcedureTable) => {
+      if (newProcedureTable) history.push('/procedureTableList');
+    },
+    refetchQueries: [{ query: GET_PROCEDURE_TABLES }],
+  });
+  const [updateProcedureTable, { loading: updateLoading }] = useUpdateProcedureTableMutation({
+    refetchQueries: [{ query: GET_PROCEDURE_TABLE, variables: { id: params.id } }, { query: GET_PROCEDURE_TABLES }],
+  });
 
 
   const handleGetProcedureTable = () => {
     if (params.id) {
-      getProcedureTable(params.id);
+      getProcedureTable({ variables: { id: params.id } });
     } else {
       setTitle('Nova Tabela de Procedimentos');
     }
@@ -41,18 +49,18 @@ const ProcedureTableForm: React.FC = () => {
   useEffect(handleGetProcedureTable, [params.id]);
 
   const handleSetFormValues = () => {
-    if (queryResults.data?.getProcedureTable) {
-      reset(queryResults.data?.getProcedureTable);
+    if (data?.getProcedureTable) {
+      reset(data?.getProcedureTable);
     }
   };
 
-  useEffect(handleSetFormValues, [queryResults.data]);
+  useEffect(handleSetFormValues, [data?.getProcedureTable]);
 
-  const onSubmit = (procedureTable: ProcedureTableInput) => {
+  const onSubmit = (input: ProcedureTableInput) => {
     if (params.id) {
-      updateProcedureTable(params.id, procedureTable);
+      updateProcedureTable({ variables: { id: params.id, input } });
     } else {
-      createProcedureTable(procedureTable);
+      createProcedureTable({ variables: { input } });
     }
   };
 
@@ -86,16 +94,14 @@ const ProcedureTableForm: React.FC = () => {
                     rules={{ required: true }}
                   />
                 </FormLayout>
-                <Button submit primary>Salvar</Button>
+                <Button submit primary loading={createLoading || updateLoading}>Salvar</Button>
               </Stack>
             </Form>
           </Card>
-          <ProcedureList procedureTableId={params.id} />
+          {params.id && (
+            <ProcedureList procedureTableId={params.id} />
+          )}
         </Layout.Section>
-
-        {/* <Layout.Section>
-              <Button destructive onClick={() => { history.push('/procedureTableList'); }}>Cancelar</Button>
-            </Layout.Section> */}
 
       </Layout>
     </Page>

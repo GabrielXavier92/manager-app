@@ -1,12 +1,12 @@
 import React from 'react';
-import { ResourceList, TextStyle, Stack } from '@shopify/polaris';
+import { ResourceList, TextStyle } from '@shopify/polaris';
 
 import { useHistory } from 'react-router-dom';
 
 import { Procedure } from '../../../types/types.d';
 
 const ProcedureLine: React.FC<Procedure> = ({
-  id, name, code, value, specialty,
+  id, name, code,
 }) => {
   const history = useHistory();
 
