@@ -8,6 +8,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { useSpecialty } from '../../../hooks';
 
 import { SpecialtyInput } from '../../../types/types.d';
+import { useGetSpecialtyLazyQuery, useCreateSpecialtyMutation, useUpdateSpecialtyMutation } from '../../../generated/graphql';
+import { GET_SPECIALTIES } from '../gql';
 
 interface RouteParams {
   id: string
@@ -23,15 +25,23 @@ const SpecialtyForm: React.FC = () => {
     control, errors, handleSubmit, reset,
   } = useForm<SpecialtyInput>();
 
-  const { useGetSpecialty, useCreateSpecialty, useUpdateSpecialty } = useSpecialty();
-  const { createSpecialty } = useCreateSpecialty();
-  const { updateSpecialty } = useUpdateSpecialty();
-  const { getSpecialty, queryResults } = useGetSpecialty();
+  const [getSpecialty, { data }] = useGetSpecialtyLazyQuery();
+  const [createSpecialty, { loading: createLoading }] = useCreateSpecialtyMutation({
+    onCompleted: (newSpecialty) => {
+      if (newSpecialty) history.push('/specialtyList');
+    },
+    refetchQueries: [{ query: GET_SPECIALTIES }],
+  });
+  const [updateSpecialty, { loading: updateLoading }] = useUpdateSpecialtyMutation({
+    onCompleted: (newSpecialty) => {
+      if (newSpecialty) history.push('/specialtyList');
+    },
+  });
 
 
   const handleGetSpecialty = () => {
     if (params.id) {
-      getSpecialty(params.id);
+      getSpecialty({ variables: { id: params.id } });
     } else {
       setTitle('Nova Especialidade');
     }
@@ -40,18 +50,18 @@ const SpecialtyForm: React.FC = () => {
   useEffect(handleGetSpecialty, [params.id]);
 
   const handleSetFormValues = () => {
-    if (queryResults.data?.getSpecialty) {
-      reset(queryResults.data?.getSpecialty);
+    if (data?.getSpecialty) {
+      reset(data?.getSpecialty);
     }
   };
 
-  useEffect(handleSetFormValues, [queryResults.data]);
+  useEffect(handleSetFormValues, [data]);
 
-  const onSubmit = (specialty: SpecialtyInput) => {
+  const onSubmit = (input: SpecialtyInput) => {
     if (params.id) {
-      updateSpecialty(params.id, specialty);
+      updateSpecialty({ variables: { id: params.id, input } });
     } else {
-      createSpecialty(specialty);
+      createSpecialty({ variables: { input } });
     }
   };
 
@@ -89,8 +99,8 @@ const SpecialtyForm: React.FC = () => {
 
           <Layout.Section>
             <Stack distribution="equalSpacing">
-              <Button onClick={() => { history.push('/specialtylist'); }}>Cancelar</Button>
-              <Button submit primary>Salvar</Button>
+              <Button loading={createLoading || updateLoading} onClick={() => { history.push('/specialtylist'); }}>Cancelar</Button>
+              <Button loading={createLoading || updateLoading} submit primary>Salvar</Button>
             </Stack>
           </Layout.Section>
 
