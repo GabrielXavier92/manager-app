@@ -79,7 +79,15 @@ const DoctorForm: React.FC = () => {
   };
 
   return (
-    <Page title={title}>
+    <Page
+      title={title}
+      breadcrumbs={[{
+        content: 'Voltar',
+        onAction: () => {
+          history.push('/doctorList');
+        },
+      }]}
+    >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Layout>
           <Layout.AnnotatedSection

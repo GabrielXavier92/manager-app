@@ -56,7 +56,15 @@ const SpecialtyForm: React.FC = () => {
   };
 
   return (
-    <Page title={title}>
+    <Page
+      title={title}
+      breadcrumbs={[{
+        content: 'Voltar',
+        onAction: () => {
+          history.push('/specialtylist');
+        },
+      }]}
+    >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Layout>
           <Layout.Section>
