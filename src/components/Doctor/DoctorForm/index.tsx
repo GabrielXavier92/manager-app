@@ -5,12 +5,11 @@ import {
   Button, Card, Layout, Page, Form, FormLayout, TextField, Select, Stack,
 } from '@shopify/polaris';
 
-import { useDoctor } from '../../../hooks';
-
-
-import { transformTimeStampInTodayDate } from '../../../utils/formatDate';
+import { transformTimeStampInTodayDate, transformStringDayInTimestamp } from '../../../utils/formatDate';
 
 import { DoctorInput } from '../../../types/types.d';
+import { useCreateDoctorMutation, useGetDoctorLazyQuery, useUptadateDoctorMutation } from '../../../generated/graphql';
+import { GET_DOCTORS, GET_DOCTOR } from '../gql';
 
 interface RouteParams {
   id: string
@@ -20,20 +19,30 @@ const DoctorForm: React.FC = () => {
   const history = useHistory();
   const params = useParams<RouteParams>();
 
-  const [title, setTitle] = useState('Editar Dados');
-
   const {
     control, errors, handleSubmit, reset,
   } = useForm <DoctorInput>();
-  const { useCreateDoctor, useUpdateDoctor, useGetDoctor } = useDoctor();
 
-  const { createDoctor } = useCreateDoctor();
-  const { updateDoctor } = useUpdateDoctor();
-  const { getDoctor, queryResults } = useGetDoctor();
+  const [title, setTitle] = useState('Editar Dados');
+
+  const [getDoctor, { data }] = useGetDoctorLazyQuery();
+  const [createDoctor] = useCreateDoctorMutation({
+    onCompleted: (newDoctor) => {
+      if (newDoctor) history.push('/doctorList');
+    },
+    refetchQueries: [{ query: GET_DOCTORS }],
+  });
+
+  const [updateDoctor] = useUptadateDoctorMutation({
+    onCompleted: (newDoctor) => {
+      if (newDoctor) history.push('/doctorList');
+    },
+    refetchQueries: [{ query: GET_DOCTOR, variables: { id: params.id } }],
+  });
 
   const handleGetDoctor = () => {
     if (params.id) {
-      getDoctor(params.id);
+      getDoctor({ variables: { id: params.id } });
     } else {
       setTitle('Novo Profissional');
     }
@@ -42,21 +51,30 @@ const DoctorForm: React.FC = () => {
   useEffect(handleGetDoctor, [params.id]);
 
   const handleSetFormValues = () => {
-    if (queryResults.data?.getDoctor) {
+    if (data?.getDoctor) {
       reset({
-        ...queryResults.data.getDoctor,
-        birth: transformTimeStampInTodayDate(queryResults.data.getDoctor.birth!),
+        ...data.getDoctor,
+        birth: transformTimeStampInTodayDate(data.getDoctor.birth!),
       });
     }
   };
 
-  useEffect(handleSetFormValues, [queryResults.data]);
+  useEffect(handleSetFormValues, [data]);
 
   const onSubmit = (doctor: DoctorInput) => {
+    const { birth } = doctor;
+    const input = {
+      ...doctor,
+      birth: birth ? transformStringDayInTimestamp(birth) : birth,
+    };
     if (params.id) {
-      updateDoctor(params.id, doctor);
+      updateDoctor({ variables: { id: params.id, input } });
     } else {
-      createDoctor(doctor);
+      createDoctor({
+        variables: {
+          input,
+        },
+      });
     }
   };
 
@@ -66,7 +84,7 @@ const DoctorForm: React.FC = () => {
         <Layout>
           <Layout.AnnotatedSection
             title="Dados pessoais"
-            description="Esses sao os dados pessoais do profissional"
+            description="Esses são os dados pessoais do profissional"
           >
             <Card sectioned>
               <FormLayout>
@@ -111,7 +129,7 @@ const DoctorForm: React.FC = () => {
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Dados profissionais"
-            description="Esses sao os dados profissionais do profissional"
+            description="Esses são os dados profissionais do profissional"
           >
             <Card sectioned>
               <FormLayout>

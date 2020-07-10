@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Card, Filters, ResourceList, Page, Layout,
 } from '@shopify/polaris';
@@ -7,27 +7,19 @@ import { useHistory } from 'react-router-dom';
 
 import DoctorLine from '../DoctorLine';
 
-import { useDoctor } from '../../../hooks';
-
 import { Doctor } from '../../../types/types.d';
+import { useGetDoctorsQuery } from '../../../generated/graphql';
 
 const DoctorList: React.FC = () => {
   const history = useHistory();
 
   const [queryValue, setQueryValue] = useState('');
-  const { getDoctors, queryResults } = useDoctor().useGetDoctors();
+  const { data } = useGetDoctorsQuery();
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
   const handleFiltersClearAll = () => handleQueryValueRemove();
 
-  const handleGetDoctors = () => {
-    getDoctors();
-  };
-
-  useEffect(handleGetDoctors, []);
-
-  const { data } = queryResults;
 
   return (
     <Page
