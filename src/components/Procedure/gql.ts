@@ -18,9 +18,10 @@ export const PROCEDURES_FRAGMENT = gql`
 `;
 
 export const GET_PROCEDURES = gql`
-  query GetProcedures($procedureTableId: ID!, $take: Int!, $cursor: ID, $filter: String) {
-    getProcedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter) {
+  query GetProcedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
+    getProcedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter) @connection(key: "getProcedures", filter: ["type"]) {
       ammount
+      cursor
       procedures {
         ...Procedures
       }

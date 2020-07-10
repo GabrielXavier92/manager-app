@@ -37,6 +37,6 @@ export const AuthRoutes = () => (
 
     <AuthRoute path="/" component={Home} exact />
 
-    <Redirect to="/procedureTableList" />
+    <Redirect to="/procedureTable/cba6b9ad-ec7d-4641-b3cb-1a6fdc8a83bb" />
   </>
 );

@@ -81,7 +81,7 @@ const SpecialtyForm: React.FC = () => {
 
           <Layout.Section>
             <Stack distribution="equalSpacing">
-              <Button destructive onClick={() => { history.push('/specialtylist'); }}>Cancelar</Button>
+              <Button onClick={() => { history.push('/specialtylist'); }}>Cancelar</Button>
               <Button submit primary>Salvar</Button>
             </Stack>
           </Layout.Section>

@@ -8,6 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useProcedureTable } from '../../../hooks';
 
 import { ProcedureTableInput } from '../../../types/types.d';
+import { ProcedureList } from '../../Procedure';
 
 interface RouteParams {
   id: string
@@ -56,38 +57,47 @@ const ProcedureTableForm: React.FC = () => {
   };
 
   return (
-    <Page title={title}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Layout>
-          <Layout.Section>
-            <Card sectioned>
-              <FormLayout>
-                <Controller
-                  as={(
-                    <TextField
-                      type="text"
-                      label="Nome da Tabela de Procedimentos"
-                      error={`${errors.name ? 'Nome obrigatorio' : ''}`}
-                      onChange={() => { }}
-                    />
+    <Page
+      title={title}
+      breadcrumbs={[{
+        content: 'Voltar',
+        onAction: () => {
+          history.push('/procedureTableList');
+        },
+      }]}
+    >
+      <Layout>
+        <Layout.Section>
+          <Card sectioned>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <Stack alignment="trailing" distribution="equalSpacing">
+                <FormLayout>
+                  <Controller
+                    as={(
+                      <TextField
+                        type="text"
+                        label="Nome da Tabela de Procedimentos"
+                        error={`${errors.name ? 'Nome obrigatorio' : ''}`}
+                        onChange={() => { }}
+                      />
                   )}
-                  control={control}
-                  name="name"
-                  rules={{ required: true }}
-                />
-              </FormLayout>
-            </Card>
-          </Layout.Section>
+                    control={control}
+                    name="name"
+                    rules={{ required: true }}
+                  />
+                </FormLayout>
+                <Button submit primary>Salvar</Button>
+              </Stack>
+            </Form>
+          </Card>
+          <ProcedureList procedureTableId={params.id} />
+        </Layout.Section>
 
-          <Layout.Section>
-            <Stack distribution="equalSpacing">
+        {/* <Layout.Section>
               <Button destructive onClick={() => { history.push('/procedureTableList'); }}>Cancelar</Button>
-              <Button submit primary>Salvar</Button>
-            </Stack>
-          </Layout.Section>
+            </Layout.Section> */}
 
-        </Layout>
-      </Form>
+      </Layout>
     </Page>
   );
 };
