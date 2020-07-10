@@ -32,7 +32,7 @@ export const GET_PROCEDURES = gql`
 `;
 
 export const GET_PROCEDURE = gql`
-  query GetProcedureTable($id: ID!) {
+  query GetProcedure($id: ID!) {
     getProcedure(id: $id) {
       ...Procedures
     }
@@ -43,7 +43,7 @@ export const GET_PROCEDURE = gql`
 export const CREATE_PROCEDURE = gql`
   mutation CreateProcedure($input: ProcedureInput!) {
     createProcedure(input: $input) {
-      ...Procedure
+      ...Procedures
     }
   }
   ${PROCEDURES_FRAGMENT}
@@ -52,7 +52,7 @@ export const CREATE_PROCEDURE = gql`
 export const UPDATE_PROCEDURE = gql`
   mutation UpdateProcedure($id:ID!, $input: ProcedureInput!) {
     updateProcedure(id: $id, input: $input) {
-      ...ProcedureTable
+      ...Procedures
     }
   }
   ${PROCEDURES_FRAGMENT}
