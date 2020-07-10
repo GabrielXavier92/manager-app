@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { Procedure } from '../../../types/types.d';
 
 const ProcedureLine: React.FC<Procedure> = ({
-  id, name, code,
+  id, name, code, procedureTable,
 }) => {
   const history = useHistory();
 
@@ -16,12 +16,16 @@ const ProcedureLine: React.FC<Procedure> = ({
       name={name}
       accessibilityLabel={`View details for ${name}`}
       onClick={() => {
-        history.push(`/procedure/${id}`);
+        history.push(`${procedureTable?.id}/procedure/${id}`);
       }}
     >
       <TextStyle variation="strong">
-        {code}
-        {' - '}
+        {code && (
+          <>
+            { code }
+            {' - '}
+          </>
+        )}
         {name}
       </TextStyle>
     </ResourceList.Item>
