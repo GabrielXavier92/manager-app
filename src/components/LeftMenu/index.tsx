@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
-import { HomeMajorMonotone, CustomersMajorMonotone, CollectionsMajorMonotone } from '@shopify/polaris-icons';
+import {
+  ListMajorMonotone, HomeMajorMonotone, CustomersMajorMonotone, ChecklistAlternateMajorMonotone, 
+} from '@shopify/polaris-icons';
 import { useHistory } from 'react-router-dom';
 
 interface ILeftMenu {
@@ -37,12 +39,12 @@ const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
         items={[
           {
             label: 'Tabelas de Procedimentos',
-            icon: CollectionsMajorMonotone,
+            icon: ChecklistAlternateMajorMonotone,
             onClick: () => handleChangePage('/procedureTableList'),
           },
           {
             label: 'Especialidades',
-            icon: CollectionsMajorMonotone,
+            icon: ListMajorMonotone,
             onClick: () => handleChangePage('/specialtylist'),
           },
         ]}
