@@ -4,7 +4,6 @@ import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHoc from '@apollo/react-hoc';
 import * as ApolloReactHooks from '@apollo/react-hooks';
-
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -168,11 +167,11 @@ export type MutationUpdateSpecialtyArgs = {
   input?: Maybe<SpecialtyInput>;
 };
 
-export type Gender =
+export type Gender = 
   | 'MASCULINO'
   | 'FEMININO';
 
-export type Plan =
+export type Plan = 
   | 'STARTER';
 
 export type CreateAccountInput = {
@@ -235,6 +234,12 @@ export type DoctorInput = {
   street?: Maybe<Scalars['String']>;
   neighborhood?: Maybe<Scalars['String']>;
   complement?: Maybe<Scalars['String']>;
+  specialties?: Maybe<Array<Maybe<Specialties>>>;
+};
+
+export type Specialties = {
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Doctor = {
@@ -252,9 +257,16 @@ export type Doctor = {
   street?: Maybe<Scalars['String']>;
   neighborhood?: Maybe<Scalars['String']>;
   complement?: Maybe<Scalars['String']>;
+  specialties?: Maybe<Array<Maybe<Specialty>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   guides?: Maybe<Array<Maybe<Guide>>>;
+};
+
+export type Specialty = {
+  __typename?: 'Specialty';
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type GuideInput = {
@@ -338,12 +350,6 @@ export type GetProcedures = {
   procedures?: Maybe<Array<Maybe<Procedure>>>;
 };
 
-export type Specialty = {
-  __typename?: 'Specialty';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
 export type GetDoctorsFragmentFragment = (
   { __typename?: 'Doctor' }
   & Pick<Doctor, 'id' | 'name' | 'gender' | 'register' | 'createdAt'>
@@ -352,6 +358,10 @@ export type GetDoctorsFragmentFragment = (
 export type GetDoctorFragmentFragment = (
   { __typename?: 'Doctor' }
   & Pick<Doctor, 'id' | 'name' | 'gender' | 'birth' | 'register' | 'email' | 'country' | 'cep' | 'state' | 'city' | 'street' | 'neighborhood' | 'complement' | 'createdAt' | 'updatedAt'>
+  & { specialties?: Maybe<Array<Maybe<(
+    { __typename?: 'Specialty' }
+    & Pick<Specialty, 'id' | 'name'>
+  )>>> }
 );
 
 export type GetDoctorsQueryVariables = {};
@@ -615,6 +625,10 @@ export const GetDoctorFragmentFragmentDoc = gql`
   street
   neighborhood
   complement
+  specialties {
+    id
+    name
+  }
   createdAt
   updatedAt
 }
@@ -658,23 +672,23 @@ export const GetDoctorsDocument = gql`
     ${GetDoctorsFragmentFragmentDoc}`;
 export type GetDoctorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetDoctorsQuery, GetDoctorsQueryVariables>, 'query'>;
 
-export const GetDoctorsComponent = (props: GetDoctorsComponentProps) => (
-  <ApolloReactComponents.Query<GetDoctorsQuery, GetDoctorsQueryVariables> query={GetDoctorsDocument} {...props} />
-);
-
+    export const GetDoctorsComponent = (props: GetDoctorsComponentProps) => (
+      <ApolloReactComponents.Query<GetDoctorsQuery, GetDoctorsQueryVariables> query={GetDoctorsDocument} {...props} />
+    );
+    
 export type GetDoctorsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorsQuery, GetDoctorsQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorsQuery, GetDoctorsQueryVariables>
+    } & TChildProps;
 export function withGetDoctors<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetDoctorsQuery,
-GetDoctorsQueryVariables,
-GetDoctorsProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetDoctorsQuery, GetDoctorsQueryVariables, GetDoctorsProps<TChildProps, TDataName>>(GetDoctorsDocument, {
-    alias: 'getDoctors',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetDoctorsQuery,
+  GetDoctorsQueryVariables,
+  GetDoctorsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetDoctorsQuery, GetDoctorsQueryVariables, GetDoctorsProps<TChildProps, TDataName>>(GetDoctorsDocument, {
+      alias: 'getDoctors',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetDoctorsQuery__
@@ -692,11 +706,11 @@ GetDoctorsProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetDoctorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDoctorsQuery, GetDoctorsQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
+      }
 export function useGetDoctorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDoctorsQuery, GetDoctorsQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
+        }
 export type GetDoctorsQueryHookResult = ReturnType<typeof useGetDoctorsQuery>;
 export type GetDoctorsLazyQueryHookResult = ReturnType<typeof useGetDoctorsLazyQuery>;
 export type GetDoctorsQueryResult = ApolloReactCommon.QueryResult<GetDoctorsQuery, GetDoctorsQueryVariables>;
@@ -709,23 +723,23 @@ export const GetDoctorDocument = gql`
     ${GetDoctorFragmentFragmentDoc}`;
 export type GetDoctorComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetDoctorQuery, GetDoctorQueryVariables>, 'query'> & ({ variables: GetDoctorQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-export const GetDoctorComponent = (props: GetDoctorComponentProps) => (
-  <ApolloReactComponents.Query<GetDoctorQuery, GetDoctorQueryVariables> query={GetDoctorDocument} {...props} />
-);
-
+    export const GetDoctorComponent = (props: GetDoctorComponentProps) => (
+      <ApolloReactComponents.Query<GetDoctorQuery, GetDoctorQueryVariables> query={GetDoctorDocument} {...props} />
+    );
+    
 export type GetDoctorProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorQuery, GetDoctorQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorQuery, GetDoctorQueryVariables>
+    } & TChildProps;
 export function withGetDoctor<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetDoctorQuery,
-GetDoctorQueryVariables,
-GetDoctorProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetDoctorQuery, GetDoctorQueryVariables, GetDoctorProps<TChildProps, TDataName>>(GetDoctorDocument, {
-    alias: 'getDoctor',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetDoctorQuery,
+  GetDoctorQueryVariables,
+  GetDoctorProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetDoctorQuery, GetDoctorQueryVariables, GetDoctorProps<TChildProps, TDataName>>(GetDoctorDocument, {
+      alias: 'getDoctor',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetDoctorQuery__
@@ -744,11 +758,11 @@ GetDoctorProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetDoctorQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDoctorQuery, GetDoctorQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
+      }
 export function useGetDoctorLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDoctorQuery, GetDoctorQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
+        }
 export type GetDoctorQueryHookResult = ReturnType<typeof useGetDoctorQuery>;
 export type GetDoctorLazyQueryHookResult = ReturnType<typeof useGetDoctorLazyQuery>;
 export type GetDoctorQueryResult = ApolloReactCommon.QueryResult<GetDoctorQuery, GetDoctorQueryVariables>;
@@ -762,23 +776,23 @@ export const CreateDoctorDocument = gql`
 export type CreateDoctorMutationFn = ApolloReactCommon.MutationFunction<CreateDoctorMutation, CreateDoctorMutationVariables>;
 export type CreateDoctorComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateDoctorMutation, CreateDoctorMutationVariables>, 'mutation'>;
 
-export const CreateDoctorComponent = (props: CreateDoctorComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateDoctorMutation, CreateDoctorMutationVariables> mutation={CreateDoctorDocument} {...props} />
-);
-
+    export const CreateDoctorComponent = (props: CreateDoctorComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateDoctorMutation, CreateDoctorMutationVariables> mutation={CreateDoctorDocument} {...props} />
+    );
+    
 export type CreateDoctorProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateDoctorMutation, CreateDoctorMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateDoctorMutation, CreateDoctorMutationVariables>
+    } & TChildProps;
 export function withCreateDoctor<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-CreateDoctorMutation,
-CreateDoctorMutationVariables,
-CreateDoctorProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, CreateDoctorMutation, CreateDoctorMutationVariables, CreateDoctorProps<TChildProps, TDataName>>(CreateDoctorDocument, {
-    alias: 'createDoctor',
-    ...operationOptions,
-  });
-}
+  TProps,
+  CreateDoctorMutation,
+  CreateDoctorMutationVariables,
+  CreateDoctorProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateDoctorMutation, CreateDoctorMutationVariables, CreateDoctorProps<TChildProps, TDataName>>(CreateDoctorDocument, {
+      alias: 'createDoctor',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateDoctorMutation__
@@ -798,8 +812,8 @@ CreateDoctorProps<TChildProps, TDataName>>) {
  * });
  */
 export function useCreateDoctorMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateDoctorMutation, CreateDoctorMutationVariables>) {
-  return ApolloReactHooks.useMutation<CreateDoctorMutation, CreateDoctorMutationVariables>(CreateDoctorDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<CreateDoctorMutation, CreateDoctorMutationVariables>(CreateDoctorDocument, baseOptions);
+      }
 export type CreateDoctorMutationHookResult = ReturnType<typeof useCreateDoctorMutation>;
 export type CreateDoctorMutationResult = ApolloReactCommon.MutationResult<CreateDoctorMutation>;
 export type CreateDoctorMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDoctorMutation, CreateDoctorMutationVariables>;
@@ -813,23 +827,23 @@ export const UptadateDoctorDocument = gql`
 export type UptadateDoctorMutationFn = ApolloReactCommon.MutationFunction<UptadateDoctorMutation, UptadateDoctorMutationVariables>;
 export type UptadateDoctorComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>, 'mutation'>;
 
-export const UptadateDoctorComponent = (props: UptadateDoctorComponentProps) => (
-  <ApolloReactComponents.Mutation<UptadateDoctorMutation, UptadateDoctorMutationVariables> mutation={UptadateDoctorDocument} {...props} />
-);
-
+    export const UptadateDoctorComponent = (props: UptadateDoctorComponentProps) => (
+      <ApolloReactComponents.Mutation<UptadateDoctorMutation, UptadateDoctorMutationVariables> mutation={UptadateDoctorDocument} {...props} />
+    );
+    
 export type UptadateDoctorProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UptadateDoctorMutation, UptadateDoctorMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UptadateDoctorMutation, UptadateDoctorMutationVariables>
+    } & TChildProps;
 export function withUptadateDoctor<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-UptadateDoctorMutation,
-UptadateDoctorMutationVariables,
-UptadateDoctorProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, UptadateDoctorMutation, UptadateDoctorMutationVariables, UptadateDoctorProps<TChildProps, TDataName>>(UptadateDoctorDocument, {
-    alias: 'uptadateDoctor',
-    ...operationOptions,
-  });
-}
+  TProps,
+  UptadateDoctorMutation,
+  UptadateDoctorMutationVariables,
+  UptadateDoctorProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UptadateDoctorMutation, UptadateDoctorMutationVariables, UptadateDoctorProps<TChildProps, TDataName>>(UptadateDoctorDocument, {
+      alias: 'uptadateDoctor',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUptadateDoctorMutation__
@@ -850,8 +864,8 @@ UptadateDoctorProps<TChildProps, TDataName>>) {
  * });
  */
 export function useUptadateDoctorMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>) {
-  return ApolloReactHooks.useMutation<UptadateDoctorMutation, UptadateDoctorMutationVariables>(UptadateDoctorDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<UptadateDoctorMutation, UptadateDoctorMutationVariables>(UptadateDoctorDocument, baseOptions);
+      }
 export type UptadateDoctorMutationHookResult = ReturnType<typeof useUptadateDoctorMutation>;
 export type UptadateDoctorMutationResult = ApolloReactCommon.MutationResult<UptadateDoctorMutation>;
 export type UptadateDoctorMutationOptions = ApolloReactCommon.BaseMutationOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>;
@@ -869,23 +883,23 @@ export const GetProceduresDocument = gql`
     ${ProceduresFragmentDoc}`;
 export type GetProceduresComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProceduresQuery, GetProceduresQueryVariables>, 'query'> & ({ variables: GetProceduresQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-export const GetProceduresComponent = (props: GetProceduresComponentProps) => (
-  <ApolloReactComponents.Query<GetProceduresQuery, GetProceduresQueryVariables> query={GetProceduresDocument} {...props} />
-);
-
+    export const GetProceduresComponent = (props: GetProceduresComponentProps) => (
+      <ApolloReactComponents.Query<GetProceduresQuery, GetProceduresQueryVariables> query={GetProceduresDocument} {...props} />
+    );
+    
 export type GetProceduresProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetProceduresQuery, GetProceduresQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetProceduresQuery, GetProceduresQueryVariables>
+    } & TChildProps;
 export function withGetProcedures<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetProceduresQuery,
-GetProceduresQueryVariables,
-GetProceduresProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetProceduresQuery, GetProceduresQueryVariables, GetProceduresProps<TChildProps, TDataName>>(GetProceduresDocument, {
-    alias: 'getProcedures',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetProceduresQuery,
+  GetProceduresQueryVariables,
+  GetProceduresProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetProceduresQuery, GetProceduresQueryVariables, GetProceduresProps<TChildProps, TDataName>>(GetProceduresDocument, {
+      alias: 'getProcedures',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetProceduresQuery__
@@ -907,11 +921,11 @@ GetProceduresProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetProceduresQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProceduresQuery, GetProceduresQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
+      }
 export function useGetProceduresLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProceduresQuery, GetProceduresQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
+        }
 export type GetProceduresQueryHookResult = ReturnType<typeof useGetProceduresQuery>;
 export type GetProceduresLazyQueryHookResult = ReturnType<typeof useGetProceduresLazyQuery>;
 export type GetProceduresQueryResult = ApolloReactCommon.QueryResult<GetProceduresQuery, GetProceduresQueryVariables>;
@@ -924,23 +938,23 @@ export const GetProcedureDocument = gql`
     ${ProceduresFragmentDoc}`;
 export type GetProcedureComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureQuery, GetProcedureQueryVariables>, 'query'> & ({ variables: GetProcedureQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-export const GetProcedureComponent = (props: GetProcedureComponentProps) => (
-  <ApolloReactComponents.Query<GetProcedureQuery, GetProcedureQueryVariables> query={GetProcedureDocument} {...props} />
-);
-
+    export const GetProcedureComponent = (props: GetProcedureComponentProps) => (
+      <ApolloReactComponents.Query<GetProcedureQuery, GetProcedureQueryVariables> query={GetProcedureDocument} {...props} />
+    );
+    
 export type GetProcedureProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureQuery, GetProcedureQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureQuery, GetProcedureQueryVariables>
+    } & TChildProps;
 export function withGetProcedure<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetProcedureQuery,
-GetProcedureQueryVariables,
-GetProcedureProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetProcedureQuery, GetProcedureQueryVariables, GetProcedureProps<TChildProps, TDataName>>(GetProcedureDocument, {
-    alias: 'getProcedure',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetProcedureQuery,
+  GetProcedureQueryVariables,
+  GetProcedureProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetProcedureQuery, GetProcedureQueryVariables, GetProcedureProps<TChildProps, TDataName>>(GetProcedureDocument, {
+      alias: 'getProcedure',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetProcedureQuery__
@@ -959,11 +973,11 @@ GetProcedureProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetProcedureQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureQuery, GetProcedureQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
+      }
 export function useGetProcedureLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureQuery, GetProcedureQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
+        }
 export type GetProcedureQueryHookResult = ReturnType<typeof useGetProcedureQuery>;
 export type GetProcedureLazyQueryHookResult = ReturnType<typeof useGetProcedureLazyQuery>;
 export type GetProcedureQueryResult = ApolloReactCommon.QueryResult<GetProcedureQuery, GetProcedureQueryVariables>;
@@ -977,23 +991,23 @@ export const CreateProcedureDocument = gql`
 export type CreateProcedureMutationFn = ApolloReactCommon.MutationFunction<CreateProcedureMutation, CreateProcedureMutationVariables>;
 export type CreateProcedureComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateProcedureMutation, CreateProcedureMutationVariables>, 'mutation'>;
 
-export const CreateProcedureComponent = (props: CreateProcedureComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateProcedureMutation, CreateProcedureMutationVariables> mutation={CreateProcedureDocument} {...props} />
-);
-
+    export const CreateProcedureComponent = (props: CreateProcedureComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateProcedureMutation, CreateProcedureMutationVariables> mutation={CreateProcedureDocument} {...props} />
+    );
+    
 export type CreateProcedureProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateProcedureMutation, CreateProcedureMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateProcedureMutation, CreateProcedureMutationVariables>
+    } & TChildProps;
 export function withCreateProcedure<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-CreateProcedureMutation,
-CreateProcedureMutationVariables,
-CreateProcedureProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, CreateProcedureMutation, CreateProcedureMutationVariables, CreateProcedureProps<TChildProps, TDataName>>(CreateProcedureDocument, {
-    alias: 'createProcedure',
-    ...operationOptions,
-  });
-}
+  TProps,
+  CreateProcedureMutation,
+  CreateProcedureMutationVariables,
+  CreateProcedureProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateProcedureMutation, CreateProcedureMutationVariables, CreateProcedureProps<TChildProps, TDataName>>(CreateProcedureDocument, {
+      alias: 'createProcedure',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateProcedureMutation__
@@ -1013,8 +1027,8 @@ CreateProcedureProps<TChildProps, TDataName>>) {
  * });
  */
 export function useCreateProcedureMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateProcedureMutation, CreateProcedureMutationVariables>) {
-  return ApolloReactHooks.useMutation<CreateProcedureMutation, CreateProcedureMutationVariables>(CreateProcedureDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<CreateProcedureMutation, CreateProcedureMutationVariables>(CreateProcedureDocument, baseOptions);
+      }
 export type CreateProcedureMutationHookResult = ReturnType<typeof useCreateProcedureMutation>;
 export type CreateProcedureMutationResult = ApolloReactCommon.MutationResult<CreateProcedureMutation>;
 export type CreateProcedureMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateProcedureMutation, CreateProcedureMutationVariables>;
@@ -1028,23 +1042,23 @@ export const UpdateProcedureDocument = gql`
 export type UpdateProcedureMutationFn = ApolloReactCommon.MutationFunction<UpdateProcedureMutation, UpdateProcedureMutationVariables>;
 export type UpdateProcedureComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateProcedureMutation, UpdateProcedureMutationVariables>, 'mutation'>;
 
-export const UpdateProcedureComponent = (props: UpdateProcedureComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateProcedureMutation, UpdateProcedureMutationVariables> mutation={UpdateProcedureDocument} {...props} />
-);
-
+    export const UpdateProcedureComponent = (props: UpdateProcedureComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateProcedureMutation, UpdateProcedureMutationVariables> mutation={UpdateProcedureDocument} {...props} />
+    );
+    
 export type UpdateProcedureProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateProcedureMutation, UpdateProcedureMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateProcedureMutation, UpdateProcedureMutationVariables>
+    } & TChildProps;
 export function withUpdateProcedure<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-UpdateProcedureMutation,
-UpdateProcedureMutationVariables,
-UpdateProcedureProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, UpdateProcedureMutation, UpdateProcedureMutationVariables, UpdateProcedureProps<TChildProps, TDataName>>(UpdateProcedureDocument, {
-    alias: 'updateProcedure',
-    ...operationOptions,
-  });
-}
+  TProps,
+  UpdateProcedureMutation,
+  UpdateProcedureMutationVariables,
+  UpdateProcedureProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateProcedureMutation, UpdateProcedureMutationVariables, UpdateProcedureProps<TChildProps, TDataName>>(UpdateProcedureDocument, {
+      alias: 'updateProcedure',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUpdateProcedureMutation__
@@ -1065,8 +1079,8 @@ UpdateProcedureProps<TChildProps, TDataName>>) {
  * });
  */
 export function useUpdateProcedureMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateProcedureMutation, UpdateProcedureMutationVariables>) {
-  return ApolloReactHooks.useMutation<UpdateProcedureMutation, UpdateProcedureMutationVariables>(UpdateProcedureDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<UpdateProcedureMutation, UpdateProcedureMutationVariables>(UpdateProcedureDocument, baseOptions);
+      }
 export type UpdateProcedureMutationHookResult = ReturnType<typeof useUpdateProcedureMutation>;
 export type UpdateProcedureMutationResult = ApolloReactCommon.MutationResult<UpdateProcedureMutation>;
 export type UpdateProcedureMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProcedureMutation, UpdateProcedureMutationVariables>;
@@ -1079,23 +1093,23 @@ export const GetProcedureTablesDocument = gql`
     ${ProcedureTableFragmentDoc}`;
 export type GetProcedureTablesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>, 'query'>;
 
-export const GetProcedureTablesComponent = (props: GetProcedureTablesComponentProps) => (
-  <ApolloReactComponents.Query<GetProcedureTablesQuery, GetProcedureTablesQueryVariables> query={GetProcedureTablesDocument} {...props} />
-);
-
+    export const GetProcedureTablesComponent = (props: GetProcedureTablesComponentProps) => (
+      <ApolloReactComponents.Query<GetProcedureTablesQuery, GetProcedureTablesQueryVariables> query={GetProcedureTablesDocument} {...props} />
+    );
+    
 export type GetProcedureTablesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>
+    } & TChildProps;
 export function withGetProcedureTables<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetProcedureTablesQuery,
-GetProcedureTablesQueryVariables,
-GetProcedureTablesProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetProcedureTablesQuery, GetProcedureTablesQueryVariables, GetProcedureTablesProps<TChildProps, TDataName>>(GetProcedureTablesDocument, {
-    alias: 'getProcedureTables',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetProcedureTablesQuery,
+  GetProcedureTablesQueryVariables,
+  GetProcedureTablesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetProcedureTablesQuery, GetProcedureTablesQueryVariables, GetProcedureTablesProps<TChildProps, TDataName>>(GetProcedureTablesDocument, {
+      alias: 'getProcedureTables',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetProcedureTablesQuery__
@@ -1113,11 +1127,11 @@ GetProcedureTablesProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetProcedureTablesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
+      }
 export function useGetProcedureTablesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
+        }
 export type GetProcedureTablesQueryHookResult = ReturnType<typeof useGetProcedureTablesQuery>;
 export type GetProcedureTablesLazyQueryHookResult = ReturnType<typeof useGetProcedureTablesLazyQuery>;
 export type GetProcedureTablesQueryResult = ApolloReactCommon.QueryResult<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>;
@@ -1130,23 +1144,23 @@ export const GetProcedureTableDocument = gql`
     ${ProcedureTableFragmentDoc}`;
 export type GetProcedureTableComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>, 'query'> & ({ variables: GetProcedureTableQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-export const GetProcedureTableComponent = (props: GetProcedureTableComponentProps) => (
-  <ApolloReactComponents.Query<GetProcedureTableQuery, GetProcedureTableQueryVariables> query={GetProcedureTableDocument} {...props} />
-);
-
+    export const GetProcedureTableComponent = (props: GetProcedureTableComponentProps) => (
+      <ApolloReactComponents.Query<GetProcedureTableQuery, GetProcedureTableQueryVariables> query={GetProcedureTableDocument} {...props} />
+    );
+    
 export type GetProcedureTableProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTableQuery, GetProcedureTableQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTableQuery, GetProcedureTableQueryVariables>
+    } & TChildProps;
 export function withGetProcedureTable<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetProcedureTableQuery,
-GetProcedureTableQueryVariables,
-GetProcedureTableProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetProcedureTableQuery, GetProcedureTableQueryVariables, GetProcedureTableProps<TChildProps, TDataName>>(GetProcedureTableDocument, {
-    alias: 'getProcedureTable',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetProcedureTableQuery,
+  GetProcedureTableQueryVariables,
+  GetProcedureTableProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetProcedureTableQuery, GetProcedureTableQueryVariables, GetProcedureTableProps<TChildProps, TDataName>>(GetProcedureTableDocument, {
+      alias: 'getProcedureTable',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetProcedureTableQuery__
@@ -1165,11 +1179,11 @@ GetProcedureTableProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetProcedureTableQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
+      }
 export function useGetProcedureTableLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
+        }
 export type GetProcedureTableQueryHookResult = ReturnType<typeof useGetProcedureTableQuery>;
 export type GetProcedureTableLazyQueryHookResult = ReturnType<typeof useGetProcedureTableLazyQuery>;
 export type GetProcedureTableQueryResult = ApolloReactCommon.QueryResult<GetProcedureTableQuery, GetProcedureTableQueryVariables>;
@@ -1183,23 +1197,23 @@ export const CreateProcedureTableDocument = gql`
 export type CreateProcedureTableMutationFn = ApolloReactCommon.MutationFunction<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>;
 export type CreateProcedureTableComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>, 'mutation'>;
 
-export const CreateProcedureTableComponent = (props: CreateProcedureTableComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateProcedureTableMutation, CreateProcedureTableMutationVariables> mutation={CreateProcedureTableDocument} {...props} />
-);
-
+    export const CreateProcedureTableComponent = (props: CreateProcedureTableComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateProcedureTableMutation, CreateProcedureTableMutationVariables> mutation={CreateProcedureTableDocument} {...props} />
+    );
+    
 export type CreateProcedureTableProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>
+    } & TChildProps;
 export function withCreateProcedureTable<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-CreateProcedureTableMutation,
-CreateProcedureTableMutationVariables,
-CreateProcedureTableProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, CreateProcedureTableMutation, CreateProcedureTableMutationVariables, CreateProcedureTableProps<TChildProps, TDataName>>(CreateProcedureTableDocument, {
-    alias: 'createProcedureTable',
-    ...operationOptions,
-  });
-}
+  TProps,
+  CreateProcedureTableMutation,
+  CreateProcedureTableMutationVariables,
+  CreateProcedureTableProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateProcedureTableMutation, CreateProcedureTableMutationVariables, CreateProcedureTableProps<TChildProps, TDataName>>(CreateProcedureTableDocument, {
+      alias: 'createProcedureTable',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateProcedureTableMutation__
@@ -1219,8 +1233,8 @@ CreateProcedureTableProps<TChildProps, TDataName>>) {
  * });
  */
 export function useCreateProcedureTableMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>) {
-  return ApolloReactHooks.useMutation<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>(CreateProcedureTableDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>(CreateProcedureTableDocument, baseOptions);
+      }
 export type CreateProcedureTableMutationHookResult = ReturnType<typeof useCreateProcedureTableMutation>;
 export type CreateProcedureTableMutationResult = ApolloReactCommon.MutationResult<CreateProcedureTableMutation>;
 export type CreateProcedureTableMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateProcedureTableMutation, CreateProcedureTableMutationVariables>;
@@ -1234,23 +1248,23 @@ export const UpdateProcedureTableDocument = gql`
 export type UpdateProcedureTableMutationFn = ApolloReactCommon.MutationFunction<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>;
 export type UpdateProcedureTableComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>, 'mutation'>;
 
-export const UpdateProcedureTableComponent = (props: UpdateProcedureTableComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables> mutation={UpdateProcedureTableDocument} {...props} />
-);
-
+    export const UpdateProcedureTableComponent = (props: UpdateProcedureTableComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables> mutation={UpdateProcedureTableDocument} {...props} />
+    );
+    
 export type UpdateProcedureTableProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>
+    } & TChildProps;
 export function withUpdateProcedureTable<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-UpdateProcedureTableMutation,
-UpdateProcedureTableMutationVariables,
-UpdateProcedureTableProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables, UpdateProcedureTableProps<TChildProps, TDataName>>(UpdateProcedureTableDocument, {
-    alias: 'updateProcedureTable',
-    ...operationOptions,
-  });
-}
+  TProps,
+  UpdateProcedureTableMutation,
+  UpdateProcedureTableMutationVariables,
+  UpdateProcedureTableProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables, UpdateProcedureTableProps<TChildProps, TDataName>>(UpdateProcedureTableDocument, {
+      alias: 'updateProcedureTable',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUpdateProcedureTableMutation__
@@ -1271,8 +1285,8 @@ UpdateProcedureTableProps<TChildProps, TDataName>>) {
  * });
  */
 export function useUpdateProcedureTableMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>) {
-  return ApolloReactHooks.useMutation<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>(UpdateProcedureTableDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>(UpdateProcedureTableDocument, baseOptions);
+      }
 export type UpdateProcedureTableMutationHookResult = ReturnType<typeof useUpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationResult = ApolloReactCommon.MutationResult<UpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>;
@@ -1285,23 +1299,23 @@ export const GetSpecialtiesDocument = gql`
     ${GetSpecialtyFragmentFragmentDoc}`;
 export type GetSpecialtiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>, 'query'>;
 
-export const GetSpecialtiesComponent = (props: GetSpecialtiesComponentProps) => (
-  <ApolloReactComponents.Query<GetSpecialtiesQuery, GetSpecialtiesQueryVariables> query={GetSpecialtiesDocument} {...props} />
-);
-
+    export const GetSpecialtiesComponent = (props: GetSpecialtiesComponentProps) => (
+      <ApolloReactComponents.Query<GetSpecialtiesQuery, GetSpecialtiesQueryVariables> query={GetSpecialtiesDocument} {...props} />
+    );
+    
 export type GetSpecialtiesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>
+    } & TChildProps;
 export function withGetSpecialties<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetSpecialtiesQuery,
-GetSpecialtiesQueryVariables,
-GetSpecialtiesProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetSpecialtiesQuery, GetSpecialtiesQueryVariables, GetSpecialtiesProps<TChildProps, TDataName>>(GetSpecialtiesDocument, {
-    alias: 'getSpecialties',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetSpecialtiesQuery,
+  GetSpecialtiesQueryVariables,
+  GetSpecialtiesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetSpecialtiesQuery, GetSpecialtiesQueryVariables, GetSpecialtiesProps<TChildProps, TDataName>>(GetSpecialtiesDocument, {
+      alias: 'getSpecialties',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetSpecialtiesQuery__
@@ -1319,11 +1333,11 @@ GetSpecialtiesProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetSpecialtiesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
+      }
 export function useGetSpecialtiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
+        }
 export type GetSpecialtiesQueryHookResult = ReturnType<typeof useGetSpecialtiesQuery>;
 export type GetSpecialtiesLazyQueryHookResult = ReturnType<typeof useGetSpecialtiesLazyQuery>;
 export type GetSpecialtiesQueryResult = ApolloReactCommon.QueryResult<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>;
@@ -1336,23 +1350,23 @@ export const GetSpecialtyDocument = gql`
     ${GetSpecialtyFragmentFragmentDoc}`;
 export type GetSpecialtyComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>, 'query'> & ({ variables: GetSpecialtyQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-export const GetSpecialtyComponent = (props: GetSpecialtyComponentProps) => (
-  <ApolloReactComponents.Query<GetSpecialtyQuery, GetSpecialtyQueryVariables> query={GetSpecialtyDocument} {...props} />
-);
-
+    export const GetSpecialtyComponent = (props: GetSpecialtyComponentProps) => (
+      <ApolloReactComponents.Query<GetSpecialtyQuery, GetSpecialtyQueryVariables> query={GetSpecialtyDocument} {...props} />
+    );
+    
 export type GetSpecialtyProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtyQuery, GetSpecialtyQueryVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtyQuery, GetSpecialtyQueryVariables>
+    } & TChildProps;
 export function withGetSpecialty<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-GetSpecialtyQuery,
-GetSpecialtyQueryVariables,
-GetSpecialtyProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withQuery<TProps, GetSpecialtyQuery, GetSpecialtyQueryVariables, GetSpecialtyProps<TChildProps, TDataName>>(GetSpecialtyDocument, {
-    alias: 'getSpecialty',
-    ...operationOptions,
-  });
-}
+  TProps,
+  GetSpecialtyQuery,
+  GetSpecialtyQueryVariables,
+  GetSpecialtyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GetSpecialtyQuery, GetSpecialtyQueryVariables, GetSpecialtyProps<TChildProps, TDataName>>(GetSpecialtyDocument, {
+      alias: 'getSpecialty',
+      ...operationOptions
+    });
+};
 
 /**
  * __useGetSpecialtyQuery__
@@ -1371,11 +1385,11 @@ GetSpecialtyProps<TChildProps, TDataName>>) {
  * });
  */
 export function useGetSpecialtyQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>) {
-  return ApolloReactHooks.useQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
-}
+        return ApolloReactHooks.useQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
+      }
 export function useGetSpecialtyLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>) {
-  return ApolloReactHooks.useLazyQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
-}
+          return ApolloReactHooks.useLazyQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
+        }
 export type GetSpecialtyQueryHookResult = ReturnType<typeof useGetSpecialtyQuery>;
 export type GetSpecialtyLazyQueryHookResult = ReturnType<typeof useGetSpecialtyLazyQuery>;
 export type GetSpecialtyQueryResult = ApolloReactCommon.QueryResult<GetSpecialtyQuery, GetSpecialtyQueryVariables>;
@@ -1389,23 +1403,23 @@ export const CreateSpecialtyDocument = gql`
 export type CreateSpecialtyMutationFn = ApolloReactCommon.MutationFunction<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>;
 export type CreateSpecialtyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>, 'mutation'>;
 
-export const CreateSpecialtyComponent = (props: CreateSpecialtyComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateSpecialtyMutation, CreateSpecialtyMutationVariables> mutation={CreateSpecialtyDocument} {...props} />
-);
-
+    export const CreateSpecialtyComponent = (props: CreateSpecialtyComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateSpecialtyMutation, CreateSpecialtyMutationVariables> mutation={CreateSpecialtyDocument} {...props} />
+    );
+    
 export type CreateSpecialtyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>
+    } & TChildProps;
 export function withCreateSpecialty<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-CreateSpecialtyMutation,
-CreateSpecialtyMutationVariables,
-CreateSpecialtyProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, CreateSpecialtyMutation, CreateSpecialtyMutationVariables, CreateSpecialtyProps<TChildProps, TDataName>>(CreateSpecialtyDocument, {
-    alias: 'createSpecialty',
-    ...operationOptions,
-  });
-}
+  TProps,
+  CreateSpecialtyMutation,
+  CreateSpecialtyMutationVariables,
+  CreateSpecialtyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateSpecialtyMutation, CreateSpecialtyMutationVariables, CreateSpecialtyProps<TChildProps, TDataName>>(CreateSpecialtyDocument, {
+      alias: 'createSpecialty',
+      ...operationOptions
+    });
+};
 
 /**
  * __useCreateSpecialtyMutation__
@@ -1425,8 +1439,8 @@ CreateSpecialtyProps<TChildProps, TDataName>>) {
  * });
  */
 export function useCreateSpecialtyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>) {
-  return ApolloReactHooks.useMutation<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>(CreateSpecialtyDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>(CreateSpecialtyDocument, baseOptions);
+      }
 export type CreateSpecialtyMutationHookResult = ReturnType<typeof useCreateSpecialtyMutation>;
 export type CreateSpecialtyMutationResult = ApolloReactCommon.MutationResult<CreateSpecialtyMutation>;
 export type CreateSpecialtyMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateSpecialtyMutation, CreateSpecialtyMutationVariables>;
@@ -1440,23 +1454,23 @@ export const UpdateSpecialtyDocument = gql`
 export type UpdateSpecialtyMutationFn = ApolloReactCommon.MutationFunction<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>;
 export type UpdateSpecialtyComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>, 'mutation'>;
 
-export const UpdateSpecialtyComponent = (props: UpdateSpecialtyComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables> mutation={UpdateSpecialtyDocument} {...props} />
-);
-
+    export const UpdateSpecialtyComponent = (props: UpdateSpecialtyComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables> mutation={UpdateSpecialtyDocument} {...props} />
+    );
+    
 export type UpdateSpecialtyProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>
-} & TChildProps;
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>
+    } & TChildProps;
 export function withUpdateSpecialty<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-TProps,
-UpdateSpecialtyMutation,
-UpdateSpecialtyMutationVariables,
-UpdateSpecialtyProps<TChildProps, TDataName>>) {
-  return ApolloReactHoc.withMutation<TProps, UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables, UpdateSpecialtyProps<TChildProps, TDataName>>(UpdateSpecialtyDocument, {
-    alias: 'updateSpecialty',
-    ...operationOptions,
-  });
-}
+  TProps,
+  UpdateSpecialtyMutation,
+  UpdateSpecialtyMutationVariables,
+  UpdateSpecialtyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables, UpdateSpecialtyProps<TChildProps, TDataName>>(UpdateSpecialtyDocument, {
+      alias: 'updateSpecialty',
+      ...operationOptions
+    });
+};
 
 /**
  * __useUpdateSpecialtyMutation__
@@ -1477,8 +1491,8 @@ UpdateSpecialtyProps<TChildProps, TDataName>>) {
  * });
  */
 export function useUpdateSpecialtyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>) {
-  return ApolloReactHooks.useMutation<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>(UpdateSpecialtyDocument, baseOptions);
-}
+        return ApolloReactHooks.useMutation<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>(UpdateSpecialtyDocument, baseOptions);
+      }
 export type UpdateSpecialtyMutationHookResult = ReturnType<typeof useUpdateSpecialtyMutation>;
 export type UpdateSpecialtyMutationResult = ApolloReactCommon.MutationResult<UpdateSpecialtyMutation>;
 export type UpdateSpecialtyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>;

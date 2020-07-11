@@ -25,6 +25,10 @@ export const GET_DOCTOR_FRAGMENT = gql`
     street
     neighborhood
     complement
+    specialties {
+      id
+      name
+    }
     createdAt
     updatedAt
   } 
