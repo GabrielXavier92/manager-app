@@ -5,14 +5,22 @@ import {
   Button, Card, Layout, Page, Form, FormLayout, TextField, Select, Stack,
 } from '@shopify/polaris';
 
+import ReactSelect from 'react-select';
+
 import { transformTimeStampInTodayDate, transformStringDayInTimestamp } from '../../../utils/formatDate';
 
-import { DoctorInput } from '../../../types/types.d';
-import { useCreateDoctorMutation, useGetDoctorLazyQuery, useUptadateDoctorMutation } from '../../../generated/graphql';
+import {
+  useCreateDoctorMutation, useGetDoctorLazyQuery, useUptadateDoctorMutation, useGetSpecialtiesQuery, DoctorInput, Specialty,
+} from '../../../generated/graphql';
 import { GET_DOCTORS, GET_DOCTOR } from '../gql';
 
 interface RouteParams {
   id: string
+}
+
+interface ISelect {
+  id: string;
+  name: string;
 }
 
 const DoctorForm: React.FC = () => {
@@ -24,7 +32,9 @@ const DoctorForm: React.FC = () => {
   } = useForm <DoctorInput>();
 
   const [title, setTitle] = useState('Editar Dados');
+  const [specialties, setSpecialties] = useState<Array<ISelect>>([]);
 
+  const { data: fetchSpecialties } = useGetSpecialtiesQuery();
   const [getDoctor, { data }] = useGetDoctorLazyQuery();
   const [createDoctor, { loading: createLoading }] = useCreateDoctorMutation({
     onCompleted: (newDoctor) => {
@@ -55,11 +65,20 @@ const DoctorForm: React.FC = () => {
       reset({
         ...data.getDoctor,
         birth: transformTimeStampInTodayDate(data.getDoctor.birth!),
+        specialties: data?.getDoctor.specialties!.map((specialty) => ({ id: specialty!.id, name: specialty!.name })),
       });
     }
   };
 
   useEffect(handleSetFormValues, [data]);
+
+  const handleSetOptions = () => {
+    if (fetchSpecialties?.getSpecialties) {
+      setSpecialties(fetchSpecialties?.getSpecialties.map((specialty) => ({ id: specialty.id, name: specialty.name })));
+    }
+  };
+
+  useEffect(handleSetOptions, [fetchSpecialties?.getSpecialties]);
 
   const onSubmit = (doctor: DoctorInput) => {
     const { birth } = doctor;
@@ -145,6 +164,21 @@ const DoctorForm: React.FC = () => {
                   as={<TextField type="text" label="Registro" onChange={() => { }} />}
                   control={control}
                   name="register"
+                />
+
+                <Controller
+                  as={(
+                    <ReactSelect
+                      getOptionValue={(option) => option.id}
+                      getOptionLabel={(option) => option.name}
+                      options={specialties}
+                      isMulti
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                    />
+                  )}
+                  control={control}
+                  name="specialties"
                 />
               </FormLayout>
             </Card>
