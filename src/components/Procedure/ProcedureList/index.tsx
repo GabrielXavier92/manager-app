@@ -5,7 +5,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ProcedureLine from '../ProcedureLine';
 import { Procedure } from '../../../types/types.d';
-import { useGetProceduresQuery } from '../../../generated/graphql';
+import { useProceduresQuery } from '../../../generated/graphql';
 
 interface IProcedureList {
   procedureTableId: string;
@@ -24,7 +24,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const [taked, setTaked] = useState(10);
   const take = 10;
 
-  const { data, fetchMore } = useGetProceduresQuery({
+  const { data, fetchMore } = useProceduresQuery({
     variables: {
       procedureTableId,
       take,
@@ -39,7 +39,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const handleFiltersClearAll = () => handleQueryValueRemove();
 
   const handleGetNextProcedures = () => {
-    const cursor = data?.getProcedures?.procedures![data?.getProcedures?.procedures!.length - 1]!.id;
+    const cursor = data?.procedures?.procedures![data?.procedures?.procedures!.length - 1]!.id;
     fetchMore({
       variables: {
         procedureTableId,
@@ -48,15 +48,15 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
         filter: queryValue,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        const queryInfo = fetchMoreResult?.getProcedures?.queryInfo;
-        const newProcedures = fetchMoreResult?.getProcedures?.procedures;
+        const queryInfo = fetchMoreResult?.procedures?.queryInfo;
+        const newProcedures = fetchMoreResult?.procedures?.procedures;
         setTaked(newProcedures!.length);
         if (!newProcedures!.length) return prev;
         return {
-          getProcedures: {
+          procedures: {
             // eslint-disable-next-line no-underscore-dangle
-            __typename: prev.getProcedures!.__typename,
-            procedures: [...prev.getProcedures!.procedures!, ...newProcedures!],
+            __typename: prev.procedures!.__typename,
+            procedures: [...prev.procedures!.procedures!, ...newProcedures!],
             queryInfo,
           },
         };
@@ -76,11 +76,11 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
           },
         }]}
       >
-        {data?.getProcedures?.queryInfo?.ammount && (
+        {data?.procedures?.queryInfo?.ammount && (
           <TextContainer>
             Existem
             {' '}
-            {data?.getProcedures?.queryInfo?.ammount}
+            {data?.procedures?.queryInfo?.ammount}
             {' '}
             procedimentos cadastrados nessa tabela
           </TextContainer>
@@ -97,7 +97,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
                 onClearAll={handleFiltersClearAll}
               />
             )}
-            items={data?.getProcedures?.procedures ? data?.getProcedures?.procedures : []}
+            items={data?.procedures?.procedures ? data?.procedures?.procedures : []}
             renderItem={(procedure: Procedure) => (
               <ProcedureLine
                 id={procedure.id}
@@ -111,7 +111,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
           />
         </Card>
         <br />
-        {take <= taked && take <= data?.getProcedures?.queryInfo?.ammount! && (
+        {take <= taked && take <= data?.procedures?.queryInfo?.ammount! && (
           <Stack distribution="center">
             <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
           </Stack>

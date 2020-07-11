@@ -20,43 +20,44 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me: Account;
-  getUser: User;
-  getDoctor: Doctor;
-  getDoctors?: Maybe<Array<Doctor>>;
-  getGuide: Guide;
-  getGuides?: Maybe<Array<Guide>>;
-  getPatient: Patient;
-  getPatients?: Maybe<Array<Patient>>;
-  getProcedureTable: ProcedureTable;
-  getProcedureTables?: Maybe<Array<ProcedureTable>>;
-  getProcedures?: Maybe<GetProcedures>;
-  getProcedure?: Maybe<Procedure>;
-  getSpecialty: Specialty;
-  getSpecialties?: Maybe<Array<Specialty>>;
+  user: User;
+  doctor: Doctor;
+  doctors?: Maybe<Array<Doctor>>;
+  guide: Guide;
+  guides?: Maybe<Array<Guide>>;
+  patient: Patient;
+  patients?: Maybe<Array<Patient>>;
+  procedureTable: ProcedureTable;
+  procedureTables?: Maybe<Array<ProcedureTable>>;
+  procedures?: Maybe<GetProcedures>;
+  procedure?: Maybe<Procedure>;
+  specialty: Specialty;
+  specialties?: Maybe<Array<Specialty>>;
+  teste?: Maybe<Scalars['String']>;
 };
 
 
-export type QueryGetDoctorArgs = {
+export type QueryDoctorArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetGuideArgs = {
+export type QueryGuideArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetPatientArgs = {
+export type QueryPatientArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetProcedureTableArgs = {
+export type QueryProcedureTableArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetProceduresArgs = {
+export type QueryProceduresArgs = {
   procedureTableId: Scalars['ID'];
   take?: Maybe<Scalars['Int']>;
   cursor?: Maybe<Scalars['ID']>;
@@ -64,12 +65,12 @@ export type QueryGetProceduresArgs = {
 };
 
 
-export type QueryGetProcedureArgs = {
+export type QueryProcedureArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetSpecialtyArgs = {
+export type QuerySpecialtyArgs = {
   id: Scalars['ID'];
 };
 
@@ -364,25 +365,25 @@ export type GetDoctorFragmentFragment = (
   )>>> }
 );
 
-export type GetDoctorsQueryVariables = {};
+export type DoctorsQueryVariables = {};
 
 
-export type GetDoctorsQuery = (
+export type DoctorsQuery = (
   { __typename?: 'Query' }
-  & { getDoctors?: Maybe<Array<(
+  & { doctors?: Maybe<Array<(
     { __typename?: 'Doctor' }
     & GetDoctorsFragmentFragment
   )>> }
 );
 
-export type GetDoctorQueryVariables = {
+export type DoctorQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type GetDoctorQuery = (
+export type DoctorQuery = (
   { __typename?: 'Query' }
-  & { getDoctor: (
+  & { doctor: (
     { __typename?: 'Doctor' }
     & GetDoctorFragmentFragment
   ) }
@@ -427,7 +428,7 @@ export type ProceduresFragment = (
   )> }
 );
 
-export type GetProceduresQueryVariables = {
+export type ProceduresQueryVariables = {
   procedureTableId: Scalars['ID'];
   take?: Maybe<Scalars['Int']>;
   cursor?: Maybe<Scalars['ID']>;
@@ -435,9 +436,9 @@ export type GetProceduresQueryVariables = {
 };
 
 
-export type GetProceduresQuery = (
+export type ProceduresQuery = (
   { __typename?: 'Query' }
-  & { getProcedures?: Maybe<(
+  & { procedures?: Maybe<(
     { __typename?: 'GetProcedures' }
     & { queryInfo?: Maybe<(
       { __typename?: 'QueryInfo' }
@@ -449,14 +450,14 @@ export type GetProceduresQuery = (
   )> }
 );
 
-export type GetProcedureQueryVariables = {
+export type ProcedureQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type GetProcedureQuery = (
+export type ProcedureQuery = (
   { __typename?: 'Query' }
-  & { getProcedure?: Maybe<(
+  & { procedure?: Maybe<(
     { __typename?: 'Procedure' }
     & ProceduresFragment
   )> }
@@ -494,25 +495,25 @@ export type ProcedureTableFragment = (
   & Pick<ProcedureTable, 'id' | 'name' | 'createdAt' | 'updatedAt'>
 );
 
-export type GetProcedureTablesQueryVariables = {};
+export type ProcedureTablesQueryVariables = {};
 
 
-export type GetProcedureTablesQuery = (
+export type ProcedureTablesQuery = (
   { __typename?: 'Query' }
-  & { getProcedureTables?: Maybe<Array<(
+  & { procedureTables?: Maybe<Array<(
     { __typename?: 'ProcedureTable' }
     & ProcedureTableFragment
   )>> }
 );
 
-export type GetProcedureTableQueryVariables = {
+export type ProcedureTableQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type GetProcedureTableQuery = (
+export type ProcedureTableQuery = (
   { __typename?: 'Query' }
-  & { getProcedureTable: (
+  & { procedureTable: (
     { __typename?: 'ProcedureTable' }
     & ProcedureTableFragment
   ) }
@@ -550,25 +551,25 @@ export type GetSpecialtyFragmentFragment = (
   & Pick<Specialty, 'id' | 'name'>
 );
 
-export type GetSpecialtiesQueryVariables = {};
+export type SpecialtiesQueryVariables = {};
 
 
-export type GetSpecialtiesQuery = (
+export type SpecialtiesQuery = (
   { __typename?: 'Query' }
-  & { getSpecialties?: Maybe<Array<(
+  & { specialties?: Maybe<Array<(
     { __typename?: 'Specialty' }
     & GetSpecialtyFragmentFragment
   )>> }
 );
 
-export type GetSpecialtyQueryVariables = {
+export type SpecialtyQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type GetSpecialtyQuery = (
+export type SpecialtyQuery = (
   { __typename?: 'Query' }
-  & { getSpecialty: (
+  & { specialty: (
     { __typename?: 'Specialty' }
     & GetSpecialtyFragmentFragment
   ) }
@@ -598,6 +599,42 @@ export type UpdateSpecialtyMutation = (
   & { updateSpecialty: (
     { __typename?: 'Specialty' }
     & GetSpecialtyFragmentFragment
+  ) }
+);
+
+export type UserQueryVariables = {};
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'status' | 'email' | 'name' | 'gender'>
+    & { roles?: Maybe<Array<(
+      { __typename?: 'Role' }
+      & Pick<Role, 'id' | 'role'>
+    )>> }
+  ) }
+);
+
+export type SignInMutationVariables = {
+  input: LoginUserInput;
+};
+
+
+export type SignInMutation = (
+  { __typename?: 'Mutation' }
+  & { signIn: (
+    { __typename?: 'LoginUser' }
+    & Pick<LoginUser, 'token'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'accountId' | 'status' | 'email' | 'name' | 'gender'>
+      & { roles?: Maybe<Array<(
+        { __typename?: 'Role' }
+        & Pick<Role, 'id' | 'role'>
+      )>> }
+    ) }
   ) }
 );
 
@@ -663,109 +700,109 @@ export const GetSpecialtyFragmentFragmentDoc = gql`
   name
 }
     `;
-export const GetDoctorsDocument = gql`
-    query GetDoctors {
-  getDoctors {
+export const DoctorsDocument = gql`
+    query Doctors {
+  doctors {
     ...GetDoctorsFragment
   }
 }
     ${GetDoctorsFragmentFragmentDoc}`;
-export type GetDoctorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetDoctorsQuery, GetDoctorsQueryVariables>, 'query'>;
+export type DoctorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<DoctorsQuery, DoctorsQueryVariables>, 'query'>;
 
-    export const GetDoctorsComponent = (props: GetDoctorsComponentProps) => (
-      <ApolloReactComponents.Query<GetDoctorsQuery, GetDoctorsQueryVariables> query={GetDoctorsDocument} {...props} />
+    export const DoctorsComponent = (props: DoctorsComponentProps) => (
+      <ApolloReactComponents.Query<DoctorsQuery, DoctorsQueryVariables> query={DoctorsDocument} {...props} />
     );
     
-export type GetDoctorsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorsQuery, GetDoctorsQueryVariables>
+export type DoctorsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<DoctorsQuery, DoctorsQueryVariables>
     } & TChildProps;
-export function withGetDoctors<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withDoctors<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetDoctorsQuery,
-  GetDoctorsQueryVariables,
-  GetDoctorsProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetDoctorsQuery, GetDoctorsQueryVariables, GetDoctorsProps<TChildProps, TDataName>>(GetDoctorsDocument, {
-      alias: 'getDoctors',
+  DoctorsQuery,
+  DoctorsQueryVariables,
+  DoctorsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, DoctorsQuery, DoctorsQueryVariables, DoctorsProps<TChildProps, TDataName>>(DoctorsDocument, {
+      alias: 'doctors',
       ...operationOptions
     });
 };
 
 /**
- * __useGetDoctorsQuery__
+ * __useDoctorsQuery__
  *
- * To run a query within a React component, call `useGetDoctorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDoctorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useDoctorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDoctorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetDoctorsQuery({
+ * const { data, loading, error } = useDoctorsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetDoctorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDoctorsQuery, GetDoctorsQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
+export function useDoctorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<DoctorsQuery, DoctorsQueryVariables>) {
+        return ApolloReactHooks.useQuery<DoctorsQuery, DoctorsQueryVariables>(DoctorsDocument, baseOptions);
       }
-export function useGetDoctorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDoctorsQuery, GetDoctorsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetDoctorsQuery, GetDoctorsQueryVariables>(GetDoctorsDocument, baseOptions);
+export function useDoctorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<DoctorsQuery, DoctorsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<DoctorsQuery, DoctorsQueryVariables>(DoctorsDocument, baseOptions);
         }
-export type GetDoctorsQueryHookResult = ReturnType<typeof useGetDoctorsQuery>;
-export type GetDoctorsLazyQueryHookResult = ReturnType<typeof useGetDoctorsLazyQuery>;
-export type GetDoctorsQueryResult = ApolloReactCommon.QueryResult<GetDoctorsQuery, GetDoctorsQueryVariables>;
-export const GetDoctorDocument = gql`
-    query GetDoctor($id: ID!) {
-  getDoctor(id: $id) {
+export type DoctorsQueryHookResult = ReturnType<typeof useDoctorsQuery>;
+export type DoctorsLazyQueryHookResult = ReturnType<typeof useDoctorsLazyQuery>;
+export type DoctorsQueryResult = ApolloReactCommon.QueryResult<DoctorsQuery, DoctorsQueryVariables>;
+export const DoctorDocument = gql`
+    query Doctor($id: ID!) {
+  doctor(id: $id) {
     ...GetDoctorFragment
   }
 }
     ${GetDoctorFragmentFragmentDoc}`;
-export type GetDoctorComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetDoctorQuery, GetDoctorQueryVariables>, 'query'> & ({ variables: GetDoctorQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type DoctorComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<DoctorQuery, DoctorQueryVariables>, 'query'> & ({ variables: DoctorQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetDoctorComponent = (props: GetDoctorComponentProps) => (
-      <ApolloReactComponents.Query<GetDoctorQuery, GetDoctorQueryVariables> query={GetDoctorDocument} {...props} />
+    export const DoctorComponent = (props: DoctorComponentProps) => (
+      <ApolloReactComponents.Query<DoctorQuery, DoctorQueryVariables> query={DoctorDocument} {...props} />
     );
     
-export type GetDoctorProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetDoctorQuery, GetDoctorQueryVariables>
+export type DoctorProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<DoctorQuery, DoctorQueryVariables>
     } & TChildProps;
-export function withGetDoctor<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withDoctor<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetDoctorQuery,
-  GetDoctorQueryVariables,
-  GetDoctorProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetDoctorQuery, GetDoctorQueryVariables, GetDoctorProps<TChildProps, TDataName>>(GetDoctorDocument, {
-      alias: 'getDoctor',
+  DoctorQuery,
+  DoctorQueryVariables,
+  DoctorProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, DoctorQuery, DoctorQueryVariables, DoctorProps<TChildProps, TDataName>>(DoctorDocument, {
+      alias: 'doctor',
       ...operationOptions
     });
 };
 
 /**
- * __useGetDoctorQuery__
+ * __useDoctorQuery__
  *
- * To run a query within a React component, call `useGetDoctorQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDoctorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useDoctorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDoctorQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetDoctorQuery({
+ * const { data, loading, error } = useDoctorQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetDoctorQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDoctorQuery, GetDoctorQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
+export function useDoctorQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<DoctorQuery, DoctorQueryVariables>) {
+        return ApolloReactHooks.useQuery<DoctorQuery, DoctorQueryVariables>(DoctorDocument, baseOptions);
       }
-export function useGetDoctorLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDoctorQuery, GetDoctorQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetDoctorQuery, GetDoctorQueryVariables>(GetDoctorDocument, baseOptions);
+export function useDoctorLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<DoctorQuery, DoctorQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<DoctorQuery, DoctorQueryVariables>(DoctorDocument, baseOptions);
         }
-export type GetDoctorQueryHookResult = ReturnType<typeof useGetDoctorQuery>;
-export type GetDoctorLazyQueryHookResult = ReturnType<typeof useGetDoctorLazyQuery>;
-export type GetDoctorQueryResult = ApolloReactCommon.QueryResult<GetDoctorQuery, GetDoctorQueryVariables>;
+export type DoctorQueryHookResult = ReturnType<typeof useDoctorQuery>;
+export type DoctorLazyQueryHookResult = ReturnType<typeof useDoctorLazyQuery>;
+export type DoctorQueryResult = ApolloReactCommon.QueryResult<DoctorQuery, DoctorQueryVariables>;
 export const CreateDoctorDocument = gql`
     mutation createDoctor($input: DoctorInput!) {
   createDoctor(input: $input) {
@@ -869,9 +906,9 @@ export function useUptadateDoctorMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type UptadateDoctorMutationHookResult = ReturnType<typeof useUptadateDoctorMutation>;
 export type UptadateDoctorMutationResult = ApolloReactCommon.MutationResult<UptadateDoctorMutation>;
 export type UptadateDoctorMutationOptions = ApolloReactCommon.BaseMutationOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>;
-export const GetProceduresDocument = gql`
-    query GetProcedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
-  getProcedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter) {
+export const ProceduresDocument = gql`
+    query Procedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
+  procedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter) {
     queryInfo {
       ammount
     }
@@ -881,37 +918,37 @@ export const GetProceduresDocument = gql`
   }
 }
     ${ProceduresFragmentDoc}`;
-export type GetProceduresComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProceduresQuery, GetProceduresQueryVariables>, 'query'> & ({ variables: GetProceduresQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type ProceduresComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ProceduresQuery, ProceduresQueryVariables>, 'query'> & ({ variables: ProceduresQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetProceduresComponent = (props: GetProceduresComponentProps) => (
-      <ApolloReactComponents.Query<GetProceduresQuery, GetProceduresQueryVariables> query={GetProceduresDocument} {...props} />
+    export const ProceduresComponent = (props: ProceduresComponentProps) => (
+      <ApolloReactComponents.Query<ProceduresQuery, ProceduresQueryVariables> query={ProceduresDocument} {...props} />
     );
     
-export type GetProceduresProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetProceduresQuery, GetProceduresQueryVariables>
+export type ProceduresProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ProceduresQuery, ProceduresQueryVariables>
     } & TChildProps;
-export function withGetProcedures<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withProcedures<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetProceduresQuery,
-  GetProceduresQueryVariables,
-  GetProceduresProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetProceduresQuery, GetProceduresQueryVariables, GetProceduresProps<TChildProps, TDataName>>(GetProceduresDocument, {
-      alias: 'getProcedures',
+  ProceduresQuery,
+  ProceduresQueryVariables,
+  ProceduresProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ProceduresQuery, ProceduresQueryVariables, ProceduresProps<TChildProps, TDataName>>(ProceduresDocument, {
+      alias: 'procedures',
       ...operationOptions
     });
 };
 
 /**
- * __useGetProceduresQuery__
+ * __useProceduresQuery__
  *
- * To run a query within a React component, call `useGetProceduresQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProceduresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProceduresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProceduresQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetProceduresQuery({
+ * const { data, loading, error } = useProceduresQuery({
  *   variables: {
  *      procedureTableId: // value for 'procedureTableId'
  *      take: // value for 'take'
@@ -920,67 +957,67 @@ export function withGetProcedures<TProps, TChildProps = {}, TDataName extends st
  *   },
  * });
  */
-export function useGetProceduresQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProceduresQuery, GetProceduresQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
+export function useProceduresQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ProceduresQuery, ProceduresQueryVariables>) {
+        return ApolloReactHooks.useQuery<ProceduresQuery, ProceduresQueryVariables>(ProceduresDocument, baseOptions);
       }
-export function useGetProceduresLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProceduresQuery, GetProceduresQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetProceduresQuery, GetProceduresQueryVariables>(GetProceduresDocument, baseOptions);
+export function useProceduresLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ProceduresQuery, ProceduresQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ProceduresQuery, ProceduresQueryVariables>(ProceduresDocument, baseOptions);
         }
-export type GetProceduresQueryHookResult = ReturnType<typeof useGetProceduresQuery>;
-export type GetProceduresLazyQueryHookResult = ReturnType<typeof useGetProceduresLazyQuery>;
-export type GetProceduresQueryResult = ApolloReactCommon.QueryResult<GetProceduresQuery, GetProceduresQueryVariables>;
-export const GetProcedureDocument = gql`
-    query GetProcedure($id: ID!) {
-  getProcedure(id: $id) {
+export type ProceduresQueryHookResult = ReturnType<typeof useProceduresQuery>;
+export type ProceduresLazyQueryHookResult = ReturnType<typeof useProceduresLazyQuery>;
+export type ProceduresQueryResult = ApolloReactCommon.QueryResult<ProceduresQuery, ProceduresQueryVariables>;
+export const ProcedureDocument = gql`
+    query Procedure($id: ID!) {
+  procedure(id: $id) {
     ...Procedures
   }
 }
     ${ProceduresFragmentDoc}`;
-export type GetProcedureComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureQuery, GetProcedureQueryVariables>, 'query'> & ({ variables: GetProcedureQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type ProcedureComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ProcedureQuery, ProcedureQueryVariables>, 'query'> & ({ variables: ProcedureQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetProcedureComponent = (props: GetProcedureComponentProps) => (
-      <ApolloReactComponents.Query<GetProcedureQuery, GetProcedureQueryVariables> query={GetProcedureDocument} {...props} />
+    export const ProcedureComponent = (props: ProcedureComponentProps) => (
+      <ApolloReactComponents.Query<ProcedureQuery, ProcedureQueryVariables> query={ProcedureDocument} {...props} />
     );
     
-export type GetProcedureProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureQuery, GetProcedureQueryVariables>
+export type ProcedureProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ProcedureQuery, ProcedureQueryVariables>
     } & TChildProps;
-export function withGetProcedure<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withProcedure<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetProcedureQuery,
-  GetProcedureQueryVariables,
-  GetProcedureProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetProcedureQuery, GetProcedureQueryVariables, GetProcedureProps<TChildProps, TDataName>>(GetProcedureDocument, {
-      alias: 'getProcedure',
+  ProcedureQuery,
+  ProcedureQueryVariables,
+  ProcedureProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ProcedureQuery, ProcedureQueryVariables, ProcedureProps<TChildProps, TDataName>>(ProcedureDocument, {
+      alias: 'procedure',
       ...operationOptions
     });
 };
 
 /**
- * __useGetProcedureQuery__
+ * __useProcedureQuery__
  *
- * To run a query within a React component, call `useGetProcedureQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProcedureQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProcedureQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProcedureQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetProcedureQuery({
+ * const { data, loading, error } = useProcedureQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetProcedureQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureQuery, GetProcedureQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
+export function useProcedureQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ProcedureQuery, ProcedureQueryVariables>) {
+        return ApolloReactHooks.useQuery<ProcedureQuery, ProcedureQueryVariables>(ProcedureDocument, baseOptions);
       }
-export function useGetProcedureLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureQuery, GetProcedureQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetProcedureQuery, GetProcedureQueryVariables>(GetProcedureDocument, baseOptions);
+export function useProcedureLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ProcedureQuery, ProcedureQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ProcedureQuery, ProcedureQueryVariables>(ProcedureDocument, baseOptions);
         }
-export type GetProcedureQueryHookResult = ReturnType<typeof useGetProcedureQuery>;
-export type GetProcedureLazyQueryHookResult = ReturnType<typeof useGetProcedureLazyQuery>;
-export type GetProcedureQueryResult = ApolloReactCommon.QueryResult<GetProcedureQuery, GetProcedureQueryVariables>;
+export type ProcedureQueryHookResult = ReturnType<typeof useProcedureQuery>;
+export type ProcedureLazyQueryHookResult = ReturnType<typeof useProcedureLazyQuery>;
+export type ProcedureQueryResult = ApolloReactCommon.QueryResult<ProcedureQuery, ProcedureQueryVariables>;
 export const CreateProcedureDocument = gql`
     mutation CreateProcedure($input: ProcedureInput!) {
   createProcedure(input: $input) {
@@ -1084,109 +1121,109 @@ export function useUpdateProcedureMutation(baseOptions?: ApolloReactHooks.Mutati
 export type UpdateProcedureMutationHookResult = ReturnType<typeof useUpdateProcedureMutation>;
 export type UpdateProcedureMutationResult = ApolloReactCommon.MutationResult<UpdateProcedureMutation>;
 export type UpdateProcedureMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProcedureMutation, UpdateProcedureMutationVariables>;
-export const GetProcedureTablesDocument = gql`
-    query GetProcedureTables {
-  getProcedureTables {
+export const ProcedureTablesDocument = gql`
+    query ProcedureTables {
+  procedureTables {
     ...ProcedureTable
   }
 }
     ${ProcedureTableFragmentDoc}`;
-export type GetProcedureTablesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>, 'query'>;
+export type ProcedureTablesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ProcedureTablesQuery, ProcedureTablesQueryVariables>, 'query'>;
 
-    export const GetProcedureTablesComponent = (props: GetProcedureTablesComponentProps) => (
-      <ApolloReactComponents.Query<GetProcedureTablesQuery, GetProcedureTablesQueryVariables> query={GetProcedureTablesDocument} {...props} />
+    export const ProcedureTablesComponent = (props: ProcedureTablesComponentProps) => (
+      <ApolloReactComponents.Query<ProcedureTablesQuery, ProcedureTablesQueryVariables> query={ProcedureTablesDocument} {...props} />
     );
     
-export type GetProcedureTablesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>
+export type ProcedureTablesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ProcedureTablesQuery, ProcedureTablesQueryVariables>
     } & TChildProps;
-export function withGetProcedureTables<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withProcedureTables<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetProcedureTablesQuery,
-  GetProcedureTablesQueryVariables,
-  GetProcedureTablesProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetProcedureTablesQuery, GetProcedureTablesQueryVariables, GetProcedureTablesProps<TChildProps, TDataName>>(GetProcedureTablesDocument, {
-      alias: 'getProcedureTables',
+  ProcedureTablesQuery,
+  ProcedureTablesQueryVariables,
+  ProcedureTablesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ProcedureTablesQuery, ProcedureTablesQueryVariables, ProcedureTablesProps<TChildProps, TDataName>>(ProcedureTablesDocument, {
+      alias: 'procedureTables',
       ...operationOptions
     });
 };
 
 /**
- * __useGetProcedureTablesQuery__
+ * __useProcedureTablesQuery__
  *
- * To run a query within a React component, call `useGetProcedureTablesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProcedureTablesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProcedureTablesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProcedureTablesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetProcedureTablesQuery({
+ * const { data, loading, error } = useProcedureTablesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetProcedureTablesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
+export function useProcedureTablesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ProcedureTablesQuery, ProcedureTablesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ProcedureTablesQuery, ProcedureTablesQueryVariables>(ProcedureTablesDocument, baseOptions);
       }
-export function useGetProcedureTablesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>(GetProcedureTablesDocument, baseOptions);
+export function useProcedureTablesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ProcedureTablesQuery, ProcedureTablesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ProcedureTablesQuery, ProcedureTablesQueryVariables>(ProcedureTablesDocument, baseOptions);
         }
-export type GetProcedureTablesQueryHookResult = ReturnType<typeof useGetProcedureTablesQuery>;
-export type GetProcedureTablesLazyQueryHookResult = ReturnType<typeof useGetProcedureTablesLazyQuery>;
-export type GetProcedureTablesQueryResult = ApolloReactCommon.QueryResult<GetProcedureTablesQuery, GetProcedureTablesQueryVariables>;
-export const GetProcedureTableDocument = gql`
-    query GetProcedureTable($id: ID!) {
-  getProcedureTable(id: $id) {
+export type ProcedureTablesQueryHookResult = ReturnType<typeof useProcedureTablesQuery>;
+export type ProcedureTablesLazyQueryHookResult = ReturnType<typeof useProcedureTablesLazyQuery>;
+export type ProcedureTablesQueryResult = ApolloReactCommon.QueryResult<ProcedureTablesQuery, ProcedureTablesQueryVariables>;
+export const ProcedureTableDocument = gql`
+    query ProcedureTable($id: ID!) {
+  procedureTable(id: $id) {
     ...ProcedureTable
   }
 }
     ${ProcedureTableFragmentDoc}`;
-export type GetProcedureTableComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>, 'query'> & ({ variables: GetProcedureTableQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type ProcedureTableComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ProcedureTableQuery, ProcedureTableQueryVariables>, 'query'> & ({ variables: ProcedureTableQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetProcedureTableComponent = (props: GetProcedureTableComponentProps) => (
-      <ApolloReactComponents.Query<GetProcedureTableQuery, GetProcedureTableQueryVariables> query={GetProcedureTableDocument} {...props} />
+    export const ProcedureTableComponent = (props: ProcedureTableComponentProps) => (
+      <ApolloReactComponents.Query<ProcedureTableQuery, ProcedureTableQueryVariables> query={ProcedureTableDocument} {...props} />
     );
     
-export type GetProcedureTableProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetProcedureTableQuery, GetProcedureTableQueryVariables>
+export type ProcedureTableProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ProcedureTableQuery, ProcedureTableQueryVariables>
     } & TChildProps;
-export function withGetProcedureTable<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withProcedureTable<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetProcedureTableQuery,
-  GetProcedureTableQueryVariables,
-  GetProcedureTableProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetProcedureTableQuery, GetProcedureTableQueryVariables, GetProcedureTableProps<TChildProps, TDataName>>(GetProcedureTableDocument, {
-      alias: 'getProcedureTable',
+  ProcedureTableQuery,
+  ProcedureTableQueryVariables,
+  ProcedureTableProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ProcedureTableQuery, ProcedureTableQueryVariables, ProcedureTableProps<TChildProps, TDataName>>(ProcedureTableDocument, {
+      alias: 'procedureTable',
       ...operationOptions
     });
 };
 
 /**
- * __useGetProcedureTableQuery__
+ * __useProcedureTableQuery__
  *
- * To run a query within a React component, call `useGetProcedureTableQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProcedureTableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProcedureTableQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProcedureTableQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetProcedureTableQuery({
+ * const { data, loading, error } = useProcedureTableQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetProcedureTableQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
+export function useProcedureTableQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ProcedureTableQuery, ProcedureTableQueryVariables>) {
+        return ApolloReactHooks.useQuery<ProcedureTableQuery, ProcedureTableQueryVariables>(ProcedureTableDocument, baseOptions);
       }
-export function useGetProcedureTableLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProcedureTableQuery, GetProcedureTableQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetProcedureTableQuery, GetProcedureTableQueryVariables>(GetProcedureTableDocument, baseOptions);
+export function useProcedureTableLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ProcedureTableQuery, ProcedureTableQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ProcedureTableQuery, ProcedureTableQueryVariables>(ProcedureTableDocument, baseOptions);
         }
-export type GetProcedureTableQueryHookResult = ReturnType<typeof useGetProcedureTableQuery>;
-export type GetProcedureTableLazyQueryHookResult = ReturnType<typeof useGetProcedureTableLazyQuery>;
-export type GetProcedureTableQueryResult = ApolloReactCommon.QueryResult<GetProcedureTableQuery, GetProcedureTableQueryVariables>;
+export type ProcedureTableQueryHookResult = ReturnType<typeof useProcedureTableQuery>;
+export type ProcedureTableLazyQueryHookResult = ReturnType<typeof useProcedureTableLazyQuery>;
+export type ProcedureTableQueryResult = ApolloReactCommon.QueryResult<ProcedureTableQuery, ProcedureTableQueryVariables>;
 export const CreateProcedureTableDocument = gql`
     mutation CreateProcedureTable($input: ProcedureTableInput!) {
   createProcedureTable(input: $input) {
@@ -1290,109 +1327,109 @@ export function useUpdateProcedureTableMutation(baseOptions?: ApolloReactHooks.M
 export type UpdateProcedureTableMutationHookResult = ReturnType<typeof useUpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationResult = ApolloReactCommon.MutationResult<UpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>;
-export const GetSpecialtiesDocument = gql`
-    query GetSpecialties {
-  getSpecialties {
+export const SpecialtiesDocument = gql`
+    query Specialties {
+  specialties {
     ...GetSpecialtyFragment
   }
 }
     ${GetSpecialtyFragmentFragmentDoc}`;
-export type GetSpecialtiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>, 'query'>;
+export type SpecialtiesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SpecialtiesQuery, SpecialtiesQueryVariables>, 'query'>;
 
-    export const GetSpecialtiesComponent = (props: GetSpecialtiesComponentProps) => (
-      <ApolloReactComponents.Query<GetSpecialtiesQuery, GetSpecialtiesQueryVariables> query={GetSpecialtiesDocument} {...props} />
+    export const SpecialtiesComponent = (props: SpecialtiesComponentProps) => (
+      <ApolloReactComponents.Query<SpecialtiesQuery, SpecialtiesQueryVariables> query={SpecialtiesDocument} {...props} />
     );
     
-export type GetSpecialtiesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>
+export type SpecialtiesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SpecialtiesQuery, SpecialtiesQueryVariables>
     } & TChildProps;
-export function withGetSpecialties<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withSpecialties<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetSpecialtiesQuery,
-  GetSpecialtiesQueryVariables,
-  GetSpecialtiesProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetSpecialtiesQuery, GetSpecialtiesQueryVariables, GetSpecialtiesProps<TChildProps, TDataName>>(GetSpecialtiesDocument, {
-      alias: 'getSpecialties',
+  SpecialtiesQuery,
+  SpecialtiesQueryVariables,
+  SpecialtiesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SpecialtiesQuery, SpecialtiesQueryVariables, SpecialtiesProps<TChildProps, TDataName>>(SpecialtiesDocument, {
+      alias: 'specialties',
       ...operationOptions
     });
 };
 
 /**
- * __useGetSpecialtiesQuery__
+ * __useSpecialtiesQuery__
  *
- * To run a query within a React component, call `useGetSpecialtiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSpecialtiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSpecialtiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpecialtiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSpecialtiesQuery({
+ * const { data, loading, error } = useSpecialtiesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetSpecialtiesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
+export function useSpecialtiesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SpecialtiesQuery, SpecialtiesQueryVariables>) {
+        return ApolloReactHooks.useQuery<SpecialtiesQuery, SpecialtiesQueryVariables>(SpecialtiesDocument, baseOptions);
       }
-export function useGetSpecialtiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>(GetSpecialtiesDocument, baseOptions);
+export function useSpecialtiesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SpecialtiesQuery, SpecialtiesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SpecialtiesQuery, SpecialtiesQueryVariables>(SpecialtiesDocument, baseOptions);
         }
-export type GetSpecialtiesQueryHookResult = ReturnType<typeof useGetSpecialtiesQuery>;
-export type GetSpecialtiesLazyQueryHookResult = ReturnType<typeof useGetSpecialtiesLazyQuery>;
-export type GetSpecialtiesQueryResult = ApolloReactCommon.QueryResult<GetSpecialtiesQuery, GetSpecialtiesQueryVariables>;
-export const GetSpecialtyDocument = gql`
-    query GetSpecialty($id: ID!) {
-  getSpecialty(id: $id) {
+export type SpecialtiesQueryHookResult = ReturnType<typeof useSpecialtiesQuery>;
+export type SpecialtiesLazyQueryHookResult = ReturnType<typeof useSpecialtiesLazyQuery>;
+export type SpecialtiesQueryResult = ApolloReactCommon.QueryResult<SpecialtiesQuery, SpecialtiesQueryVariables>;
+export const SpecialtyDocument = gql`
+    query Specialty($id: ID!) {
+  specialty(id: $id) {
     ...GetSpecialtyFragment
   }
 }
     ${GetSpecialtyFragmentFragmentDoc}`;
-export type GetSpecialtyComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>, 'query'> & ({ variables: GetSpecialtyQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type SpecialtyComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SpecialtyQuery, SpecialtyQueryVariables>, 'query'> & ({ variables: SpecialtyQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const GetSpecialtyComponent = (props: GetSpecialtyComponentProps) => (
-      <ApolloReactComponents.Query<GetSpecialtyQuery, GetSpecialtyQueryVariables> query={GetSpecialtyDocument} {...props} />
+    export const SpecialtyComponent = (props: SpecialtyComponentProps) => (
+      <ApolloReactComponents.Query<SpecialtyQuery, SpecialtyQueryVariables> query={SpecialtyDocument} {...props} />
     );
     
-export type GetSpecialtyProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<GetSpecialtyQuery, GetSpecialtyQueryVariables>
+export type SpecialtyProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SpecialtyQuery, SpecialtyQueryVariables>
     } & TChildProps;
-export function withGetSpecialty<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withSpecialty<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  GetSpecialtyQuery,
-  GetSpecialtyQueryVariables,
-  GetSpecialtyProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, GetSpecialtyQuery, GetSpecialtyQueryVariables, GetSpecialtyProps<TChildProps, TDataName>>(GetSpecialtyDocument, {
-      alias: 'getSpecialty',
+  SpecialtyQuery,
+  SpecialtyQueryVariables,
+  SpecialtyProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SpecialtyQuery, SpecialtyQueryVariables, SpecialtyProps<TChildProps, TDataName>>(SpecialtyDocument, {
+      alias: 'specialty',
       ...operationOptions
     });
 };
 
 /**
- * __useGetSpecialtyQuery__
+ * __useSpecialtyQuery__
  *
- * To run a query within a React component, call `useGetSpecialtyQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSpecialtyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSpecialtyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpecialtyQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetSpecialtyQuery({
+ * const { data, loading, error } = useSpecialtyQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetSpecialtyQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
+export function useSpecialtyQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SpecialtyQuery, SpecialtyQueryVariables>) {
+        return ApolloReactHooks.useQuery<SpecialtyQuery, SpecialtyQueryVariables>(SpecialtyDocument, baseOptions);
       }
-export function useGetSpecialtyLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetSpecialtyQuery, GetSpecialtyQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetSpecialtyQuery, GetSpecialtyQueryVariables>(GetSpecialtyDocument, baseOptions);
+export function useSpecialtyLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SpecialtyQuery, SpecialtyQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SpecialtyQuery, SpecialtyQueryVariables>(SpecialtyDocument, baseOptions);
         }
-export type GetSpecialtyQueryHookResult = ReturnType<typeof useGetSpecialtyQuery>;
-export type GetSpecialtyLazyQueryHookResult = ReturnType<typeof useGetSpecialtyLazyQuery>;
-export type GetSpecialtyQueryResult = ApolloReactCommon.QueryResult<GetSpecialtyQuery, GetSpecialtyQueryVariables>;
+export type SpecialtyQueryHookResult = ReturnType<typeof useSpecialtyQuery>;
+export type SpecialtyLazyQueryHookResult = ReturnType<typeof useSpecialtyLazyQuery>;
+export type SpecialtyQueryResult = ApolloReactCommon.QueryResult<SpecialtyQuery, SpecialtyQueryVariables>;
 export const CreateSpecialtyDocument = gql`
     mutation CreateSpecialty($input: SpecialtyInput!) {
   createSpecialty(input: $input) {
@@ -1496,3 +1533,125 @@ export function useUpdateSpecialtyMutation(baseOptions?: ApolloReactHooks.Mutati
 export type UpdateSpecialtyMutationHookResult = ReturnType<typeof useUpdateSpecialtyMutation>;
 export type UpdateSpecialtyMutationResult = ApolloReactCommon.MutationResult<UpdateSpecialtyMutation>;
 export type UpdateSpecialtyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSpecialtyMutation, UpdateSpecialtyMutationVariables>;
+export const UserDocument = gql`
+    query User {
+  user {
+    id
+    status
+    email
+    name
+    gender
+    roles {
+      id
+      role
+    }
+  }
+}
+    `;
+export type UserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserQuery, UserQueryVariables>, 'query'>;
+
+    export const UserComponent = (props: UserComponentProps) => (
+      <ApolloReactComponents.Query<UserQuery, UserQueryVariables> query={UserDocument} {...props} />
+    );
+    
+export type UserProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<UserQuery, UserQueryVariables>
+    } & TChildProps;
+export function withUser<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UserQuery,
+  UserQueryVariables,
+  UserProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, UserQuery, UserQueryVariables, UserProps<TChildProps, TDataName>>(UserDocument, {
+      alias: 'user',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+      }
+export function useUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
+export const SignInDocument = gql`
+    mutation SignIn($input: LoginUserInput!) {
+  signIn(input: $input) {
+    token
+    user {
+      id
+      accountId
+      status
+      email
+      name
+      gender
+      roles {
+        id
+        role
+      }
+    }
+  }
+}
+    `;
+export type SignInMutationFn = ApolloReactCommon.MutationFunction<SignInMutation, SignInMutationVariables>;
+export type SignInComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SignInMutation, SignInMutationVariables>, 'mutation'>;
+
+    export const SignInComponent = (props: SignInComponentProps) => (
+      <ApolloReactComponents.Mutation<SignInMutation, SignInMutationVariables> mutation={SignInDocument} {...props} />
+    );
+    
+export type SignInProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<SignInMutation, SignInMutationVariables>
+    } & TChildProps;
+export function withSignIn<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SignInMutation,
+  SignInMutationVariables,
+  SignInProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, SignInMutation, SignInMutationVariables, SignInProps<TChildProps, TDataName>>(SignInDocument, {
+      alias: 'signIn',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSignInMutation__
+ *
+ * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignInMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        return ApolloReactHooks.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, baseOptions);
+      }
+export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
+export type SignInMutationResult = ApolloReactCommon.MutationResult<SignInMutation>;
+export type SignInMutationOptions = ApolloReactCommon.BaseMutationOptions<SignInMutation, SignInMutationVariables>;

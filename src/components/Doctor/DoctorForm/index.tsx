@@ -10,8 +10,9 @@ import ReactSelect from 'react-select';
 import { transformTimeStampInTodayDate, transformStringDayInTimestamp } from '../../../utils/formatDate';
 
 import {
-  useCreateDoctorMutation, useGetDoctorLazyQuery, useUptadateDoctorMutation, useGetSpecialtiesQuery, DoctorInput, Specialty,
+  useCreateDoctorMutation, useDoctorLazyQuery, useUptadateDoctorMutation, useSpecialtiesQuery, DoctorInput,
 } from '../../../generated/graphql';
+
 import { GET_DOCTORS, GET_DOCTOR } from '../gql';
 
 interface RouteParams {
@@ -34,8 +35,8 @@ const DoctorForm: React.FC = () => {
   const [title, setTitle] = useState('Editar Dados');
   const [specialties, setSpecialties] = useState<Array<ISelect>>([]);
 
-  const { data: fetchSpecialties } = useGetSpecialtiesQuery();
-  const [getDoctor, { data }] = useGetDoctorLazyQuery();
+  const { data: fetchSpecialties } = useSpecialtiesQuery();
+  const [getDoctor, { data }] = useDoctorLazyQuery();
   const [createDoctor, { loading: createLoading }] = useCreateDoctorMutation({
     onCompleted: (newDoctor) => {
       if (newDoctor) history.push('/doctorList');
@@ -61,11 +62,11 @@ const DoctorForm: React.FC = () => {
   useEffect(handleGetDoctor, [params.id]);
 
   const handleSetFormValues = () => {
-    if (data?.getDoctor) {
+    if (data?.doctor) {
       reset({
-        ...data.getDoctor,
-        birth: transformTimeStampInTodayDate(data.getDoctor.birth!),
-        specialties: data?.getDoctor.specialties!.map((specialty) => ({ id: specialty!.id, name: specialty!.name })),
+        ...data.doctor,
+        birth: transformTimeStampInTodayDate(data.doctor.birth!),
+        specialties: data?.doctor.specialties!.map((specialty) => ({ id: specialty!.id, name: specialty!.name })),
       });
     }
   };
@@ -73,12 +74,12 @@ const DoctorForm: React.FC = () => {
   useEffect(handleSetFormValues, [data]);
 
   const handleSetOptions = () => {
-    if (fetchSpecialties?.getSpecialties) {
-      setSpecialties(fetchSpecialties?.getSpecialties.map((specialty) => ({ id: specialty.id, name: specialty.name })));
+    if (fetchSpecialties?.specialties) {
+      setSpecialties(fetchSpecialties?.specialties.map((specialty) => ({ id: specialty.id, name: specialty.name })));
     }
   };
 
-  useEffect(handleSetOptions, [fetchSpecialties?.getSpecialties]);
+  useEffect(handleSetOptions, [fetchSpecialties?.specialties]);
 
   const onSubmit = (doctor: DoctorInput) => {
     const { birth } = doctor;

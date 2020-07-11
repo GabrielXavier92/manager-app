@@ -7,14 +7,13 @@ import { useHistory } from 'react-router-dom';
 
 import DoctorLine from '../DoctorLine';
 
-import { Doctor } from '../../../types/types.d';
-import { useGetDoctorsQuery } from '../../../generated/graphql';
+import { useDoctorsQuery, Doctor } from '../../../generated/graphql';
 
 const DoctorList: React.FC = () => {
   const history = useHistory();
 
   const [queryValue, setQueryValue] = useState('');
-  const { data, loading } = useGetDoctorsQuery();
+  const { data, loading } = useDoctorsQuery();
 
   const handleFiltersQueryChange = (value: string) => setQueryValue(value);
   const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
@@ -47,7 +46,7 @@ const DoctorList: React.FC = () => {
                 />
               )}
               loading={loading}
-              items={data?.getDoctors ? data.getDoctors : []}
+              items={data?.doctors ? data.doctors : []}
               renderItem={(doctor: Doctor) => (<DoctorLine id={doctor.id} name={doctor.name} register={doctor.register} gender={doctor.gender} />)}
             />
           </Card>

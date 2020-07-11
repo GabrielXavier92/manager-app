@@ -1,7 +1,7 @@
 import useAuthToken from './useAuthToken';
-import useUser from './useUser';
+import useAuth from './useAuth';
 
 export {
   useAuthToken,
-  useUser,
+  useAuth,
 };

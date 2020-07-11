@@ -5,9 +5,8 @@ import {
 } from '@shopify/polaris';
 import { useForm, Controller } from 'react-hook-form';
 
-import { ProcedureInput, Specialty } from '../../../types/types.d';
 import {
-  useGetProcedureLazyQuery, useCreateProcedureMutation, useUpdateProcedureMutation, useGetSpecialtiesQuery,
+  useProcedureLazyQuery, useCreateProcedureMutation, useUpdateProcedureMutation, useSpecialtiesQuery, ProcedureInput, Specialty,
 } from '../../../generated/graphql';
 
 interface RouteParams {
@@ -31,8 +30,8 @@ const ProcedureForm: React.FC = () => {
     control, errors, handleSubmit, reset,
   } = useForm<ProcedureInput>();
 
-  const { data: fetchSpecialties } = useGetSpecialtiesQuery();
-  const [getProcedure, { data }] = useGetProcedureLazyQuery();
+  const { data: fetchSpecialties } = useSpecialtiesQuery();
+  const [getProcedure, { data }] = useProcedureLazyQuery();
   const [createProcedure, { loading: createLoading }] = useCreateProcedureMutation({
     onCompleted: (newProcedure) => {
       if (newProcedure) history.push(`/procedureTable/${params.procedureTableId}`);
@@ -55,10 +54,10 @@ const ProcedureForm: React.FC = () => {
   useEffect(handleGetProcedure, [params.id]);
 
   const handleSetFormValues = () => {
-    if (data?.getProcedure) {
+    if (data?.procedure) {
       const procedure = {
-        ...data.getProcedure,
-        specialtyId: data?.getProcedure?.specialty!.id,
+        ...data.procedure,
+        specialtyId: data?.procedure?.specialty!.id,
       };
       reset(procedure);
     }
@@ -79,8 +78,8 @@ const ProcedureForm: React.FC = () => {
   };
 
   const handleSetOptions = () => {
-    if (fetchSpecialties?.getSpecialties) {
-      const selectSpecialties = fetchSpecialties?.getSpecialties!.map((specialty: Specialty) => ({
+    if (fetchSpecialties?.specialties) {
+      const selectSpecialties = fetchSpecialties?.specialties!.map((specialty: Specialty) => ({
         value: specialty.id,
         label: specialty.name,
       }));
@@ -88,7 +87,7 @@ const ProcedureForm: React.FC = () => {
     }
   };
 
-  useEffect(handleSetOptions, [fetchSpecialties?.getSpecialties]);
+  useEffect(handleSetOptions, [fetchSpecialties?.specialties]);
 
 
   return (

@@ -6,13 +6,12 @@ import { useHistory } from 'react-router-dom';
 
 import SpecialtyLine from '../SpecialtyLine';
 
-import { Specialty } from '../../../types/types';
-import { useGetSpecialtiesQuery } from '../../../generated/graphql';
+import { useSpecialtiesQuery, Specialty } from '../../../generated/graphql';
 
 
 const SpecialtyList: React.FC = () => {
   const history = useHistory();
-  const { data, loading } = useGetSpecialtiesQuery();
+  const { data, loading } = useSpecialtiesQuery();
 
 
   return (
@@ -28,7 +27,7 @@ const SpecialtyList: React.FC = () => {
           <Card>
             <ResourceList
               resourceName={{ singular: 'Especialidade', plural: 'Especialidades' }}
-              items={data?.getSpecialties ? data.getSpecialties : []}
+              items={data?.specialties ? data.specialties : []}
               renderItem={(specialty: Specialty) => (<SpecialtyLine id={specialty.id} name={specialty.name} />)}
               loading={loading}
             />

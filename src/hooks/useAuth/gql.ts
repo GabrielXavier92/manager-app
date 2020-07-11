@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_USER = gql`
-  query GetUser{
-    getUser {
+  query User{
+    user {
       id
       status
       email

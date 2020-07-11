@@ -8,8 +8,8 @@ export const GET_SPECIALTY_FRAGMENT = gql`
 `;
 
 export const GET_SPECIALTIES = gql`
-  query GetSpecialties {
-    getSpecialties {
+  query Specialties {
+    specialties {
       ...GetSpecialtyFragment
     }
   }
@@ -17,8 +17,8 @@ export const GET_SPECIALTIES = gql`
 `;
 
 export const GET_SPECIALTY = gql`
-  query GetSpecialty($id: ID!) {
-    getSpecialty(id: $id) {
+  query Specialty($id: ID!) {
+    specialty(id: $id) {
       ...GetSpecialtyFragment
     }
   }

@@ -3,7 +3,7 @@ import { ResourceList, TextStyle } from '@shopify/polaris';
 
 import { useHistory } from 'react-router-dom';
 
-import { Specialty } from '../../../types/types.d';
+import { Specialty } from '../../../generated/graphql';
 
 const SpecialtyLine: React.FC<Specialty> = ({
   id, name,

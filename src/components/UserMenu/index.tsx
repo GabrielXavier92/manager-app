@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TopBar, IconableAction } from '@shopify/polaris';
 
-import { useUser } from '../../hooks';
-
+import { useAuth } from '../../hooks';
+import { useUserQuery } from '../../generated/graphql';
 
 const UserMenu: React.FC = () => {
-  const { useLogoutUser, useGetUser } = useUser();
+  const { useLogoutUser } = useAuth();
   const { logout } = useLogoutUser();
-  const { getUser, queryResults } = useGetUser();
+  const { data } = useUserQuery();
 
 
   const items: IconableAction[] = [
@@ -26,15 +26,10 @@ const UserMenu: React.FC = () => {
     setUserMenu(!userMenu);
   };
 
-  const handleGetUser = () => {
-    getUser();
-  };
-  useEffect(handleGetUser, []);
-
   return (
     <TopBar.UserMenu
       actions={actions}
-      name={queryResults?.data?.getUser.name ? queryResults.data?.getUser.name : ''}
+      name={data?.user.name ? data?.user.name : ''}
       detail="My Store"
       initials="D"
       open={userMenu}

@@ -3,7 +3,7 @@ import { ResourceList, TextStyle } from '@shopify/polaris';
 
 import { useHistory } from 'react-router-dom';
 
-import { ProcedureTable } from '../../../types/types.d';
+import { ProcedureTable } from '../../../generated/graphql';
 
 const ProcedureTableLine: React.FC<ProcedureTable> = ({
   id, name,

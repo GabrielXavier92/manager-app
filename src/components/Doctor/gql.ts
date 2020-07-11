@@ -35,8 +35,8 @@ export const GET_DOCTOR_FRAGMENT = gql`
 `;
 
 export const GET_DOCTORS = gql`
-  query GetDoctors {
-    getDoctors {
+  query Doctors {
+    doctors {
       ...GetDoctorsFragment
     }
   }
@@ -45,8 +45,8 @@ export const GET_DOCTORS = gql`
 
 
 export const GET_DOCTOR = gql`
-  query GetDoctor($id: ID!) {
-    getDoctor(id: $id) {
+  query Doctor($id: ID!) {
+    doctor(id: $id) {
       ...GetDoctorFragment
     }
   }

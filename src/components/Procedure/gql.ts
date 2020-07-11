@@ -18,8 +18,8 @@ export const PROCEDURES_FRAGMENT = gql`
 `;
 
 export const GET_PROCEDURES = gql`
-  query GetProcedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
-    getProcedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter){
+  query Procedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
+    procedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter){
       queryInfo {
         ammount
       }
@@ -32,8 +32,8 @@ export const GET_PROCEDURES = gql`
 `;
 
 export const GET_PROCEDURE = gql`
-  query GetProcedure($id: ID!) {
-    getProcedure(id: $id) {
+  query Procedure($id: ID!) {
+    procedure(id: $id) {
       ...Procedures
     }
   }

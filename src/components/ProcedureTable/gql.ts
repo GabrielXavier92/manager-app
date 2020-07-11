@@ -10,8 +10,8 @@ export const PROCEDURE_TABLE_FRAGMENT = gql`
 `;
 
 export const GET_PROCEDURE_TABLES = gql`
-  query GetProcedureTables {
-    getProcedureTables {
+  query ProcedureTables {
+    procedureTables {
       ...ProcedureTable
     }
   }
@@ -19,8 +19,8 @@ export const GET_PROCEDURE_TABLES = gql`
 `;
 
 export const GET_PROCEDURE_TABLE = gql`
-  query GetProcedureTable($id: ID!) {
-    getProcedureTable(id: $id) {
+  query ProcedureTable($id: ID!) {
+    procedureTable(id: $id) {
       ...ProcedureTable
     }
   }

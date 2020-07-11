@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { ProcedureTableInput } from '../../../types/types.d';
 import { ProcedureList } from '../../Procedure';
-import { useGetProcedureTableLazyQuery, useCreateProcedureTableMutation, useUpdateProcedureTableMutation } from '../../../generated/graphql';
+import { useProcedureTableLazyQuery, useCreateProcedureTableMutation, useUpdateProcedureTableMutation } from '../../../generated/graphql';
 import { GET_PROCEDURE_TABLES, GET_PROCEDURE_TABLE } from '../gql';
 
 interface RouteParams {
@@ -24,7 +24,7 @@ const ProcedureTableForm: React.FC = () => {
 
   const [title, setTitle] = useState('Editar Dados');
 
-  const [getProcedureTable, { data }] = useGetProcedureTableLazyQuery();
+  const [getProcedureTable, { data }] = useProcedureTableLazyQuery();
   const [createProcedureTable, { loading: createLoading }] = useCreateProcedureTableMutation({
     onCompleted: (newProcedureTable) => {
       if (newProcedureTable) history.push('/procedureTableList');
@@ -47,12 +47,12 @@ const ProcedureTableForm: React.FC = () => {
   useEffect(handleGetProcedureTable, [params.id]);
 
   const handleSetFormValues = () => {
-    if (data?.getProcedureTable) {
-      reset(data?.getProcedureTable);
+    if (data?.procedureTable) {
+      reset(data?.procedureTable);
     }
   };
 
-  useEffect(handleSetFormValues, [data?.getProcedureTable]);
+  useEffect(handleSetFormValues, [data?.procedureTable]);
 
   const onSubmit = (input: ProcedureTableInput) => {
     if (params.id) {

@@ -6,7 +6,7 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 
 import { SpecialtyInput } from '../../../types/types.d';
-import { useGetSpecialtyLazyQuery, useCreateSpecialtyMutation, useUpdateSpecialtyMutation } from '../../../generated/graphql';
+import { useSpecialtyLazyQuery, useCreateSpecialtyMutation, useUpdateSpecialtyMutation } from '../../../generated/graphql';
 import { GET_SPECIALTIES } from '../gql';
 
 interface RouteParams {
@@ -23,7 +23,7 @@ const SpecialtyForm: React.FC = () => {
     control, errors, handleSubmit, reset,
   } = useForm<SpecialtyInput>();
 
-  const [getSpecialty, { data }] = useGetSpecialtyLazyQuery();
+  const [getSpecialty, { data }] = useSpecialtyLazyQuery();
   const [createSpecialty, { loading: createLoading }] = useCreateSpecialtyMutation({
     onCompleted: (newSpecialty) => {
       if (newSpecialty) history.push('/specialtyList');
@@ -48,8 +48,8 @@ const SpecialtyForm: React.FC = () => {
   useEffect(handleGetSpecialty, [params.id]);
 
   const handleSetFormValues = () => {
-    if (data?.getSpecialty) {
-      reset(data?.getSpecialty);
+    if (data?.specialty) {
+      reset(data?.specialty);
     }
   };
 

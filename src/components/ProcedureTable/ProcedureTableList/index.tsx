@@ -7,13 +7,13 @@ import { useHistory } from 'react-router-dom';
 import ProcedureTableLine from '../ProcedureTableLine';
 
 import { ProcedureTable } from '../../../types/types.d';
-import { useGetProcedureTablesQuery } from '../../../generated/graphql';
+import { useProcedureTablesQuery } from '../../../generated/graphql';
 
 
 const ProcedureTableList: React.FC = () => {
   const history = useHistory();
 
-  const { data, loading } = useGetProcedureTablesQuery();
+  const { data, loading } = useProcedureTablesQuery();
 
   return (
     <Page
@@ -28,7 +28,7 @@ const ProcedureTableList: React.FC = () => {
           <Card>
             <ResourceList
               resourceName={{ singular: 'Tabela de Procedimentos', plural: 'Tabelas de Procedimentos' }}
-              items={data?.getProcedureTables ? data.getProcedureTables : []}
+              items={data?.procedureTables ? data.procedureTables : []}
               renderItem={(procedureTable: ProcedureTable) => (<ProcedureTableLine id={procedureTable.id} name={procedureTable.name} />)}
               loading={loading}
             />
