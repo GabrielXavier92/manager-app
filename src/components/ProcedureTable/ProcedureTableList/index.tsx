@@ -6,8 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import ProcedureTableLine from '../ProcedureTableLine';
 
-import { ProcedureTable } from '../../../types/types.d';
-import { useProcedureTablesQuery } from '../../../generated/graphql';
+import { useProcedureTablesQuery, ProcedureTable } from '../../../generated/graphql';
 
 
 const ProcedureTableList: React.FC = () => {

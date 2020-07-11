@@ -5,8 +5,9 @@ import {
 } from '@shopify/polaris';
 import { useForm, Controller } from 'react-hook-form';
 
-import { SpecialtyInput } from '../../../types/types.d';
-import { useSpecialtyLazyQuery, useCreateSpecialtyMutation, useUpdateSpecialtyMutation } from '../../../generated/graphql';
+import {
+  useSpecialtyLazyQuery, useCreateSpecialtyMutation, useUpdateSpecialtyMutation, SpecialtyInput,
+} from '../../../generated/graphql';
 import { GET_SPECIALTIES } from '../gql';
 
 interface RouteParams {

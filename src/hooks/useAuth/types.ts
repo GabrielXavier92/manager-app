@@ -1,5 +1,5 @@
 import { MutationResult } from '@apollo/react-common';
-import { LoginUser } from '../../types/types.d';
+import { LoginUser } from '../../generated/graphql';
 
 export type UseUser = {
   useSignInUser: () => UseSignInUser;

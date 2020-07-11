@@ -5,9 +5,10 @@ import {
 } from '@shopify/polaris';
 import { useForm, Controller } from 'react-hook-form';
 
-import { ProcedureTableInput } from '../../../types/types.d';
 import { ProcedureList } from '../../Procedure';
-import { useProcedureTableLazyQuery, useCreateProcedureTableMutation, useUpdateProcedureTableMutation } from '../../../generated/graphql';
+import {
+  useProcedureTableLazyQuery, useCreateProcedureTableMutation, useUpdateProcedureTableMutation, ProcedureTableInput,
+} from '../../../generated/graphql';
 import { GET_PROCEDURE_TABLES, GET_PROCEDURE_TABLE } from '../gql';
 
 interface RouteParams {

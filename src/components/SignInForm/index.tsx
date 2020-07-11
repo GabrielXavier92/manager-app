@@ -5,7 +5,7 @@ import {
 } from '@shopify/polaris';
 
 import { useAuth } from '../../hooks';
-import { LoginUserInput } from '../../types/types.d';
+import { LoginUserInput } from '../../generated/graphql';
 
 
 const SignInForm: React.FC = () => {

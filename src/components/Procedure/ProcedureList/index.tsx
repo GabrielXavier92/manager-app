@@ -4,8 +4,7 @@ import {
 } from '@shopify/polaris';
 import { useHistory } from 'react-router-dom';
 import ProcedureLine from '../ProcedureLine';
-import { Procedure } from '../../../types/types.d';
-import { useProceduresQuery } from '../../../generated/graphql';
+import { useProceduresQuery, Procedure } from '../../../generated/graphql';
 
 interface IProcedureList {
   procedureTableId: string;
@@ -110,12 +109,13 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
             )}
           />
         </Card>
-        <br />
         {take <= taked && take <= data?.procedures?.queryInfo?.ammount! && (
-          <Stack distribution="center">
-            <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
-          </Stack>
-
+          <>
+            <br />
+            <Stack distribution="center">
+              <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
+            </Stack>
+          </>
         )}
       </Card>
     </>
