@@ -26,14 +26,15 @@ export type Query = {
   guide: Guide;
   guides?: Maybe<Array<Guide>>;
   patient: Patient;
-  patients?: Maybe<Array<Patient>>;
+  patients?: Maybe<GetPatients>;
   procedureTable: ProcedureTable;
   procedureTables?: Maybe<Array<ProcedureTable>>;
   procedures?: Maybe<GetProcedures>;
   procedure?: Maybe<Procedure>;
   specialty: Specialty;
   specialties?: Maybe<Array<Specialty>>;
-  teste?: Maybe<Scalars['String']>;
+  schedule?: Maybe<Schedule>;
+  schedules?: Maybe<Array<Maybe<Schedule>>>;
 };
 
 
@@ -49,6 +50,13 @@ export type QueryGuideArgs = {
 
 export type QueryPatientArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryPatientsArgs = {
+  take?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['ID']>;
+  filter?: Maybe<Scalars['String']>;
 };
 
 
@@ -74,6 +82,17 @@ export type QuerySpecialtyArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryScheduleArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySchedulesArgs = {
+  start: Scalars['String'];
+  end: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAccount: Account;
@@ -90,6 +109,8 @@ export type Mutation = {
   updateProcedure: Procedure;
   createSpecialty: Specialty;
   updateSpecialty: Specialty;
+  createSchedule?: Maybe<Schedule>;
+  updateSchedule?: Maybe<Schedule>;
 };
 
 
@@ -168,6 +189,17 @@ export type MutationUpdateSpecialtyArgs = {
   input?: Maybe<SpecialtyInput>;
 };
 
+
+export type MutationCreateScheduleArgs = {
+  input: ScheduleInput;
+};
+
+
+export type MutationUpdateScheduleArgs = {
+  id: Scalars['ID'];
+  input: ScheduleInput;
+};
+
 export type Gender = 
   | 'MASCULINO'
   | 'FEMININO';
@@ -239,7 +271,7 @@ export type DoctorInput = {
 };
 
 export type Specialties = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
 
@@ -293,6 +325,14 @@ export type Patient = {
   name: Scalars['String'];
   gender?: Maybe<Gender>;
   birth?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  cep?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -301,6 +341,25 @@ export type PatientInput = {
   name: Scalars['String'];
   birth?: Maybe<Scalars['String']>;
   gender?: Maybe<Gender>;
+  email?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  cep?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  neighborhood?: Maybe<Scalars['String']>;
+  complement?: Maybe<Scalars['String']>;
+};
+
+export type QueryInfo = {
+  __typename?: 'QueryInfo';
+  ammount?: Maybe<Scalars['Int']>;
+};
+
+export type GetPatients = {
+  __typename?: 'GetPatients';
+  queryInfo?: Maybe<QueryInfo>;
+  patients?: Maybe<Array<Maybe<Patient>>>;
 };
 
 export type ProcedureTableInput = {
@@ -340,15 +399,45 @@ export type Procedure = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type QueryInfo = {
-  __typename?: 'QueryInfo';
-  ammount?: Maybe<Scalars['Int']>;
-};
-
 export type GetProcedures = {
   __typename?: 'GetProcedures';
   queryInfo?: Maybe<QueryInfo>;
   procedures?: Maybe<Array<Maybe<Procedure>>>;
+};
+
+export type ScheduleInput = {
+  doctor?: Maybe<ScheduleDoctorInput>;
+  patient?: Maybe<SchedulePatientInput>;
+  procedures?: Maybe<Array<Maybe<ScheduleProceduresInput>>>;
+  time: Scalars['String'];
+  comments?: Maybe<Scalars['String']>;
+};
+
+export type ScheduleDoctorInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type SchedulePatientInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ScheduleProceduresInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type Schedule = {
+  __typename?: 'Schedule';
+  id: Scalars['ID'];
+  doctor: Doctor;
+  patient: Patient;
+  procedures?: Maybe<Array<Maybe<Procedure>>>;
+  time: Scalars['String'];
+  comments?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type GetDoctorsFragmentFragment = (
@@ -413,6 +502,72 @@ export type UptadateDoctorMutation = (
   & { updateDoctor: (
     { __typename?: 'Doctor' }
     & GetDoctorFragmentFragment
+  ) }
+);
+
+export type PatientFragmentFragment = (
+  { __typename?: 'Patient' }
+  & Pick<Patient, 'id' | 'name' | 'birth' | 'gender' | 'email' | 'country' | 'cep' | 'state' | 'city' | 'street' | 'neighborhood' | 'complement'>
+);
+
+export type PatientsQueryVariables = {
+  take?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['ID']>;
+  filter?: Maybe<Scalars['String']>;
+};
+
+
+export type PatientsQuery = (
+  { __typename?: 'Query' }
+  & { patients?: Maybe<(
+    { __typename?: 'GetPatients' }
+    & { queryInfo?: Maybe<(
+      { __typename?: 'QueryInfo' }
+      & Pick<QueryInfo, 'ammount'>
+    )>, patients?: Maybe<Array<Maybe<(
+      { __typename?: 'Patient' }
+      & PatientFragmentFragment
+    )>>> }
+  )> }
+);
+
+export type PatientQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type PatientQuery = (
+  { __typename?: 'Query' }
+  & { patient: (
+    { __typename?: 'Patient' }
+    & PatientFragmentFragment
+  ) }
+);
+
+export type CreatePatientMutationVariables = {
+  input: PatientInput;
+};
+
+
+export type CreatePatientMutation = (
+  { __typename?: 'Mutation' }
+  & { createPatient: (
+    { __typename?: 'Patient' }
+    & PatientFragmentFragment
+  ) }
+);
+
+export type UpdatePatientMutationVariables = {
+  id: Scalars['ID'];
+  input: PatientInput;
+};
+
+
+export type UpdatePatientMutation = (
+  { __typename?: 'Mutation' }
+  & { updatePatient: (
+    { __typename?: 'Patient' }
+    & PatientFragmentFragment
   ) }
 );
 
@@ -670,6 +825,22 @@ export const GetDoctorFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PatientFragmentFragmentDoc = gql`
+    fragment PatientFragment on Patient {
+  id
+  name
+  birth
+  gender
+  email
+  country
+  cep
+  state
+  city
+  street
+  neighborhood
+  complement
+}
+    `;
 export const ProceduresFragmentDoc = gql`
     fragment Procedures on Procedure {
   id
@@ -906,6 +1077,220 @@ export function useUptadateDoctorMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type UptadateDoctorMutationHookResult = ReturnType<typeof useUptadateDoctorMutation>;
 export type UptadateDoctorMutationResult = ApolloReactCommon.MutationResult<UptadateDoctorMutation>;
 export type UptadateDoctorMutationOptions = ApolloReactCommon.BaseMutationOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>;
+export const PatientsDocument = gql`
+    query Patients($take: Int, $cursor: ID, $filter: String) {
+  patients(take: $take, cursor: $cursor, filter: $filter) {
+    queryInfo {
+      ammount
+    }
+    patients {
+      ...PatientFragment
+    }
+  }
+}
+    ${PatientFragmentFragmentDoc}`;
+export type PatientsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PatientsQuery, PatientsQueryVariables>, 'query'>;
+
+    export const PatientsComponent = (props: PatientsComponentProps) => (
+      <ApolloReactComponents.Query<PatientsQuery, PatientsQueryVariables> query={PatientsDocument} {...props} />
+    );
+    
+export type PatientsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<PatientsQuery, PatientsQueryVariables>
+    } & TChildProps;
+export function withPatients<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  PatientsQuery,
+  PatientsQueryVariables,
+  PatientsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, PatientsQuery, PatientsQueryVariables, PatientsProps<TChildProps, TDataName>>(PatientsDocument, {
+      alias: 'patients',
+      ...operationOptions
+    });
+};
+
+/**
+ * __usePatientsQuery__
+ *
+ * To run a query within a React component, call `usePatientsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePatientsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePatientsQuery({
+ *   variables: {
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function usePatientsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PatientsQuery, PatientsQueryVariables>) {
+        return ApolloReactHooks.useQuery<PatientsQuery, PatientsQueryVariables>(PatientsDocument, baseOptions);
+      }
+export function usePatientsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PatientsQuery, PatientsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PatientsQuery, PatientsQueryVariables>(PatientsDocument, baseOptions);
+        }
+export type PatientsQueryHookResult = ReturnType<typeof usePatientsQuery>;
+export type PatientsLazyQueryHookResult = ReturnType<typeof usePatientsLazyQuery>;
+export type PatientsQueryResult = ApolloReactCommon.QueryResult<PatientsQuery, PatientsQueryVariables>;
+export const PatientDocument = gql`
+    query Patient($id: ID!) {
+  patient(id: $id) {
+    ...PatientFragment
+  }
+}
+    ${PatientFragmentFragmentDoc}`;
+export type PatientComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PatientQuery, PatientQueryVariables>, 'query'> & ({ variables: PatientQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const PatientComponent = (props: PatientComponentProps) => (
+      <ApolloReactComponents.Query<PatientQuery, PatientQueryVariables> query={PatientDocument} {...props} />
+    );
+    
+export type PatientProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<PatientQuery, PatientQueryVariables>
+    } & TChildProps;
+export function withPatient<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  PatientQuery,
+  PatientQueryVariables,
+  PatientProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, PatientQuery, PatientQueryVariables, PatientProps<TChildProps, TDataName>>(PatientDocument, {
+      alias: 'patient',
+      ...operationOptions
+    });
+};
+
+/**
+ * __usePatientQuery__
+ *
+ * To run a query within a React component, call `usePatientQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePatientQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePatientQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePatientQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PatientQuery, PatientQueryVariables>) {
+        return ApolloReactHooks.useQuery<PatientQuery, PatientQueryVariables>(PatientDocument, baseOptions);
+      }
+export function usePatientLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PatientQuery, PatientQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PatientQuery, PatientQueryVariables>(PatientDocument, baseOptions);
+        }
+export type PatientQueryHookResult = ReturnType<typeof usePatientQuery>;
+export type PatientLazyQueryHookResult = ReturnType<typeof usePatientLazyQuery>;
+export type PatientQueryResult = ApolloReactCommon.QueryResult<PatientQuery, PatientQueryVariables>;
+export const CreatePatientDocument = gql`
+    mutation CreatePatient($input: PatientInput!) {
+  createPatient(input: $input) {
+    ...PatientFragment
+  }
+}
+    ${PatientFragmentFragmentDoc}`;
+export type CreatePatientMutationFn = ApolloReactCommon.MutationFunction<CreatePatientMutation, CreatePatientMutationVariables>;
+export type CreatePatientComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreatePatientMutation, CreatePatientMutationVariables>, 'mutation'>;
+
+    export const CreatePatientComponent = (props: CreatePatientComponentProps) => (
+      <ApolloReactComponents.Mutation<CreatePatientMutation, CreatePatientMutationVariables> mutation={CreatePatientDocument} {...props} />
+    );
+    
+export type CreatePatientProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreatePatientMutation, CreatePatientMutationVariables>
+    } & TChildProps;
+export function withCreatePatient<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreatePatientMutation,
+  CreatePatientMutationVariables,
+  CreatePatientProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreatePatientMutation, CreatePatientMutationVariables, CreatePatientProps<TChildProps, TDataName>>(CreatePatientDocument, {
+      alias: 'createPatient',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreatePatientMutation__
+ *
+ * To run a mutation, you first call `useCreatePatientMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePatientMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPatientMutation, { data, loading, error }] = useCreatePatientMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePatientMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePatientMutation, CreatePatientMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreatePatientMutation, CreatePatientMutationVariables>(CreatePatientDocument, baseOptions);
+      }
+export type CreatePatientMutationHookResult = ReturnType<typeof useCreatePatientMutation>;
+export type CreatePatientMutationResult = ApolloReactCommon.MutationResult<CreatePatientMutation>;
+export type CreatePatientMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePatientMutation, CreatePatientMutationVariables>;
+export const UpdatePatientDocument = gql`
+    mutation UpdatePatient($id: ID!, $input: PatientInput!) {
+  updatePatient(id: $id, input: $input) {
+    ...PatientFragment
+  }
+}
+    ${PatientFragmentFragmentDoc}`;
+export type UpdatePatientMutationFn = ApolloReactCommon.MutationFunction<UpdatePatientMutation, UpdatePatientMutationVariables>;
+export type UpdatePatientComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdatePatientMutation, UpdatePatientMutationVariables>, 'mutation'>;
+
+    export const UpdatePatientComponent = (props: UpdatePatientComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdatePatientMutation, UpdatePatientMutationVariables> mutation={UpdatePatientDocument} {...props} />
+    );
+    
+export type UpdatePatientProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdatePatientMutation, UpdatePatientMutationVariables>
+    } & TChildProps;
+export function withUpdatePatient<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdatePatientMutation,
+  UpdatePatientMutationVariables,
+  UpdatePatientProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdatePatientMutation, UpdatePatientMutationVariables, UpdatePatientProps<TChildProps, TDataName>>(UpdatePatientDocument, {
+      alias: 'updatePatient',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdatePatientMutation__
+ *
+ * To run a mutation, you first call `useUpdatePatientMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePatientMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePatientMutation, { data, loading, error }] = useUpdatePatientMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePatientMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdatePatientMutation, UpdatePatientMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdatePatientMutation, UpdatePatientMutationVariables>(UpdatePatientDocument, baseOptions);
+      }
+export type UpdatePatientMutationHookResult = ReturnType<typeof useUpdatePatientMutation>;
+export type UpdatePatientMutationResult = ApolloReactCommon.MutationResult<UpdatePatientMutation>;
+export type UpdatePatientMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePatientMutation, UpdatePatientMutationVariables>;
 export const ProceduresDocument = gql`
     query Procedures($procedureTableId: ID!, $take: Int, $cursor: ID, $filter: String) {
   procedures(procedureTableId: $procedureTableId, take: $take, cursor: $cursor, filter: $filter) {
