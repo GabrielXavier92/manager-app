@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-  Card, ResourceList, Filters, Stack, Button,
+  Card, ResourceList, Filters, Stack, Button, TextContainer,
 } from '@shopify/polaris';
 import { useHistory } from 'react-router-dom';
 import ProcedureLine from '../ProcedureLine';
@@ -76,6 +76,15 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
           },
         }]}
       >
+        {data?.getProcedures?.queryInfo?.ammount && (
+          <TextContainer>
+            Existem
+            {' '}
+            {data?.getProcedures?.queryInfo?.ammount}
+            {' '}
+            procedimentos cadastrados nessa tabela
+          </TextContainer>
+          )}
         <Card>
           <ResourceList
             resourceName={{ singular: 'Procedimento', plural: 'Procedimentos' }}
