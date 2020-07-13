@@ -170,12 +170,13 @@ const DoctorForm: React.FC = () => {
                 <Controller
                   as={(
                     <ReactSelect
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      styles={{ menu: (styles) => ({ ...styles, zIndex: 9999999 }) }}
                       getOptionValue={(option) => option.id}
                       getOptionLabel={(option) => option.name}
                       options={specialties}
                       isMulti
-                      className="basic-multi-select"
-                      classNamePrefix="select"
                     />
                   )}
                   control={control}
