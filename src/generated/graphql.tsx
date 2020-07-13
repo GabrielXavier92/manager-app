@@ -33,7 +33,6 @@ export type Query = {
   procedure?: Maybe<Procedure>;
   specialty: Specialty;
   specialties?: Maybe<Array<Specialty>>;
-  schedule?: Maybe<Schedule>;
   schedules?: Maybe<Array<Maybe<Schedule>>>;
 };
 
@@ -79,11 +78,6 @@ export type QueryProcedureArgs = {
 
 
 export type QuerySpecialtyArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryScheduleArgs = {
   id: Scalars['ID'];
 };
 
@@ -406,10 +400,16 @@ export type GetProcedures = {
 };
 
 export type ScheduleInput = {
-  doctor?: Maybe<ScheduleDoctorInput>;
-  patient?: Maybe<SchedulePatientInput>;
+  title: Scalars['String'];
+  start: Scalars['String'];
+  end: Scalars['String'];
+  resources: ScheduleResourcesInput;
+};
+
+export type ScheduleResourcesInput = {
+  doctor: ScheduleDoctorInput;
+  patient: SchedulePatientInput;
   procedures?: Maybe<Array<Maybe<ScheduleProceduresInput>>>;
-  time: Scalars['String'];
   comments?: Maybe<Scalars['String']>;
 };
 
@@ -431,13 +431,20 @@ export type ScheduleProceduresInput = {
 export type Schedule = {
   __typename?: 'Schedule';
   id: Scalars['ID'];
+  title: Scalars['String'];
+  start: Scalars['String'];
+  end: Scalars['String'];
+  resources?: Maybe<ScheduleResources>;
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type ScheduleResources = {
+  __typename?: 'ScheduleResources';
   doctor: Doctor;
   patient: Patient;
   procedures?: Maybe<Array<Maybe<Procedure>>>;
-  time: Scalars['String'];
   comments?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type GetDoctorsFragmentFragment = (
@@ -701,6 +708,66 @@ export type UpdateProcedureTableMutation = (
   ) }
 );
 
+export type SchedulesFragmentFragment = (
+  { __typename?: 'Schedule' }
+  & Pick<Schedule, 'id' | 'title' | 'start' | 'end'>
+  & { resources?: Maybe<(
+    { __typename?: 'ScheduleResources' }
+    & Pick<ScheduleResources, 'comments'>
+    & { doctor: (
+      { __typename?: 'Doctor' }
+      & Pick<Doctor, 'id' | 'name'>
+    ), patient: (
+      { __typename?: 'Patient' }
+      & Pick<Patient, 'id' | 'name'>
+    ), procedures?: Maybe<Array<Maybe<(
+      { __typename?: 'Procedure' }
+      & Pick<Procedure, 'id' | 'name'>
+    )>>> }
+  )> }
+);
+
+export type SchedulesQueryVariables = {
+  start: Scalars['String'];
+  end: Scalars['String'];
+};
+
+
+export type SchedulesQuery = (
+  { __typename?: 'Query' }
+  & { schedules?: Maybe<Array<Maybe<(
+    { __typename?: 'Schedule' }
+    & SchedulesFragmentFragment
+  )>>> }
+);
+
+export type CreateScheduleMutationVariables = {
+  input: ScheduleInput;
+};
+
+
+export type CreateScheduleMutation = (
+  { __typename?: 'Mutation' }
+  & { createSchedule?: Maybe<(
+    { __typename?: 'Schedule' }
+    & SchedulesFragmentFragment
+  )> }
+);
+
+export type UpdateScheduleMutationVariables = {
+  id: Scalars['ID'];
+  input: ScheduleInput;
+};
+
+
+export type UpdateScheduleMutation = (
+  { __typename?: 'Mutation' }
+  & { updateSchedule?: Maybe<(
+    { __typename?: 'Schedule' }
+    & SchedulesFragmentFragment
+  )> }
+);
+
 export type GetSpecialtyFragmentFragment = (
   { __typename?: 'Specialty' }
   & Pick<Specialty, 'id' | 'name'>
@@ -863,6 +930,29 @@ export const ProcedureTableFragmentDoc = gql`
   name
   createdAt
   updatedAt
+}
+    `;
+export const SchedulesFragmentFragmentDoc = gql`
+    fragment SchedulesFragment on Schedule {
+  id
+  title
+  start
+  end
+  resources {
+    doctor {
+      id
+      name
+    }
+    patient {
+      id
+      name
+    }
+    procedures {
+      id
+      name
+    }
+    comments
+  }
 }
     `;
 export const GetSpecialtyFragmentFragmentDoc = gql`
@@ -1712,6 +1802,162 @@ export function useUpdateProcedureTableMutation(baseOptions?: ApolloReactHooks.M
 export type UpdateProcedureTableMutationHookResult = ReturnType<typeof useUpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationResult = ApolloReactCommon.MutationResult<UpdateProcedureTableMutation>;
 export type UpdateProcedureTableMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProcedureTableMutation, UpdateProcedureTableMutationVariables>;
+export const SchedulesDocument = gql`
+    query Schedules($start: String!, $end: String!) {
+  schedules(start: $start, end: $end) {
+    ...SchedulesFragment
+  }
+}
+    ${SchedulesFragmentFragmentDoc}`;
+export type SchedulesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SchedulesQuery, SchedulesQueryVariables>, 'query'> & ({ variables: SchedulesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const SchedulesComponent = (props: SchedulesComponentProps) => (
+      <ApolloReactComponents.Query<SchedulesQuery, SchedulesQueryVariables> query={SchedulesDocument} {...props} />
+    );
+    
+export type SchedulesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<SchedulesQuery, SchedulesQueryVariables>
+    } & TChildProps;
+export function withSchedules<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SchedulesQuery,
+  SchedulesQueryVariables,
+  SchedulesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, SchedulesQuery, SchedulesQueryVariables, SchedulesProps<TChildProps, TDataName>>(SchedulesDocument, {
+      alias: 'schedules',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSchedulesQuery__
+ *
+ * To run a query within a React component, call `useSchedulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSchedulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSchedulesQuery({
+ *   variables: {
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *   },
+ * });
+ */
+export function useSchedulesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SchedulesQuery, SchedulesQueryVariables>) {
+        return ApolloReactHooks.useQuery<SchedulesQuery, SchedulesQueryVariables>(SchedulesDocument, baseOptions);
+      }
+export function useSchedulesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SchedulesQuery, SchedulesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SchedulesQuery, SchedulesQueryVariables>(SchedulesDocument, baseOptions);
+        }
+export type SchedulesQueryHookResult = ReturnType<typeof useSchedulesQuery>;
+export type SchedulesLazyQueryHookResult = ReturnType<typeof useSchedulesLazyQuery>;
+export type SchedulesQueryResult = ApolloReactCommon.QueryResult<SchedulesQuery, SchedulesQueryVariables>;
+export const CreateScheduleDocument = gql`
+    mutation CreateSchedule($input: ScheduleInput!) {
+  createSchedule(input: $input) {
+    ...SchedulesFragment
+  }
+}
+    ${SchedulesFragmentFragmentDoc}`;
+export type CreateScheduleMutationFn = ApolloReactCommon.MutationFunction<CreateScheduleMutation, CreateScheduleMutationVariables>;
+export type CreateScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateScheduleMutation, CreateScheduleMutationVariables>, 'mutation'>;
+
+    export const CreateScheduleComponent = (props: CreateScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateScheduleMutation, CreateScheduleMutationVariables> mutation={CreateScheduleDocument} {...props} />
+    );
+    
+export type CreateScheduleProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateScheduleMutation, CreateScheduleMutationVariables>
+    } & TChildProps;
+export function withCreateSchedule<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateScheduleMutation,
+  CreateScheduleMutationVariables,
+  CreateScheduleProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateScheduleMutation, CreateScheduleMutationVariables, CreateScheduleProps<TChildProps, TDataName>>(CreateScheduleDocument, {
+      alias: 'createSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateScheduleMutation__
+ *
+ * To run a mutation, you first call `useCreateScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createScheduleMutation, { data, loading, error }] = useCreateScheduleMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateScheduleMutation, CreateScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateScheduleMutation, CreateScheduleMutationVariables>(CreateScheduleDocument, baseOptions);
+      }
+export type CreateScheduleMutationHookResult = ReturnType<typeof useCreateScheduleMutation>;
+export type CreateScheduleMutationResult = ApolloReactCommon.MutationResult<CreateScheduleMutation>;
+export type CreateScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateScheduleMutation, CreateScheduleMutationVariables>;
+export const UpdateScheduleDocument = gql`
+    mutation UpdateSchedule($id: ID!, $input: ScheduleInput!) {
+  updateSchedule(id: $id, input: $input) {
+    ...SchedulesFragment
+  }
+}
+    ${SchedulesFragmentFragmentDoc}`;
+export type UpdateScheduleMutationFn = ApolloReactCommon.MutationFunction<UpdateScheduleMutation, UpdateScheduleMutationVariables>;
+export type UpdateScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateScheduleMutation, UpdateScheduleMutationVariables>, 'mutation'>;
+
+    export const UpdateScheduleComponent = (props: UpdateScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateScheduleMutation, UpdateScheduleMutationVariables> mutation={UpdateScheduleDocument} {...props} />
+    );
+    
+export type UpdateScheduleProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateScheduleMutation, UpdateScheduleMutationVariables>
+    } & TChildProps;
+export function withUpdateSchedule<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateScheduleMutation,
+  UpdateScheduleMutationVariables,
+  UpdateScheduleProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateScheduleMutation, UpdateScheduleMutationVariables, UpdateScheduleProps<TChildProps, TDataName>>(UpdateScheduleDocument, {
+      alias: 'updateSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateScheduleMutation__
+ *
+ * To run a mutation, you first call `useUpdateScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateScheduleMutation, { data, loading, error }] = useUpdateScheduleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateScheduleMutation, UpdateScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateScheduleMutation, UpdateScheduleMutationVariables>(UpdateScheduleDocument, baseOptions);
+      }
+export type UpdateScheduleMutationHookResult = ReturnType<typeof useUpdateScheduleMutation>;
+export type UpdateScheduleMutationResult = ApolloReactCommon.MutationResult<UpdateScheduleMutation>;
+export type UpdateScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateScheduleMutation, UpdateScheduleMutationVariables>;
 export const SpecialtiesDocument = gql`
     query Specialties {
   specialties {
