@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
 import {
-  ListMajorMonotone, HomeMajorMonotone, CustomersMajorMonotone, ChecklistAlternateMajorMonotone,
+  ListMajorMonotone, HomeMajorMonotone, CustomersMajorMonotone, ChecklistAlternateMajorMonotone, CalendarMajorMonotone,
 } from '@shopify/polaris-icons';
 import { useHistory } from 'react-router-dom';
 
@@ -26,6 +26,11 @@ const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
             label: 'Home',
             icon: HomeMajorMonotone,
             onClick: () => handleChangePage('/'),
+          },
+          {
+            label: 'Agenda',
+            icon: CalendarMajorMonotone,
+            onClick: () => handleChangePage('/scheduleCalendar'),
           },
           {
             label: 'Profissionais',

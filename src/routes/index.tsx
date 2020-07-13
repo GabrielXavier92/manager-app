@@ -12,6 +12,7 @@ import { SpecialtyList, SpecialtyForm } from '../components/Specialty';
 import { ProcedureTableList, ProcedureTableForm } from '../components/ProcedureTable';
 import { ProcedureForm } from '../components/Procedure';
 import { PatientList, PatientForm } from '../components/Patient';
+import ScheduleCalendar from '../components/ScheduleCalendar';
 
 import Home from '../components/Home';
 
@@ -25,6 +26,8 @@ export const AppRoutes = () => (
 
 export const AuthRoutes = () => (
   <>
+    <AuthRoute path="/scheduleCalendar" component={ScheduleCalendar} exact />
+
     <AuthRoute path="/doctorList" component={DoctorList} exact />
     <AuthRoute path="/doctor" component={DoctorForm} exact />
     <AuthRoute path="/doctor/:id" component={DoctorForm} exact />
@@ -46,6 +49,6 @@ export const AuthRoutes = () => (
 
     <AuthRoute path="/" component={Home} exact />
 
-    <Redirect to="/patientList" />
+    <Redirect to="/scheduleCalendar" />
   </>
 );
