@@ -89,7 +89,6 @@ const ProcedureForm: React.FC = () => {
 
   useEffect(handleSetOptions, [fetchSpecialties?.specialties]);
 
-
   return (
     <Page
       title={title}
@@ -146,7 +145,7 @@ const ProcedureForm: React.FC = () => {
                 <Controller
                   as={(
                     <TextField
-                      type="text"
+                      type="number"
                       label="Valor"
                       onChange={() => { }}
                     />
