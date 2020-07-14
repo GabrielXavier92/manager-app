@@ -42,15 +42,15 @@ const PatientSelect: React.FC<IPatientSelect> = ({
     },
   });
 
-  const handleSetProcedures = () => {
+  const handleSetPatients = () => {
     if (data?.patients?.patients) {
       setSelectPatients(data?.patients?.patients!.map((patient) => ({ id: patient?.id!, name: patient?.name! })));
     }
   };
 
-  useEffect(handleSetProcedures, [data?.patients?.patients!]);
+  useEffect(handleSetPatients, [data?.patients?.patients!]);
 
-  const handleGetNextProcedures = () => {
+  const handleGetNextPatients = () => {
     const cursor = data?.patients?.patients![data?.patients?.patients!.length - 1]!.id;
     fetchMore({
       variables: {
@@ -66,7 +66,7 @@ const PatientSelect: React.FC<IPatientSelect> = ({
           patients: {
             // eslint-disable-next-line no-underscore-dangle
             __typename: prev.patients!.__typename,
-            procedures: [...prev.patients!.patients!, ...newPatients!],
+            patients: [...prev.patients!.patients!, ...newPatients!],
             queryInfo,
           },
         };
@@ -91,7 +91,7 @@ const PatientSelect: React.FC<IPatientSelect> = ({
             onChange={setValue}
             inputValue={inputValue}
             onInputChange={setInputValue}
-            onMenuScrollToBottom={handleGetNextProcedures}
+            onMenuScrollToBottom={handleGetNextPatients}
           />
         )}
         control={control}
