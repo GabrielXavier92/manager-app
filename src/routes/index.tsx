@@ -12,13 +12,12 @@ import { SpecialtyList, SpecialtyForm } from '../components/Specialty';
 import { ProcedureTableList, ProcedureTableForm } from '../components/ProcedureTable';
 import { ProcedureForm } from '../components/Procedure';
 import { PatientList, PatientForm } from '../components/Patient';
-import ScheduleCalendar from '../components/ScheduleCalendar';
+import { ScheduleCalendar } from '../components/ScheduleCalendar';
 
 import Home from '../components/Home';
 
 export const AppRoutes = () => (
   <Switch>
-    <Route path="/signin" component={Signin} />
     <Route path="/signin" component={Signin} />
     <AuthRoute exact={false} path="/" component={DashBoard} />
   </Switch>
