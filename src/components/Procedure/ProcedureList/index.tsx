@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import {
-  Card, ResourceList, Filters, Stack, Button, TextContainer,
+  Card, Filters, Stack, Button, DataTable,
 } from '@shopify/polaris';
+import {
+  EditMajorMonotone,
+} from '@shopify/polaris-icons';
 import { useHistory } from 'react-router-dom';
-import ProcedureLine from '../ProcedureLine';
-import { useProceduresQuery, Procedure } from '../../../generated/graphql';
+import { useProceduresQuery } from '../../../generated/graphql';
 
 interface IProcedureList {
   procedureTableId: string;
@@ -23,7 +25,7 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const [taked, setTaked] = useState(10);
   const take = 10;
 
-  const { data, fetchMore } = useProceduresQuery({
+  const { data, loading, fetchMore } = useProceduresQuery({
     variables: {
       procedureTableId,
       take,
@@ -63,6 +65,16 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
     });
   };
 
+  const ProcedureLine = () => {
+    let lines: any[] = [];
+    if (data?.procedures?.procedures) {
+      lines = data?.procedures?.procedures!.map((procedure) => {
+        const editButton = (<Button size="slim" onClick={() => { history.push(`${procedureTableId}/procedure/${procedure?.id}`); }} icon={EditMajorMonotone} plain />);
+        return [procedure?.code, procedure?.name, procedure?.specialty?.name, editButton];
+      });
+    }
+    return lines;
+  };
   return (
     <>
       <Card
@@ -75,49 +87,45 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
           },
         }]}
       >
-        {data?.procedures?.queryInfo?.ammount && (
-          <TextContainer>
-            Existem
-            {' '}
-            {data?.procedures?.queryInfo?.ammount}
-            {' '}
-            procedimentos cadastrados nessa tabela
-          </TextContainer>
-          )}
         <Card>
-          <ResourceList
-            resourceName={{ singular: 'Procedimento', plural: 'Procedimentos' }}
-            filterControl={(
-              <Filters
-                queryValue={queryValue}
-                filters={[]}
-                onQueryChange={handleFiltersQueryChange}
-                onQueryClear={handleQueryValueRemove}
-                onClearAll={handleFiltersClearAll}
-              />
-            )}
-            items={data?.procedures?.procedures ? data?.procedures?.procedures : []}
-            renderItem={(procedure: Procedure) => (
-              <ProcedureLine
-                id={procedure.id}
-                name={procedure.name}
-                code={procedure.code}
-                value={procedure.value}
-                specialty={procedure.specialty}
-                procedureTable={procedure.procedureTable}
-              />
-            )}
+          <Filters
+            queryValue={queryValue}
+            filters={[]}
+            onQueryChange={handleFiltersQueryChange}
+            onQueryClear={handleQueryValueRemove}
+            onClearAll={handleFiltersClearAll}
           />
         </Card>
-        {take <= taked && take <= data?.procedures?.queryInfo?.ammount! && (
-          <>
-            <br />
-            <Stack distribution="center">
-              <Button onClick={handleGetNextProcedures}>Carregar Mais</Button>
-            </Stack>
-          </>
-        )}
+        <Card>
+          <DataTable
+            columnContentTypes={[
+              'text',
+              'text',
+              'text',
+              'text',
+              'text',
+              'text',
+            ]}
+            headings={[
+              'Codigo',
+              'Nome',
+              'Especialidade',
+              '',
+            ]}
+            rows={ProcedureLine()}
+            footerContent={`Mostrando ${data?.procedures?.procedures?.length} de ${data?.procedures?.queryInfo?.ammount}`}
+          />
+        </Card>
       </Card>
+      {take <= taked && take <= data?.procedures?.queryInfo?.ammount! && (
+      <>
+        <br />
+        <Stack distribution="center">
+          <Button loading={loading} plain onClick={handleGetNextProcedures}>Carregar Mais</Button>
+        </Stack>
+        <br />
+      </>
+      )}
     </>
   );
 };
