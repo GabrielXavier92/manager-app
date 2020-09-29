@@ -13,6 +13,7 @@ import { ProcedureTableList, ProcedureTableForm } from '../components/ProcedureT
 import { ProcedureForm } from '../components/Procedure';
 import { PatientList, PatientForm } from '../components/Patient';
 import { ScheduleCalendar } from '../components/ScheduleCalendar';
+import { GuideList, GuideForm } from '../components/Guide';
 
 import Home from '../components/Home';
 
@@ -26,6 +27,10 @@ export const AppRoutes = () => (
 export const AuthRoutes = () => (
   <>
     <AuthRoute path="/scheduleCalendar" component={ScheduleCalendar} exact />
+
+    <AuthRoute path="/guideList" component={GuideList} exact />
+    <AuthRoute path="/guide" component={GuideForm} exact />
+    <AuthRoute path="/guide/:id" component={GuideForm} exact />
 
     <AuthRoute path="/doctorList" component={DoctorList} exact />
     <AuthRoute path="/doctor" component={DoctorForm} exact />
@@ -48,6 +53,6 @@ export const AuthRoutes = () => (
 
     <AuthRoute path="/" component={Home} exact />
 
-    <Redirect to="/scheduleCalendar" />
+    <Redirect to="/guideList" />
   </>
 );

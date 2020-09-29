@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigation } from '@shopify/polaris';
 import {
-  ListMajorMonotone, HomeMajorMonotone, CustomersMajorMonotone, ChecklistAlternateMajorMonotone, CalendarMajorMonotone,
+  CategoriesMajorMonotone, ListMajorMonotone, HomeMajorMonotone, CustomersMajorMonotone, ChecklistAlternateMajorMonotone, CalendarMajorMonotone,
 } from '@shopify/polaris-icons';
 import { useHistory } from 'react-router-dom';
 
@@ -33,6 +33,11 @@ const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
             onClick: () => handleChangePage('/scheduleCalendar'),
           },
           {
+            label: 'Guias de Atendimento',
+            icon: ChecklistAlternateMajorMonotone,
+            onClick: () => handleChangePage('/guideList'),
+          },
+          {
             label: 'Profissionais',
             icon: CustomersMajorMonotone,
             onClick: () => handleChangePage('/doctorList'),
@@ -49,7 +54,7 @@ const LeftMenu: React.FC<ILeftMenu> = ({ onNavigationToggle }) => {
         items={[
           {
             label: 'Tabelas de Procedimentos',
-            icon: ChecklistAlternateMajorMonotone,
+            icon: CategoriesMajorMonotone,
             onClick: () => handleChangePage('/procedureTableList'),
           },
           {
