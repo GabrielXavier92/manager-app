@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactSelect from 'react-select';
 import { Controller } from 'react-hook-form';
 
+import { InlineError } from '@shopify/polaris';
 import { useProceduresQuery } from '../../../generated/graphql';
 
 interface ISelect {
@@ -9,18 +10,21 @@ interface ISelect {
   name: string;
 }
 
-interface IPatientSelect {
+interface IProcedureSelect {
   value?: ISelect,
   setValue?: (value?: any) => void;
   procedureTableId: string;
   inputValue?: string;
   setInputValue?: (newValue: string) => void;
-  label: string;
+  label?: string;
   control: any;
   name: string;
+  rules?: any;
+  error?: any;
+  isMulti?: boolean;
 }
 
-const ProcedureSelect: React.FC<IPatientSelect> = ({
+const ProcedureSelect: React.FC<IProcedureSelect> = ({
   value,
   setValue,
   procedureTableId,
@@ -28,7 +32,10 @@ const ProcedureSelect: React.FC<IPatientSelect> = ({
   setInputValue,
   label,
   control,
+  rules,
+  error,
   name,
+  isMulti = false,
 }) => {
   const [selectProcedures, setSelectProcedures] = useState<Array<ISelect>>([]);
   const { data, loading, fetchMore } = useProceduresQuery({
@@ -76,28 +83,33 @@ const ProcedureSelect: React.FC<IPatientSelect> = ({
 
   return (
     <>
-      <span>{label}</span>
+      <label htmlFor={name}>{label}</label>
       <Controller
         as={(
           <ReactSelect
             className="basic-multi-select"
             classNamePrefix="select"
-            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
+            menuPortalTarget={document.body}
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            }}
             getOptionValue={(option) => option.id}
             getOptionLabel={(option) => option.name}
             isLoading={loading}
             options={selectProcedures}
-            isMulti
+            isMulti={isMulti}
             value={value}
             onChange={setValue}
             inputValue={inputValue}
             onInputChange={setInputValue}
             onMenuScrollToBottom={handleGetNextProcedures}
           />
-    )}
+        )}
         control={control}
+        rules={rules}
         name={name}
       />
+      <InlineError message={error ? 'Campo procedimento obrigatorio' : ''} fieldID={name} />
     </>
   );
 };
