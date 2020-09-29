@@ -87,15 +87,8 @@ const DoctorForm: React.FC = () => {
       ...doctor,
       birth: birth ? transformStringDayInTimestamp(birth) : birth,
     };
-    if (params.id) {
-      updateDoctor({ variables: { id: params.id, input } });
-    } else {
-      createDoctor({
-        variables: {
-          input,
-        },
-      });
-    }
+    if (params.id) updateDoctor({ variables: { id: params.id, input } });
+    else createDoctor({ variables: { input } });
   };
 
   return (
@@ -239,7 +232,6 @@ const DoctorForm: React.FC = () => {
               </FormLayout>
             </Card>
           </Layout.AnnotatedSection>
-
 
           <Layout.Section>
             <Stack distribution="equalSpacing">

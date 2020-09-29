@@ -25,6 +25,10 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
   const [taked, setTaked] = useState(10);
   const take = 10;
 
+  const handleFiltersQueryChange = (value: string) => setQueryValue(value);
+  const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
+  const handleFiltersClearAll = () => handleQueryValueRemove();
+
   const { data, loading, fetchMore } = useProceduresQuery({
     variables: {
       procedureTableId,
@@ -34,10 +38,6 @@ const ProcedureList: React.FC<IProcedureList> = ({ procedureTableId }) => {
     },
     fetchPolicy: 'cache-and-network',
   });
-
-  const handleFiltersQueryChange = (value: string) => setQueryValue(value);
-  const handleQueryValueRemove = useCallback(() => setQueryValue(''), []);
-  const handleFiltersClearAll = () => handleQueryValueRemove();
 
   const handleGetNextProcedures = () => {
     const cursor = data?.procedures?.procedures![data?.procedures?.procedures!.length - 1]!.id;

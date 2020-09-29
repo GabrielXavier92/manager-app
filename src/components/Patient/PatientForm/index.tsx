@@ -5,7 +5,6 @@ import {
   Button, Card, Layout, Page, Form, FormLayout, TextField, Select, Stack,
 } from '@shopify/polaris';
 
-
 import { transformTimeStampInTodayDate, transformStringDayInTimestamp } from '../../../utils/formatDate';
 
 import {
@@ -34,26 +33,22 @@ const DoctorForm: React.FC = () => {
   const [title, setTitle] = useState('Editar Dados');
 
   const [getPatient, { data }] = usePatientLazyQuery();
+
   const [createPatient, { loading: createLoading }] = useCreatePatientMutation({
     onCompleted: (newPatient) => {
       if (newPatient) history.push('/patientList');
     },
-    refetchQueries: [{ query: GET_PATIENTS }],
   });
 
   const [updatePatient, { loading: updateLoading }] = useUpdatePatientMutation({
     onCompleted: (newPatient) => {
       if (newPatient) history.push('/patientList');
     },
-    refetchQueries: [{ query: GET_PATIENT, variables: { id: params.id } }],
   });
 
   const handleGetPatient = () => {
-    if (params.id) {
-      getPatient({ variables: { id: params.id } });
-    } else {
-      setTitle('Novo Paciente');
-    }
+    if (params.id) getPatient({ variables: { id: params.id } });
+    else setTitle('Novo Paciente');
   };
 
   useEffect(handleGetPatient, [params.id]);
@@ -68,7 +63,6 @@ const DoctorForm: React.FC = () => {
   };
 
   useEffect(handleSetFormValues, [data]);
-
 
   const onSubmit = (patient: PatientInput) => {
     const { birth } = patient;
@@ -198,7 +192,6 @@ const DoctorForm: React.FC = () => {
               </FormLayout>
             </Card>
           </Layout.AnnotatedSection>
-
 
           <Layout.Section>
             <Stack distribution="equalSpacing">
