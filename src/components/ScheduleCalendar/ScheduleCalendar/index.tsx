@@ -10,6 +10,24 @@ import { transformTimeStampInFullDate, transformDateInTodayDateHour } from '../.
 import omitDeep from '../../../utils/omitDeep';
 
 const localizer = momentLocalizer(moment);
+const messages = {
+  time: 'Tempo',
+  event: 'Evento',
+  allDay: 'Todo o dia',
+  week: 'Semana',
+  day: 'Dia',
+  month: 'Mês',
+  previous: 'Voltar',
+  next: 'Próximo',
+  yesterday: 'Ontem',
+  tomorrow: 'Amanhã',
+  today: 'Hoje',
+  agenda: 'Agenda',
+  noEventsInRange: 'Nenhum evento nessa data',
+  showMore: function showMore(total: number) {
+    return `+${total} mais`;
+  },
+};
 
 const ScheduleCalendar: React.FC = () => {
   const [events, setEvents] = useState<Array<any>>([]);
@@ -76,16 +94,17 @@ const ScheduleCalendar: React.FC = () => {
                 events={events}
                 popup
                 onDoubleClickEvent={handleOnDoubleClickEvent}
+                messages={messages}
               />
             </div>
           </Card>
         </Layout.Section>
-        <Layout.Section secondary>
-          {/* <Card title="Agendamentos" sectioned>
+        {/* <Layout.Section secondary> */}
+        {/* <Card title="Agendamentos" sectioned>
             <p>Oi</p>
 
           </Card> */}
-        </Layout.Section>
+        {/* </Layout.Section> */}
 
       </Layout>
     </Page>
