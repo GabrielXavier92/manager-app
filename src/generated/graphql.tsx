@@ -24,7 +24,7 @@ export type Query = {
   doctor: Doctor;
   doctors?: Maybe<Array<Doctor>>;
   guide: Guide;
-  guides?: Maybe<Array<Guide>>;
+  guides?: Maybe<GetGuide>;
   patient: Patient;
   patients?: Maybe<GetPatients>;
   procedureTable: ProcedureTable;
@@ -44,6 +44,13 @@ export type QueryDoctorArgs = {
 
 export type QueryGuideArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGuidesArgs = {
+  take?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['ID']>;
+  filter?: Maybe<Scalars['String']>;
 };
 
 
@@ -94,7 +101,7 @@ export type Mutation = {
   createDoctor: Doctor;
   updateDoctor: Doctor;
   createGuide: Guide;
-  updateGuides: Guide;
+  updateGuide: Guide;
   createPatient: Patient;
   updatePatient: Patient;
   createProcedureTable: ProcedureTable;
@@ -134,7 +141,7 @@ export type MutationCreateGuideArgs = {
 };
 
 
-export type MutationUpdateGuidesArgs = {
+export type MutationUpdateGuideArgs = {
   id: Scalars['ID'];
   input: GuideInput;
 };
@@ -287,7 +294,6 @@ export type Doctor = {
   specialties?: Maybe<Array<Maybe<Specialty>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  guides?: Maybe<Array<Maybe<Guide>>>;
 };
 
 export type Specialty = {
@@ -297,24 +303,69 @@ export type Specialty = {
 };
 
 export type GuideInput = {
-  description: Scalars['String'];
-  patientId: Scalars['ID'];
-  doctorId: Scalars['ID'];
+  doctor: GuideDoctorInput;
+  patient: GuidePatientInput;
+  procedureTable: GuideProcedureTableInput;
+  proceduresGuide: Array<GuideProceduresInput>;
+  comments?: Maybe<Scalars['String']>;
+  start: Scalars['String'];
+  isClosed?: Maybe<Scalars['Boolean']>;
+};
+
+export type GuideDoctorInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type GuidePatientInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type GuideProcedureTableInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type GuideProceduresInput = {
+  id?: Maybe<Scalars['ID']>;
+  procedure: GuideProcedureInput;
+  value: Scalars['String'];
+  quantity: Scalars['String'];
+};
+
+export type GuideProcedureInput = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type QueryInfo = {
+  __typename?: 'QueryInfo';
+  ammount?: Maybe<Scalars['Int']>;
+};
+
+export type GetGuide = {
+  __typename?: 'GetGuide';
+  queryInfo?: Maybe<QueryInfo>;
+  guides?: Maybe<Array<Maybe<Guide>>>;
 };
 
 export type Guide = {
   __typename?: 'Guide';
   id: Scalars['ID'];
-  description: Scalars['String'];
-  doctor?: Maybe<Doctor>;
   patient?: Maybe<Patient>;
+  doctor?: Maybe<Doctor>;
+  procedureTable?: Maybe<ProcedureTable>;
+  proceduresGuide: Array<Maybe<ProceduresGuide>>;
+  comments?: Maybe<Scalars['String']>;
+  start: Scalars['String'];
+  isClosed: Scalars['Boolean'];
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type Patient = {
   __typename?: 'Patient';
-  guides?: Maybe<Array<Maybe<Guide>>>;
   id: Scalars['ID'];
   name: Scalars['String'];
   gender?: Maybe<Gender>;
@@ -327,6 +378,35 @@ export type Patient = {
   street?: Maybe<Scalars['String']>;
   neighborhood?: Maybe<Scalars['String']>;
   complement?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProcedureTable = {
+  __typename?: 'ProcedureTable';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  procedures?: Maybe<Array<Maybe<Procedure>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProceduresGuide = {
+  __typename?: 'ProceduresGuide';
+  id: Scalars['ID'];
+  procedure: Procedure;
+  value?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['String']>;
+};
+
+export type Procedure = {
+  __typename?: 'Procedure';
+  id: Scalars['ID'];
+  code?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+  specialty?: Maybe<Specialty>;
+  procedureTable?: Maybe<ProcedureTable>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -343,11 +423,6 @@ export type PatientInput = {
   street?: Maybe<Scalars['String']>;
   neighborhood?: Maybe<Scalars['String']>;
   complement?: Maybe<Scalars['String']>;
-};
-
-export type QueryInfo = {
-  __typename?: 'QueryInfo';
-  ammount?: Maybe<Scalars['Int']>;
 };
 
 export type GetPatients = {
@@ -370,27 +445,6 @@ export type ProcedureInput = {
 
 export type SpecialtyInput = {
   name: Scalars['String'];
-};
-
-export type ProcedureTable = {
-  __typename?: 'ProcedureTable';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  procedures?: Maybe<Array<Maybe<Procedure>>>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type Procedure = {
-  __typename?: 'Procedure';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  code?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-  specialty?: Maybe<Specialty>;
-  procedureTable?: Maybe<ProcedureTable>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type GetProcedures = {
@@ -509,6 +563,89 @@ export type UptadateDoctorMutation = (
   & { updateDoctor: (
     { __typename?: 'Doctor' }
     & GetDoctorFragmentFragment
+  ) }
+);
+
+export type GuideFragmentFragment = (
+  { __typename?: 'Guide' }
+  & Pick<Guide, 'id' | 'start' | 'isClosed' | 'comments' | 'createdAt'>
+  & { patient?: Maybe<(
+    { __typename?: 'Patient' }
+    & Pick<Patient, 'id' | 'name'>
+  )>, doctor?: Maybe<(
+    { __typename?: 'Doctor' }
+    & Pick<Doctor, 'id' | 'name'>
+  )>, procedureTable?: Maybe<(
+    { __typename?: 'ProcedureTable' }
+    & Pick<ProcedureTable, 'id' | 'name'>
+  )>, proceduresGuide: Array<Maybe<(
+    { __typename?: 'ProceduresGuide' }
+    & Pick<ProceduresGuide, 'id' | 'value' | 'quantity'>
+    & { procedure: (
+      { __typename?: 'Procedure' }
+      & Pick<Procedure, 'id' | 'name'>
+    ) }
+  )>> }
+);
+
+export type GuidesQueryVariables = {
+  take?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['ID']>;
+  filter?: Maybe<Scalars['String']>;
+};
+
+
+export type GuidesQuery = (
+  { __typename?: 'Query' }
+  & { guides?: Maybe<(
+    { __typename?: 'GetGuide' }
+    & { queryInfo?: Maybe<(
+      { __typename?: 'QueryInfo' }
+      & Pick<QueryInfo, 'ammount'>
+    )>, guides?: Maybe<Array<Maybe<(
+      { __typename?: 'Guide' }
+      & GuideFragmentFragment
+    )>>> }
+  )> }
+);
+
+export type GuideQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type GuideQuery = (
+  { __typename?: 'Query' }
+  & { guide: (
+    { __typename?: 'Guide' }
+    & GuideFragmentFragment
+  ) }
+);
+
+export type CreateGuideMutationVariables = {
+  input: GuideInput;
+};
+
+
+export type CreateGuideMutation = (
+  { __typename?: 'Mutation' }
+  & { createGuide: (
+    { __typename?: 'Guide' }
+    & GuideFragmentFragment
+  ) }
+);
+
+export type UpdateGuideMutationVariables = {
+  id: Scalars['ID'];
+  input: GuideInput;
+};
+
+
+export type UpdateGuideMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGuide: (
+    { __typename?: 'Guide' }
+    & GuideFragmentFragment
   ) }
 );
 
@@ -892,6 +1029,36 @@ export const GetDoctorFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const GuideFragmentFragmentDoc = gql`
+    fragment GuideFragment on Guide {
+  id
+  patient {
+    id
+    name
+  }
+  doctor {
+    id
+    name
+  }
+  procedureTable {
+    id
+    name
+  }
+  start
+  isClosed
+  proceduresGuide {
+    id
+    procedure {
+      id
+      name
+    }
+    value
+    quantity
+  }
+  comments
+  createdAt
+}
+    `;
 export const PatientFragmentFragmentDoc = gql`
     fragment PatientFragment on Patient {
   id
@@ -1167,6 +1334,220 @@ export function useUptadateDoctorMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type UptadateDoctorMutationHookResult = ReturnType<typeof useUptadateDoctorMutation>;
 export type UptadateDoctorMutationResult = ApolloReactCommon.MutationResult<UptadateDoctorMutation>;
 export type UptadateDoctorMutationOptions = ApolloReactCommon.BaseMutationOptions<UptadateDoctorMutation, UptadateDoctorMutationVariables>;
+export const GuidesDocument = gql`
+    query Guides($take: Int, $cursor: ID, $filter: String) {
+  guides(take: $take, cursor: $cursor, filter: $filter) {
+    queryInfo {
+      ammount
+    }
+    guides {
+      ...GuideFragment
+    }
+  }
+}
+    ${GuideFragmentFragmentDoc}`;
+export type GuidesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GuidesQuery, GuidesQueryVariables>, 'query'>;
+
+    export const GuidesComponent = (props: GuidesComponentProps) => (
+      <ApolloReactComponents.Query<GuidesQuery, GuidesQueryVariables> query={GuidesDocument} {...props} />
+    );
+    
+export type GuidesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GuidesQuery, GuidesQueryVariables>
+    } & TChildProps;
+export function withGuides<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GuidesQuery,
+  GuidesQueryVariables,
+  GuidesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GuidesQuery, GuidesQueryVariables, GuidesProps<TChildProps, TDataName>>(GuidesDocument, {
+      alias: 'guides',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGuidesQuery__
+ *
+ * To run a query within a React component, call `useGuidesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGuidesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGuidesQuery({
+ *   variables: {
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useGuidesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GuidesQuery, GuidesQueryVariables>) {
+        return ApolloReactHooks.useQuery<GuidesQuery, GuidesQueryVariables>(GuidesDocument, baseOptions);
+      }
+export function useGuidesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GuidesQuery, GuidesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GuidesQuery, GuidesQueryVariables>(GuidesDocument, baseOptions);
+        }
+export type GuidesQueryHookResult = ReturnType<typeof useGuidesQuery>;
+export type GuidesLazyQueryHookResult = ReturnType<typeof useGuidesLazyQuery>;
+export type GuidesQueryResult = ApolloReactCommon.QueryResult<GuidesQuery, GuidesQueryVariables>;
+export const GuideDocument = gql`
+    query Guide($id: ID!) {
+  guide(id: $id) {
+    ...GuideFragment
+  }
+}
+    ${GuideFragmentFragmentDoc}`;
+export type GuideComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GuideQuery, GuideQueryVariables>, 'query'> & ({ variables: GuideQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const GuideComponent = (props: GuideComponentProps) => (
+      <ApolloReactComponents.Query<GuideQuery, GuideQueryVariables> query={GuideDocument} {...props} />
+    );
+    
+export type GuideProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GuideQuery, GuideQueryVariables>
+    } & TChildProps;
+export function withGuide<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GuideQuery,
+  GuideQueryVariables,
+  GuideProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, GuideQuery, GuideQueryVariables, GuideProps<TChildProps, TDataName>>(GuideDocument, {
+      alias: 'guide',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGuideQuery__
+ *
+ * To run a query within a React component, call `useGuideQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGuideQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGuideQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGuideQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GuideQuery, GuideQueryVariables>) {
+        return ApolloReactHooks.useQuery<GuideQuery, GuideQueryVariables>(GuideDocument, baseOptions);
+      }
+export function useGuideLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GuideQuery, GuideQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GuideQuery, GuideQueryVariables>(GuideDocument, baseOptions);
+        }
+export type GuideQueryHookResult = ReturnType<typeof useGuideQuery>;
+export type GuideLazyQueryHookResult = ReturnType<typeof useGuideLazyQuery>;
+export type GuideQueryResult = ApolloReactCommon.QueryResult<GuideQuery, GuideQueryVariables>;
+export const CreateGuideDocument = gql`
+    mutation CreateGuide($input: GuideInput!) {
+  createGuide(input: $input) {
+    ...GuideFragment
+  }
+}
+    ${GuideFragmentFragmentDoc}`;
+export type CreateGuideMutationFn = ApolloReactCommon.MutationFunction<CreateGuideMutation, CreateGuideMutationVariables>;
+export type CreateGuideComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateGuideMutation, CreateGuideMutationVariables>, 'mutation'>;
+
+    export const CreateGuideComponent = (props: CreateGuideComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateGuideMutation, CreateGuideMutationVariables> mutation={CreateGuideDocument} {...props} />
+    );
+    
+export type CreateGuideProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateGuideMutation, CreateGuideMutationVariables>
+    } & TChildProps;
+export function withCreateGuide<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateGuideMutation,
+  CreateGuideMutationVariables,
+  CreateGuideProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateGuideMutation, CreateGuideMutationVariables, CreateGuideProps<TChildProps, TDataName>>(CreateGuideDocument, {
+      alias: 'createGuide',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateGuideMutation__
+ *
+ * To run a mutation, you first call `useCreateGuideMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGuideMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGuideMutation, { data, loading, error }] = useCreateGuideMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateGuideMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateGuideMutation, CreateGuideMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateGuideMutation, CreateGuideMutationVariables>(CreateGuideDocument, baseOptions);
+      }
+export type CreateGuideMutationHookResult = ReturnType<typeof useCreateGuideMutation>;
+export type CreateGuideMutationResult = ApolloReactCommon.MutationResult<CreateGuideMutation>;
+export type CreateGuideMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateGuideMutation, CreateGuideMutationVariables>;
+export const UpdateGuideDocument = gql`
+    mutation UpdateGuide($id: ID!, $input: GuideInput!) {
+  updateGuide(id: $id, input: $input) {
+    ...GuideFragment
+  }
+}
+    ${GuideFragmentFragmentDoc}`;
+export type UpdateGuideMutationFn = ApolloReactCommon.MutationFunction<UpdateGuideMutation, UpdateGuideMutationVariables>;
+export type UpdateGuideComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateGuideMutation, UpdateGuideMutationVariables>, 'mutation'>;
+
+    export const UpdateGuideComponent = (props: UpdateGuideComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateGuideMutation, UpdateGuideMutationVariables> mutation={UpdateGuideDocument} {...props} />
+    );
+    
+export type UpdateGuideProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateGuideMutation, UpdateGuideMutationVariables>
+    } & TChildProps;
+export function withUpdateGuide<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateGuideMutation,
+  UpdateGuideMutationVariables,
+  UpdateGuideProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateGuideMutation, UpdateGuideMutationVariables, UpdateGuideProps<TChildProps, TDataName>>(UpdateGuideDocument, {
+      alias: 'updateGuide',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateGuideMutation__
+ *
+ * To run a mutation, you first call `useUpdateGuideMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGuideMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGuideMutation, { data, loading, error }] = useUpdateGuideMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateGuideMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateGuideMutation, UpdateGuideMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateGuideMutation, UpdateGuideMutationVariables>(UpdateGuideDocument, baseOptions);
+      }
+export type UpdateGuideMutationHookResult = ReturnType<typeof useUpdateGuideMutation>;
+export type UpdateGuideMutationResult = ApolloReactCommon.MutationResult<UpdateGuideMutation>;
+export type UpdateGuideMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateGuideMutation, UpdateGuideMutationVariables>;
 export const PatientsDocument = gql`
     query Patients($take: Int, $cursor: ID, $filter: String) {
   patients(take: $take, cursor: $cursor, filter: $filter) {
