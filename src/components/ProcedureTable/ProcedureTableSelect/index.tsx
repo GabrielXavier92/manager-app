@@ -63,6 +63,7 @@ const ProcedureTableSelect: React.FC<IProcedureTableSelect> = ({
                 onChange={setValue}
                 inputValue={inputValue}
                 onInputChange={setInputValue}
+                styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
               />
           )}
             control={control}
@@ -88,6 +89,7 @@ const ProcedureTableSelect: React.FC<IProcedureTableSelect> = ({
             onChange={setValue}
             inputValue={inputValue}
             onInputChange={setInputValue}
+            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
           />
         </>
       )}
