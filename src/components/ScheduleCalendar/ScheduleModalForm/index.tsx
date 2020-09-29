@@ -156,6 +156,7 @@ const ScheduleFormModal: React.FC<IScheduleFormModal> = ({ open, onClose, select
               control={control}
               name="resources.procedures"
               label="Procedimentos"
+              isMulti
             />
 
             <Controller
