@@ -7,6 +7,8 @@ export const sumInDate = (date: string, minutes: number, param: DurationInputArg
 
 export const transformTimeStampInTodayDate = (date: string): string => moment(date, 'x').format('YYYY-MM-DD');
 
+export const transformTimeStampInTodayDateBr = (date: string): string => moment(date, 'x').format('DD/MM/YYYY');
+
 export const transformTimeStampInTodayDateHour = (date: string): string => moment(date, 'x').format('YYYY-MM-DDTHH:mm');
 
 export const transformTimeStampInFullDate = (date: string): Date => moment(date, 'x').toDate();
