@@ -74,20 +74,20 @@ const ScheduleCalendar: React.FC = () => {
 
   return (
     <Page
+      title="Agendamentos"
       fullWidth
+      primaryAction={{
+        content: 'Novo agendamento',
+        onAction: () => { setOpen(true); },
+      }}
     >
       {open && <ScheduleFormModal open={open} onClose={handleOnClose} selectedEvent={selectedEvent} />}
       <Layout>
         <Layout.Section>
           <Card
-            title="Agendamentos"
             sectioned
-            actions={[{
-              content: 'Novo agendamento',
-              onAction: () => { setOpen(true); },
-            }]}
           >
-            <div style={{ height: '600px' }}>
+            <div style={{ height: '600px', maxHeight: '100%' }}>
               <Calendar
                 culture="pt-br"
                 localizer={localizer}
