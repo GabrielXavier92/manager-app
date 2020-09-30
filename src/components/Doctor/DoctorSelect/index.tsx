@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ReactSelect from 'react-select';
-import { Controller } from 'react-hook-form';
 
-import { InlineError } from '@shopify/polaris';
 import { useDoctorsQuery } from '../../../generated/graphql';
+
+import Select from '../../Select';
 
 interface ISelect {
   id: string;
@@ -44,53 +43,21 @@ const ProcedureTableSelect: React.FC<IDoctorSelect> = ({
 
   return (
     <>
-      {control
-        && (
-          <>
-            <span>{label}</span>
-            <Controller
-              as={(
-                <ReactSelect
-                  className="basic-single"
-                  classNamePrefix="select"
-                  styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-                  getOptionValue={(option) => option.id}
-                  getOptionLabel={(option) => option.name}
-                  defaultValue={doctorSelect[0]}
-                  isLoading={loading}
-                  options={doctorSelect}
-                  value={value}
-                  onChange={setValue}
-                  inputValue={inputValue}
-                  onInputChange={setInputValue}
-                />
-              )}
-              control={control}
-              name={name}
-              rules={rules}
-            />
-            <InlineError message={error ? 'Campo dentista obrigatorio' : ''} fieldID={name} />
-          </>
-        )}
-      {!control && (
-        <>
-          <span>{label}</span>
-          <ReactSelect
-            className="basic-single"
-            classNamePrefix="select"
-            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-            getOptionValue={(option) => option.id}
-            getOptionLabel={(option) => option.name}
-            defaultValue={doctorSelect[0]}
-            isLoading={loading}
-            options={doctorSelect}
-            value={value}
-            onChange={setValue}
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-          />
-        </>
-      )}
+      <span>{label}</span>
+      <Select
+        name={name}
+        control={control}
+        rules={rules}
+        defaultValue={doctorSelect[0]}
+        isLoading={loading}
+        options={doctorSelect}
+        value={value}
+        onChange={setValue}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        error={error}
+        errorMessage="Campo dentista obrigatorio"
+      />
     </>
   );
 };

@@ -6,6 +6,8 @@ import { InlineError } from '@shopify/polaris';
 
 import { useProcedureTablesQuery } from '../../../generated/graphql';
 
+import Select from '../../Select';
+
 interface ISelect {
   id: string;
   name: string;
@@ -45,54 +47,21 @@ const ProcedureTableSelect: React.FC<IProcedureTableSelect> = ({
 
   return (
     <>
-      { control
-        && (
-        <>
-          <span>{label}</span>
-          <Controller
-            as={(
-              <ReactSelect
-                className="basic-single"
-                classNamePrefix="select"
-                getOptionValue={(option) => option.id}
-                getOptionLabel={(option) => option.name}
-                defaultValue={selectProcedureTables[0]}
-                isLoading={loading}
-                options={selectProcedureTables}
-                value={value}
-                onChange={setValue}
-                inputValue={inputValue}
-                onInputChange={setInputValue}
-                styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-              />
-          )}
-            control={control}
-            name={name}
-            rules={rules}
-          />
-          <InlineError message={error ? 'Campo tabela de procedimentos obrigatorio' : ''} fieldID={name} />
-
-        </>
-        )}
-      {!control && (
-        <>
-          <span>{label}</span>
-          <ReactSelect
-            className="basic-single"
-            classNamePrefix="select"
-            getOptionValue={(option) => option.id}
-            getOptionLabel={(option) => option.name}
-            defaultValue={selectProcedureTables[0]}
-            isLoading={loading}
-            options={selectProcedureTables}
-            value={value}
-            onChange={setValue}
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-          />
-        </>
-      )}
+      <span>{label}</span>
+      <Select
+        name={name}
+        control={control}
+        rules={rules}
+        defaultValue={selectProcedureTables[0]}
+        isLoading={loading}
+        options={selectProcedureTables}
+        value={value}
+        onChange={setValue}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        error={error}
+        errorMessage="Campo tabela de procedimentos obrigatorio"
+      />
     </>
   );
 };

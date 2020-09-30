@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactSelect from 'react-select';
-import { Controller } from 'react-hook-form';
-
-import { InlineError } from '@shopify/polaris';
 import { usePatientsQuery } from '../../../generated/graphql';
+
+import Select from '../../Select';
 
 interface ISelect {
   id: string;
@@ -77,28 +75,20 @@ const PatientSelect: React.FC<IPatientSelect> = ({
   return (
     <>
       <span>{label}</span>
-      <Controller
-        as={(
-          <ReactSelect
-            className="basic-multi-select"
-            classNamePrefix="select"
-            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-            getOptionValue={(option) => option.id}
-            getOptionLabel={(option) => option.name}
-            isLoading={loading}
-            options={selectPatients}
-            value={value}
-            onChange={setValue}
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-            onMenuScrollToBottom={handleGetNextPatients}
-          />
-        )}
-        control={control}
+      <Select
         name={name}
+        control={control}
         rules={rules}
+        isLoading={loading}
+        options={selectPatients}
+        value={value}
+        onChange={setValue}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onMenuScrollToBottom={handleGetNextPatients}
+        error={error}
+        errorMessage="Campo paciente obrigatorio"
       />
-      <InlineError message={error ? 'Campo paciente obrigatorio' : ''} fieldID={name} />
     </>
   );
 };

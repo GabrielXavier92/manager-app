@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactSelect from 'react-select';
-import { Controller } from 'react-hook-form';
-
-import { InlineError } from '@shopify/polaris';
 import { useProceduresQuery } from '../../../generated/graphql';
+
+import Select from '../../Select';
 
 interface ISelect {
   id: string;
@@ -84,32 +82,21 @@ const ProcedureSelect: React.FC<IProcedureSelect> = ({
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <Controller
-        as={(
-          <ReactSelect
-            className="basic-multi-select"
-            classNamePrefix="select"
-            menuPortalTarget={document.body}
-            styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-            }}
-            getOptionValue={(option) => option.id}
-            getOptionLabel={(option) => option.name}
-            isLoading={loading}
-            options={selectProcedures}
-            isMulti={isMulti}
-            value={value}
-            onChange={setValue}
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-            onMenuScrollToBottom={handleGetNextProcedures}
-          />
-        )}
+      <Select
+        name={name}
         control={control}
         rules={rules}
-        name={name}
+        options={selectProcedures}
+        isMulti={isMulti}
+        value={value}
+        onChange={setValue}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onMenuScrollToBottom={handleGetNextProcedures}
+        error={error}
+        errorMessage="Campo procedimento obrigatorio"
+        isLoading={loading}
       />
-      <InlineError message={error ? 'Campo procedimento obrigatorio' : ''} fieldID={name} />
     </>
   );
 };
