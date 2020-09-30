@@ -53,6 +53,6 @@ export const AuthRoutes = () => (
 
     <AuthRoute path="/" component={Home} exact />
 
-    <Redirect to="/guideList" />
+    <Redirect to="/" />
   </>
 );
