@@ -10,7 +10,8 @@ export const SCHEDULES_FRAGMENT = gql`
       doctor { id, name }
       patient { id, name }
       procedures { id, name }
-      comments      
+      comments
+      sendEmail      
     }
   }
 `;
@@ -32,7 +33,6 @@ export const CREATE_SCHEDULE = gql`
   }
   ${SCHEDULES_FRAGMENT}
 `;
-
 
 export const UPDATE_SCHEDULE = gql`
   mutation UpdateSchedule($id:ID!, $input: ScheduleInput!) {

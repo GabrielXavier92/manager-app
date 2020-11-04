@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import {
-  Modal, FormLayout, TextField, Stack, Button, Form, Select,
+  Modal, FormLayout, TextField, Stack, Button, Form, Select, Checkbox,
 } from '@shopify/polaris';
 import {
   ScheduleInput, useCreateScheduleMutation, Schedule, useUpdateScheduleMutation,
@@ -159,6 +159,17 @@ const ScheduleFormModal: React.FC<IScheduleFormModal> = ({ open, onClose, select
               name="resources.procedures"
               label="Procedimentos"
               isMulti
+            />
+
+            <Controller
+              as={(
+                <Checkbox
+                  label="Enviar email ao salvar?"
+                  onChange={() => {}}
+                />
+              )}
+              name="resources.sendEmail"
+              control={control}
             />
 
             <Controller
