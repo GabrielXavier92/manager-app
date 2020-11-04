@@ -41,60 +41,42 @@ const Select: React.FC<ISelect> = ({
   onMenuScrollToBottom,
   isMulti,
 }) => {
-  console.log('select');
+  const ReactSelectComponent = () => (
+    <ReactSelect
+      className="basic-single"
+      classNamePrefix="select"
+      menuPortalTarget={document.body}
+      styles={{
+        menu: (styles) => ({ ...styles, zIndex: 99 }),
+        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+      }}
+      getOptionValue={(option) => option.id}
+      getOptionLabel={(option) => option.name}
+      defaultValue={defaultValue}
+      isLoading={isLoading}
+      options={options}
+      value={value}
+      onChange={onChange}
+      inputValue={inputValue}
+      onInputChange={onInputChange}
+      onMenuScrollToBotton={onMenuScrollToBottom}
+      isMulti={isMulti}
+    />
+  );
+
   return (
     <>
-      {control
-    && (
-    <>
-      <Controller
-        as={(
-          <ReactSelect
-            className="basic-single"
-            classNamePrefix="select"
-            styles={{ menu: (styles) => ({ ...styles, zIndex: 99 }) }}
-            getOptionValue={(option) => option.id}
-            getOptionLabel={(option) => option.name}
-            defaultValue={defaultValue}
-            isLoading={isLoading}
-            options={options}
-            value={value}
-            onChange={onChange}
-            inputValue={inputValue}
-            onInputChange={onInputChange}
-            onMenuScrollToBotton={onMenuScrollToBottom}
-            isMulti={isMulti}
+      { control ? (
+        <>
+          <Controller
+            as={ReactSelectComponent()}
+            control={control}
+            name={name}
+            rules={rules}
           />
-      )}
-        control={control}
-        name={name}
-        rules={rules}
-      />
-      <InlineError message={error ? errorMessage : ''} fieldID={name} />
-    </>
-    )}
-      {!control && (
-      <ReactSelect
-        className="basic-single"
-        classNamePrefix="select"
-        menuPortalTarget={document.body}
-        styles={{
-          menu: (styles) => ({ ...styles, zIndex: 99 }),
-          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-        }}
-        getOptionValue={(option) => option.id}
-        getOptionLabel={(option) => option.name}
-        defaultValue={defaultValue}
-        isLoading={isLoading}
-        options={options}
-        value={value}
-        onChange={onChange}
-        inputValue={inputValue}
-        onInputChange={onInputChange}
-        onMenuScrollToBotton={onMenuScrollToBottom}
-        isMulti={isMulti}
-      />
-      )}
+          <InlineError message={error ? errorMessage : ''} fieldID={name} />
+        </>
+      ) : ReactSelectComponent()}
     </>
   );
 };
