@@ -37,6 +37,7 @@ const ScheduleFormModal: React.FC<IScheduleFormModal> = ({ open, onClose, select
   } = useForm<ScheduleInput>();
 
   const [minutes, setMinutes] = useState('30');
+  const [title, setTitle] = useState('Criar Agendamento');
 
   const [procedureTable, setProcedureTable] = useState<ISelect>();
   const handleSetProcedureTable = (value: ISelect) => setProcedureTable(value);
@@ -85,14 +86,15 @@ const ScheduleFormModal: React.FC<IScheduleFormModal> = ({ open, onClose, select
   const handleSetFormValues = () => {
     if (selectedEvent?.id) {
       reset(selectedEvent as any);
-    }
+      setTitle('Editar agendamento');
+    } else { setTitle('Criar Agendamento'); }
   };
 
   useEffect(handleSetFormValues, [selectedEvent]);
 
   return (
     <Modal
-      title="Criar agendamento"
+      title={title}
       open={open}
       onClose={onClose}
     >
