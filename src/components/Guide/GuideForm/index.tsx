@@ -170,61 +170,63 @@ const GuideForm: React.FC = () => {
     >
 
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Card sectioned>
-          <FormLayout>
-            <FormLayout.Group>
-              <DoctorSelect
-                control={control}
-                name="doctor"
-                label="Dentista"
-                rules={{ required: true }}
-                error={errors.doctor}
-              />
-
-              <PatientSelect
-                control={control}
-                name="patient"
-                label="Paciente"
-                rules={{ required: true }}
-                error={errors.patient}
-              />
-            </FormLayout.Group>
-
-            <FormLayout.Group>
-              <Controller
-                as={(
-                  <TextField
-                    type="date"
-                    placeholder="Selecione uma data"
-                    label="Data de Atendimento"
-                    error={`${errors.start ? 'Data de atendimento obrigatorio' : ''}`}
-                    onChange={() => { }}
+        <Layout>
+          <Layout.Section>
+            <Card sectioned>
+              <FormLayout>
+                <FormLayout.Group>
+                  <DoctorSelect
+                    control={control}
+                    name="doctor"
+                    label="Dentista"
+                    rules={{ required: true }}
+                    error={errors.doctor}
                   />
+
+                  <PatientSelect
+                    control={control}
+                    name="patient"
+                    label="Paciente"
+                    rules={{ required: true }}
+                    error={errors.patient}
+                  />
+                </FormLayout.Group>
+
+                <FormLayout.Group>
+                  <Controller
+                    as={(
+                      <TextField
+                        type="date"
+                        placeholder="Selecione uma data"
+                        label="Data de Atendimento"
+                        error={`${errors.start ? 'Data de atendimento obrigatorio' : ''}`}
+                        onChange={() => { }}
+                      />
                 )}
-                control={control}
-                rules={{ required: true }}
-                name="start"
-              />
-              <span />
-            </FormLayout.Group>
+                    control={control}
+                    rules={{ required: true }}
+                    name="start"
+                  />
+                  <span />
+                </FormLayout.Group>
 
-            <FormLayout.Group>
-              <ProcedureTableSelect
-                setValue={() => {}}
-                inputValue={inputProcedureTable}
-                setInputValue={handleSetInputProcedureTable}
-                name="procedureTable"
-                label="Tabela de procedimentos"
-                rules={{ required: true }}
-                error={errors.procedureTable}
-                control={control}
-              />
-              <span />
-            </FormLayout.Group>
-          </FormLayout>
+                <FormLayout.Group>
+                  <ProcedureTableSelect
+                    setValue={() => {}}
+                    inputValue={inputProcedureTable}
+                    setInputValue={handleSetInputProcedureTable}
+                    name="procedureTable"
+                    label="Tabela de procedimentos"
+                    rules={{ required: true }}
+                    error={errors.procedureTable}
+                    control={control}
+                  />
+                  <span />
+                </FormLayout.Group>
+              </FormLayout>
 
-          <br />
-          {watchProcedureTable
+              <br />
+              {watchProcedureTable
           && (
           <Card>
             <DataTable
@@ -244,13 +246,15 @@ const GuideForm: React.FC = () => {
             />
           </Card>
           )}
-        </Card>
-        <Layout.Section>
-          <Stack distribution="equalSpacing">
-            <Button loading={createLoading || updateLoading} onClick={() => { history.push('/guideList'); }}>Cancelar</Button>
-            <Button submit primary loading={createLoading || updateLoading}>Salvar</Button>
-          </Stack>
-        </Layout.Section>
+            </Card>
+          </Layout.Section>
+          <Layout.Section>
+            <Stack distribution="equalSpacing">
+              <Button loading={createLoading || updateLoading} onClick={() => { history.push('/guideList'); }}>Cancelar</Button>
+              <Button submit primary loading={createLoading || updateLoading}>Salvar</Button>
+            </Stack>
+          </Layout.Section>
+        </Layout>
       </Form>
     </Page>
   );
